@@ -7,16 +7,23 @@
  *
  * Config comes from VITE_STRAPI_URL (see .env.example). Vite only exposes
  * `VITE_`-prefixed variables to client code, so a `NEXT_PUBLIC_` name would
- * silently resolve to nothing here. There is no hardcoded fallback: the URL
- * must be supplied through the environment (local `.env.local` or CI/repo
- * variables).
+ * silently resolve to nothing here.
+ *
+ * An empty or unset value means "same origin": production serves the frontend
+ * and proxies /api/ and /uploads/ to Strapi from one origin, so requests are
+ * built as relative paths ("/api/...", "/uploads/...") and work without a host.
+ * Local development sets VITE_STRAPI_URL (e.g. http://localhost:1337) to reach
+ * a separate Strapi server.
  */
 
 const RAW_URL =
   (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_STRAPI_URL) ||
   "";
 
-/** Strapi origin with any trailing slash removed. */
+/**
+ * Strapi origin with any trailing slash removed. An empty string means
+ * same-origin, so every URL built from it is a relative path.
+ */
 export const STRAPI_URL = String(RAW_URL).replace(/\/+$/, "");
 
 /** How long a successful response stays in the cache. */
@@ -168,7 +175,9 @@ export function invalidateStrapi(path) {
 /**
  * Strapi media `url`s come back relative ("/uploads/x.jpg"). Absolute URLs are
  * already usable as-is, so only the relative ones get the origin prefixed.
- * Returns null for anything missing, so callers can simply skip the image.
+ * With no configured origin (same-origin production) the result stays a
+ * relative path ("/uploads/x.jpg"), which the browser resolves against the
+ * page. Returns null for anything missing, so callers can skip the image.
  */
 export function mediaUrl(url) {
   if (!url || typeof url !== "string") return null;

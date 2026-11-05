@@ -1,32 +1,56 @@
 # Deployment
 
-This repo's GitHub Actions workflow (`.github/workflows/deploy.yml`) runs lint,
-test (if defined) and build on every push and pull request. On pushes to `main`
-it also uploads the build output (`dist/`) as a workflow artifact named
-`build-output`, which a future deployment step can download and publish.
+The frontend is a Vite React SPA deployed to a Contabo server. Nginx on that
+server serves the build from `/var/www/apitours/frontend/` and proxies `/api/`
+and `/uploads/` to the Strapi backend on `127.0.0.1:1337`, so the site and API
+share one origin.
 
-The hosting target for this frontend is **still to be decided**. There is no
-automated deploy job at the moment.
+The workflow `.github/workflows/deploy.yml`:
+
+- **check** — runs lint, tests (if defined) and build on every pull request and
+  push to `main`.
+- **deploy** — runs only on a push to `main`, after `check` passes. It rebuilds,
+  writes the SSH key and known-hosts secrets to files, rsyncs `dist/` to
+  `/var/www/apitours/frontend/`, then runs a smoke test
+  (`curl -fsS http://127.0.0.1/`) over SSH on the server.
+
+## Required secrets
+
+Configure these in the repository under **Settings → Secrets and variables →
+Actions → Secrets**. The deploy job fails with a clear error if any is empty.
+
+| Name               | Value                                                              |
+| ------------------ | ------------------------------------------------------------------ |
+| `SSH_HOST`         | server hostname or IP                                              |
+| `SSH_USER`         | SSH user with write access to `/var/www/apitours/frontend/`        |
+| `SSH_PORT`         | SSH port (e.g. `22`)                                               |
+| `SSH_PRIVATE_KEY`  | private key for `SSH_USER`, able to log in to the server           |
+| `SSH_KNOWN_HOSTS`  | server host keys, from `ssh-keyscan -p <port> <host>`              |
+
+The private key file is written with `chmod 600`; host-key checking stays on
+(`StrictHostKeyChecking=yes`) using only `SSH_KNOWN_HOSTS`. Secrets are never
+printed.
 
 ## Build variables
 
-Configure these in the repository under **Settings → Secrets and variables →
-Actions → Variables**:
+These are public client-side values and stay as repository **Variables**
+(**Settings → Secrets and variables → Actions → Variables**):
 
-| Name           | Value                                                     |
-| -------------- | --------------------------------------------------------- |
-| `API_URL`      | production backend origin, e.g. `https://api.example.com` |
-| `SITE_ORIGIN`  | production frontend origin, e.g. `https://www.example.com` |
+| Name           | Value                                                                 |
+| -------------- | --------------------------------------------------------------------- |
+| `SITE_ORIGIN`  | production frontend origin, e.g. `https://www.example.com`            |
 
-`API_URL` is baked into the bundle as `VITE_STRAPI_URL`; `SITE_ORIGIN` is used
-to generate canonical URLs in `sitemap.xml`. Both are public client-side
-values, so they are stored as variables rather than secrets.
+`SITE_ORIGIN` is baked into the bundle as `VITE_SITE_ORIGIN` for canonical
+URLs, Open Graph tags and `sitemap.xml`.
+
+In production `VITE_STRAPI_URL` is **left empty**, which means "same origin":
+the app calls `/api/...` and renders Strapi media at `/uploads/...`, resolved
+against the site origin and proxied by Nginx. For local development set
+`VITE_STRAPI_URL=http://localhost:1337` in `.env.local` to reach a local Strapi.
 
 ## Notes
 
-- Production artifacts are produced only on a push to `main`; pull requests just
+- The app is a client-side SPA, so Nginx must rewrite unknown paths to
+  `index.html` (`try_files $uri $uri/ /index.html;`) for deep links to work.
+- Production deployments happen only on a push to `main`; pull requests just
   run the checks.
-- The app is a client-side SPA, so the eventual host must rewrite unknown paths
-  to `index.html` for deep links to work. `vercel.json` currently holds that
-  rewrite rule; keep or replace it with an equivalent config for whichever
-  host is chosen.
