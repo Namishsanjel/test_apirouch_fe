@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Environment files (keep the template)
+.env
+.env.*
+!.env.example
+
+# Vercel CLI project link (contains project/org ids)
+.vercel
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -5,14 +5,16 @@
  * module-level cache below is what stands in for a server-side fetch cache.
  * Entries are held for 60 seconds, after which the next reader refetches.
  *
- * Config comes from VITE_STRAPI_URL (see .env.local). Vite only exposes
+ * Config comes from VITE_STRAPI_URL (see .env.example). Vite only exposes
  * `VITE_`-prefixed variables to client code, so a `NEXT_PUBLIC_` name would
- * silently resolve to nothing here.
+ * silently resolve to nothing here. There is no hardcoded fallback: the URL
+ * must be supplied through the environment (local `.env.local`, CI/repo
+ * variables, or the Vercel project settings).
  */
 
 const RAW_URL =
   (typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_STRAPI_URL) ||
-  "http://localhost:1337";
+  "";
 
 /** Strapi origin with any trailing slash removed. */
 export const STRAPI_URL = String(RAW_URL).replace(/\/+$/, "");
