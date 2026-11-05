@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import PageShell from "../components/PageShell.jsx";
 import { PageHeader, ImgBlur } from "../components/ui.jsx";
 import TourCard from "../components/TourCard.jsx";
+import Accordion from "../components/Accordion.jsx";
 import JsonLd from "../components/JsonLd.jsx";
 import { breadcrumbJsonLd, tourBreadcrumbs, tourJsonLd } from "../lib/jsonld.js";
 import { usePageMeta } from "../lib/seo.js";
@@ -258,14 +259,16 @@ export default function TourDetailPage() {
 
           <div className="flex flex-col gap-4">
             <h2 className="t-h4 text-ink">Tour Schedule</h2>
-            <div className="flex flex-col gap-3">
-              {detail.itinerary.map((d, i) => (
-                <p key={`${d.day}-${i}`} className="t-body">
-                  <span className="text-ink">{d.day}</span>
-                  {d.title ? ` — ${d.title}` : ""} — {d.body}
-                </p>
-              ))}
-            </div>
+            <Accordion
+              items={detail.itinerary.map((d, i) => ({
+                key: `${d.day}-${i}`,
+                label: d.day,
+                title: d.title,
+                body: d.body,
+                altitudeText: d.altitudeText,
+                durationText: d.durationText,
+              }))}
+            />
           </div>
         </div>
 
