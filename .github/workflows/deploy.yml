@@ -131,4 +131,4 @@ jobs:
           ssh -i ~/.ssh/deploy_key -p "${SSH_PORT}" \
             -o StrictHostKeyChecking=yes -o UserKnownHostsFile="$HOME/.ssh/known_hosts" \
             "${SSH_USER}@${SSH_HOST}" \
-            'curl -fsS http://127.0.0.1/ > /dev/null'
+            'curl -fsS -H "Host: apitouch.com" http://127.0.0.1/ > /dev/null && curl -fsS -H "Host: apitouch.com" http://127.0.0.1/api/tours -o /dev/null'
