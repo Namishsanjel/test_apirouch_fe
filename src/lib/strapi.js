@@ -8,8 +8,8 @@
  * Config comes from VITE_STRAPI_URL (see .env.example). Vite only exposes
  * `VITE_`-prefixed variables to client code, so a `NEXT_PUBLIC_` name would
  * silently resolve to nothing here. There is no hardcoded fallback: the URL
- * must be supplied through the environment (local `.env.local`, CI/repo
- * variables, or the Vercel project settings).
+ * must be supplied through the environment (local `.env.local` or CI/repo
+ * variables).
  */
 
 const RAW_URL =

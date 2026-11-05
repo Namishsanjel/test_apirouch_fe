@@ -2,7 +2,7 @@
 //
 // The canonical origin comes from the SITE_ORIGIN env var so no domain is
 // hardcoded here or in the app:
-//   Vercel / CI:  SITE_ORIGIN=https://www.example.com npm run build
+//   CI:  SITE_ORIGIN=https://www.example.com npm run build
 // Locally with no SITE_ORIGIN the step logs a warning and writes nothing.
 //
 // Only canonical, indexable URLs are listed: the static routes from

@@ -17,7 +17,7 @@ dist-ssr
 .env.*
 !.env.example
 
-# Vercel CLI project link (contains project/org ids)
+# Vercel CLI project link (legacy; not used for deploys)
 .vercel
 
 # Editor directories and files
