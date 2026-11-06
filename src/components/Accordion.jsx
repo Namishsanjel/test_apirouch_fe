@@ -88,7 +88,18 @@ export default function Accordion({ items, className = "", style }) {
                     isOpen ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  {item.body ? <p className="t-body">{item.body}</p> : null}
+                  {Array.isArray(item.points) && item.points.length ? (
+                    <ul className="flex flex-col gap-2">
+                      {item.points.map((point, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full bg-primary" />
+                          <span className="t-body">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : item.body ? (
+                    <p className="t-body">{item.body}</p>
+                  ) : null}
                   {item.altitudeText || item.durationText ? (
                     <div className="flex flex-wrap gap-x-5 gap-y-1">
                       {item.altitudeText ? (

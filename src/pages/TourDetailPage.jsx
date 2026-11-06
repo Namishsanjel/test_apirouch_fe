@@ -265,6 +265,7 @@ export default function TourDetailPage() {
                 label: d.day,
                 title: d.title,
                 body: d.body,
+                points: d.points,
                 altitudeText: d.altitudeText,
                 durationText: d.durationText,
               }))}

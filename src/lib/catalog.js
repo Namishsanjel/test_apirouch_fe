@@ -167,6 +167,10 @@ export function tourToRecord(entry) {
         day: day.day || String(day.dayLabel || "").replace(LABEL_PREFIX, "").split("(")[0].trim(),
         title: heading.title,
         body: day.body || day.description || "",
+        // the CMS stores these as a JSON array; only keep non-empty strings
+        points: Array.isArray(day.points)
+          ? day.points.map((p) => String(p ?? "").trim()).filter(Boolean)
+          : [],
         altitudeText: heading.altitude,
         durationText: heading.duration,
       };
