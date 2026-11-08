@@ -6,15 +6,24 @@ function contactValue(label) {
 }
 
 const phone = contactValue("Phone");
-const location = contactValue("Location"); // e.g. "Aspen, Colorado, USA"
+const location = contactValue("Location"); // e.g. "Kathmandu, Nepal"
 
 function locationToAddress() {
   if (!location) return null;
-  const [city, region, country] = location.split(",").map((s) => s.trim());
+  const parts = location.split(",").map((s) => s.trim()).filter(Boolean);
   const address = { "@type": "PostalAddress" };
-  if (city) address.addressLocality = city;
-  if (region) address.addressRegion = region;
-  if (country) address.addressCountry = country === "USA" ? "US" : country;
+  if (parts.length >= 3) {
+    const [city, region, country] = parts;
+    if (city) address.addressLocality = city;
+    if (region) address.addressRegion = region;
+    if (country) address.addressCountry = country === "USA" ? "US" : country;
+  } else if (parts.length === 2) {
+    const [city, country] = parts;
+    if (city) address.addressLocality = city;
+    if (country) address.addressCountry = country;
+  } else if (parts.length === 1) {
+    address.addressLocality = parts[0];
+  }
   return address;
 }
 

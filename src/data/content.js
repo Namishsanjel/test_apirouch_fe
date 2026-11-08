@@ -45,7 +45,7 @@ export const CONTACT = {
   info: [
     { label: "Email", value: "email@API Touch.com" },
     { label: "Phone", value: "+1 (970) 555-0148" },
-    { label: "Location", value: "Aspen, Colorado, USA" },
+    { label: "Location", value: "Kathmandu, Nepal" },
     { label: "Response Time", value: "We reply within 24 hours" },
   ],
   form: {
