@@ -174,12 +174,12 @@ export default function Footer() {
         </div>
 
         {/* oversized brand mark */}
-        <div className="logomark-mask mt-10 min-[639.98px]:mt-[60px]">
+        <div className="mt-10 min-[639.98px]:mt-[60px]">
           {loading ? (
             <FooterLogomarkSkeleton />
           ) : (
             <Logo
-              src={logo.src}
+              src={LOGO_MARK_WHITE_PATH}
               alt=""
               height={LOGO_SIZES.footerMarkDesktop}
               className={`mx-auto block ${LOGO_CLASSES.footerMark}`}
