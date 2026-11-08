@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar.jsx";
 import Faq from "../components/Faq.jsx";
 import Footer from "../components/Footer.jsx";
@@ -46,6 +46,12 @@ export default function JournalPage() {
 
   const { badge, title, sub, featured, categories, posts } = JOURNAL_PAGE;
 
+  const [selected, setSelected] = useState(null);
+  const normalize = (value) => String(value ?? "").trim().replace(/\s+/g, " ").toLowerCase();
+  const visiblePosts = selected
+    ? posts.filter((p) => normalize(p.tag) === normalize(selected))
+    : posts;
+
   return (
     <>
       <Navbar variant="dark" />
@@ -71,19 +77,35 @@ export default function JournalPage() {
             <div className="flex flex-col gap-4">
               <h2 className="t-h2">Categories</h2>
               <div className="flex flex-wrap gap-[10px]">
-                {categories.map((c, i) => (
-                  <div key={c} className="rounded-lg bg-mist px-4 py-2">
-                    <p className={`t-link ${i === 0 ? "text-ink" : "text-smoke"}`}>{c}</p>
-                  </div>
-                ))}
+                {categories.map((c, i) => {
+                  const isAll = i === 0;
+                  const active = isAll ? selected === null : normalize(selected) === normalize(c);
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setSelected(isAll ? null : active ? null : c)}
+                      className={`rounded-lg px-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
+                        active ? "bg-primary" : "bg-mist hover:bg-e4"
+                      }`}
+                    >
+                      <span className={`t-link ${active ? "text-mist" : "text-smoke"}`}>{c}</span>
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
-              {posts.map((p, i) => (
-                <PostCard key={p.href} post={p} titleW={366} index={i} />
-              ))}
-            </div>
+            {visiblePosts.length ? (
+              <div className="grid grid-cols-1 gap-6 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
+                {visiblePosts.map((p, i) => (
+                  <PostCard key={p.href} post={p} titleW={366} index={i} />
+                ))}
+              </div>
+            ) : (
+              <p className="t-body">No posts in this category yet</p>
+            )}
           </div>
         </section>
 
