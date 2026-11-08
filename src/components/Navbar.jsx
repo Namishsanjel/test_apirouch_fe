@@ -160,7 +160,7 @@ function DestinationsMenu({ onNavigate }) {
   if (status === STRAPI_STATUS.ERROR || status === STRAPI_STATUS.EMPTY) {
     return (
       <div id="nav-destinations-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-        <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+        <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
           {status === STRAPI_STATUS.ERROR ? (
             <SectionErrorInline onRetry={retry} />
           ) : (
@@ -182,7 +182,7 @@ function DestinationsMenu({ onNavigate }) {
 
   return (
     <div id="nav-destinations-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
         <div className="flex gap-5">
           <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
             {groups.flat().map((d) => (
@@ -306,7 +306,7 @@ function PackagesMenu({ onNavigate }) {
   if (status === STRAPI_STATUS.ERROR || status === STRAPI_STATUS.EMPTY) {
     return (
       <div id="nav-packages-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-        <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+        <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
           {status === STRAPI_STATUS.ERROR ? (
             <SectionErrorInline onRetry={retry} />
           ) : (
@@ -328,7 +328,7 @@ function PackagesMenu({ onNavigate }) {
 
   return (
     <div id="nav-packages-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
         <div className="flex gap-5">
           <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
             {groups.flat().map((p) => (
@@ -392,7 +392,7 @@ function MobileMenu({ open, onNavigate }) {
 
   return (
     <div id="nav-mobile-menu" className="absolute inset-x-0 top-full min-[1024px]:hidden">
-      <div className="menu-in flex max-h-[calc(100dvh-84px)] flex-col overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-4 min-[1024px]:max-h-[calc(100dvh-92px)]">
+      <div className="menu-in flex max-h-[calc(100dvh-84px)] flex-col overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-4 min-[1024px]:max-h-[calc(100dvh-92px)]">
         <nav className="flex flex-col">
           {NAV_LINKS.map((l) => {
             const isGroup = Boolean(l.menu && MENUS[l.menu]);

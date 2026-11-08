@@ -136,8 +136,7 @@ export default function Footer() {
           <div className="flex w-full min-w-0 flex-wrap gap-x-4 gap-y-8 min-[639.98px]:gap-y-12" style={{ maxWidth: 688 }}>
             {linkColumns.map((col) => (
               <div key={col.label} className="min-w-[140px] flex-1 basis-[140px]">
-                <p className="t-eyebrow text-mist">{col.label}</p>
-                <div className="mt-4 flex flex-col gap-4">
+                <div className="flex flex-col gap-4">
                   {col.links.map((l) =>
                     /* no href yet — kept in the tab order and announced as a
                        disabled link, but it navigates nowhere */
