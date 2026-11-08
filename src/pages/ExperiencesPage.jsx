@@ -26,7 +26,7 @@ export default function ExperiencesPage() {
               className="relative block h-[380px] rounded-lg bg-mist p-1 [will-change:transform] min-[639.98px]:h-[420px]"
             >
               <div className="relative h-full w-full overflow-hidden rounded">
-                <img src={x.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+                <img src={x.image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
                 <div className="grad-card absolute inset-0" />
                 <ImgBlur />
                 <div className="absolute inset-0 z-10 flex flex-col justify-end gap-2 p-4">

@@ -1,5 +1,3 @@
-// Homepage content extracted from the rendered mirror
-// (http://localhost:8091/trova-travel.framer.website/index.html).
 // The site's canonical origin. No production domain is defined anywhere in
 // this project yet, so it falls back to the origin the app is served from at
 // runtime (dev, preview, or whatever domain it finally ships to). A build can
@@ -11,7 +9,6 @@ export const SITE_URL = (
   (typeof window !== "undefined" ? window.location.origin : "")
 ).replace(/\/+$/, "");
 
-// Image URLs are the canonical post-hydration framerusercontent.com URLs.
 // CMS-backed cards (hikes / experience / journal) all resolve to one picsum
 // seed in the hydrated DOM, so that single seed is used for every one of them.
 
@@ -49,8 +46,8 @@ export const CONTACT = {
     { label: "Response Time", value: "We reply within 24 hours" },
   ],
   form: {
-    name: { label: "Full Name", placeholder: "John Smith " },
-    email: { label: "Email", placeholder: "you@company.com" },
+    name: { label: "Full Name", placeholder: "Your name" },
+    email: { label: "Email", placeholder: "Your email" },
     hike: {
       label: "Which tour are you thinking about?",
       options: [
@@ -72,7 +69,7 @@ export const CONTACT = {
   },
 };
 
-// Per-route document head, mirroring the original pages.
+// Per-route document head.
 export const PAGES = {
   "/": {
     title: "API Touch — Guided Tours & Vacations",

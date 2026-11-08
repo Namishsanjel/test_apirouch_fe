@@ -1,8 +1,3 @@
-// Page data for the about / gallery / journal pages, extracted from the
-// rendered mirror (http://localhost:8091/trova-travel.framer.website/*).
-// Image URLs are the canonical framerusercontent.com CDN URLs (the mirror's
-// proxied srcset candidates 404).
-
 export const ABOUT = {
   badge: "About Us",
   title: "Where Every Journey Begins",

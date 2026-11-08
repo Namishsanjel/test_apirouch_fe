@@ -20,7 +20,7 @@ function ServiceCard({ service }) {
         <Icon id={EXTRA_ICON[service.title]} size={36} />
       )}
       <div className="flex flex-col gap-2">
-        <h4 className="t-h4">{service.title}</h4>
+        <p className="t-h4">{service.title}</p>
         {service.shortDescription ? <p className="t-body">{service.shortDescription}</p> : null}
       </div>
     </a>

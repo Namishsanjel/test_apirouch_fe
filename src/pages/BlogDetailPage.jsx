@@ -23,7 +23,7 @@ function ExploreCard({ post }) {
   return (
     <a href={post.href} className="relative block h-[380px] overflow-hidden rounded-lg bg-mist p-1 min-[639.98px]:h-[503px]">
       <div className="absolute inset-0 overflow-hidden rounded">
-        <img src={post.image} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={post.image} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="grad-card absolute inset-0" />
         <ImgBlur />
       </div>
@@ -66,7 +66,7 @@ export default function BlogDetailPage() {
 
         <div className="relative h-[220px] overflow-hidden rounded-lg bg-mist p-1 min-[639.98px]:h-[300px] min-[1100px]:h-[423px]">
           <div className="relative h-full w-full overflow-hidden rounded">
-            <img src={image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+            <img src={image} alt={post.title} className="absolute inset-0 h-full w-full object-cover" />
             <div className="grad-card absolute inset-0" />
             <ImgBlur />
             <div className="absolute inset-0 z-10 flex flex-wrap gap-2 p-4">
@@ -103,7 +103,7 @@ export default function BlogDetailPage() {
             <p className="t-h5 text-ink">About the Author</p>
             <p className="t-body">{author.bio}</p>
             <div className="flex items-center gap-3 border-t border-smoke/30 pt-4">
-              <img src={AUTHOR_IMAGE[author.name]} alt="" className="h-[44px] w-[44px] rounded-md object-cover" />
+              <img src={AUTHOR_IMAGE[author.name]} alt="" aria-hidden="true" className="h-[44px] w-[44px] rounded-md object-cover" />
               <div className="flex flex-col">
                 <p className="t-link text-ink">{author.name}</p>
                 <p className="t-eyebrow text-smoke">{author.role}</p>

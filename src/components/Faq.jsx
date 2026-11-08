@@ -77,7 +77,7 @@ export function FaqList({ className = "w-full min-w-0" }) {
               className="block w-full cursor-pointer pr-10 text-left"
               aria-expanded={isOpen}
             >
-              <h5 className="t-h5 w-full sm:w-4/5">{f.q}</h5>
+              <p className="t-h5 w-full sm:w-4/5">{f.q}</p>
             </button>
 
             {/* answer collapses to zero height instead of unmounting, so it

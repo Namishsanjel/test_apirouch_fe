@@ -2,7 +2,7 @@ import { FOOTER } from "../data/content.js";
 import { useGlobalState, imageOf, STRAPI_STATUS } from "../lib/strapiData.jsx";
 import { FooterBrandSkeleton, FooterLogomarkSkeleton } from "./skeletons.jsx";
 import Logo from "./Logo.jsx";
-import { resolveLogo, SITE_NAME, LOGO_SIZES, LOGO_CLASSES } from "../lib/brand.js";
+import { resolveLogo, SITE_NAME, LOGO_SIZES, LOGO_CLASSES, LOGO_MARK_WHITE_PATH } from "../lib/brand.js";
 
 /** "linkedin" / "LinkedIn" -> "LinkedIn", for a social column label. */
 function platformLabel(platform) {
@@ -46,6 +46,9 @@ export default function Footer() {
   const siteName = global?.siteName || SITE_NAME;
   // Falls back to the bundled /logo.png when the CMS entry has no logo.
   const logo = resolveLogo(imageOf(global?.logo, siteName), siteName);
+  // The footer sits on the dark footer photo, so it draws the light variant of
+  // the same mark. Height (and thus position) is unchanged.
+  const footerLogo = { ...logo, src: LOGO_MARK_WHITE_PATH };
 
   // footerText is the closing line of the footer, so it takes the subline's
   // place; the hardcoded one stays until Strapi has something to say.
@@ -106,7 +109,7 @@ export default function Footer() {
               <FooterBrandSkeleton />
             ) : (
               <>
-                <BrandMark logo={logo} siteName={siteName} height={LOGO_SIZES.footer} className={brandMarkClass} />
+                <BrandMark logo={footerLogo} siteName={siteName} height={LOGO_SIZES.footer} className={brandMarkClass} />
                 {!degraded ? <p className="t-body mt-4 text-sage [will-change:transform]">{closingLine}</p> : null}
 
                 {/* contact details, only once Strapi's global entry carries them */}

@@ -1,5 +1,3 @@
-// Tours listing page content, measured from the rendered mirror
-// (http://localhost:8091/trova-travel.framer.website/hikes.html).
 // Each card uses the photo named after its own route, copied from img/.
 // Display titles keep the real-world names of the trails; the slugs and URLs
 // use tour/vacation wording instead.

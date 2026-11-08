@@ -18,7 +18,7 @@ function PostCard({ post, titleW, index = null }) {
     >
       {/* image layer: full-bleed, own 4px radius inside the cream frame */}
       <div className="absolute inset-0 overflow-hidden rounded">
-        <img src={post.image} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={post.image} alt="" aria-hidden="true" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="grad-card absolute inset-0" />
         <ImgBlur />
       </div>

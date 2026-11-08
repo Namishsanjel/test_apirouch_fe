@@ -32,11 +32,11 @@ export default function WhyPage() {
 
         {/* banner with the three mist cards sitting on it, as on the About page */}
         <div className="relative h-auto overflow-hidden rounded-lg p-4 pt-[180px] min-[639.98px]:p-6 min-[639.98px]:pt-[200px] min-[1100px]:h-[444px] min-[1100px]:p-[24px] min-[1100px]:pt-[240px]">
-          <img src={ABOUT.why.banner} alt="" className="absolute inset-0 h-full w-full object-cover" />
+          <img src={ABOUT.why.banner} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
           <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">
             {STRENGTHS.slice(0, 3).map((c) => (
               <div key={c.title} className="flex min-h-[160px] flex-1 flex-col justify-end gap-1 rounded-lg bg-mist p-4">
-                <h4 className="t-h4 text-ink">{c.title}</h4>
+                <p className="t-h4 text-ink">{c.title}</p>
                 <p className="t-body">{c.body}</p>
               </div>
             ))}
@@ -48,7 +48,7 @@ export default function WhyPage() {
           {STRENGTHS.slice(3).map((c, i) => (
             <div key={c.title} className="flex flex-col gap-3 rounded-lg bg-mist p-6">
               <Icon id={STRENGTH_ICON[i + 3]} size={36} />
-              <h4 className="t-h4 text-ink">{c.title}</h4>
+              <p className="t-h4 text-ink">{c.title}</p>
               <p className="t-body">{c.body}</p>
             </div>
           ))}

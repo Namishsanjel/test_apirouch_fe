@@ -29,7 +29,7 @@ function MemberCard({ member }) {
       ) : null}
       <div className="flex flex-1 flex-col gap-2 p-6">
         {member.role ? <p className="t-eyebrow capitalize text-smoke">{member.role}</p> : null}
-        <h4 className="t-h4 text-ink">{member.name}</h4>
+        <p className="t-h4 text-ink">{member.name}</p>
         {member.bio ? <p className="t-body">{member.bio}</p> : null}
         {member.linkedin ? (
           <a
@@ -77,6 +77,7 @@ export default function AboutPage() {
           <img
             src={ABOUT.banner}
             alt=""
+            aria-hidden="true"
             className="h-[220px] w-full rounded-lg object-cover min-[639.98px]:h-[320px] min-[1100px]:h-[420px]"
           />
         </section>
@@ -91,9 +92,9 @@ export default function AboutPage() {
             </div>
             <div className="flex w-full min-w-0 flex-col gap-4 min-[1340px]:w-[650px] min-[1340px]:shrink-0">
               {ABOUT.story.paragraphs.map((t) => (
-                <h4 key={t} className="t-h4 text-ink">
+                <p key={t} className="t-h4 text-ink">
                   {t}
-                </h4>
+                </p>
               ))}
             </div>
             <div className="relative h-[280px] w-full shrink-0 min-[1340px]:h-auto min-[1340px]:w-[360px] min-[1340px]:self-stretch">
@@ -123,6 +124,7 @@ export default function AboutPage() {
             <img
               src={ABOUT.why.banner}
               alt=""
+              aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">
@@ -131,7 +133,7 @@ export default function AboutPage() {
                   key={c.title}
                   className="flex min-h-[160px] flex-1 flex-col justify-end gap-1 rounded-lg bg-mist p-4"
                 >
-                  <h4 className="t-h4 text-ink">{c.title}</h4>
+                  <p className="t-h4 text-ink">{c.title}</p>
                   <p className="t-body">{c.body}</p>
                 </div>
               ))}

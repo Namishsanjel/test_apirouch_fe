@@ -37,7 +37,7 @@ export default function About() {
           </div>
 
           <div className="relative mt-8 flex min-h-[374px] flex-col rounded-2xl bg-mist p-4 min-[639.98px]:mt-[46px]">
-            <h3 className="t-h4">{ABOUT.cardTitle}</h3>
+            <p className="t-h4">{ABOUT.cardTitle}</p>
             <p className="t-body mt-2">{ABOUT.cardBody}</p>
 
             {/* Tilted polaroid stack. The selected photo is lifted forward and
@@ -60,7 +60,7 @@ export default function About() {
                       transform: `rotate(${POLAROIDS[i].rotate}) scale(${on ? 1.16 : 1})`,
                     }}
                   >
-                    <img src={src} alt="" className="h-full w-full rounded-lg object-cover" />
+                    <img src={src} alt="" aria-hidden="true" className="h-full w-full rounded-lg object-cover" />
                   </div>
                 );
               })}

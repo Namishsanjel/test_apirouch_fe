@@ -17,6 +17,13 @@ export const LOGO_PATH = "/logo.png";
  */
 export const LOGO_MARK_PATH = "/logo-mark.png";
 
+/**
+ * Light variant of the on-screen mark, for the footer where the dark mark sits
+ * on the dark footer photo. 440x220, same aspect ratio family as the mark, so
+ * the footer's fixed height keeps the size and position unchanged.
+ */
+export const LOGO_MARK_WHITE_PATH = "/logo-white.png";
+
 /** Intrinsic size of `public/logo-mark.png`. Kept here so callers can reserve
  *  the right box and avoid layout shift. */
 export const LOGO_WIDTH = 894;

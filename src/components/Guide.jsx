@@ -25,7 +25,7 @@ export default function Guide() {
             {points.map((pt) => (
               <div key={pt.title} className="min-w-0">
                 <Icon id={pt.icon} size={36} />
-                <h4 className="t-h4 mt-4">{pt.title}</h4>
+                <p className="t-h4 mt-4">{pt.title}</p>
                 <p className="t-body mt-1">{pt.body}</p>
               </div>
             ))}

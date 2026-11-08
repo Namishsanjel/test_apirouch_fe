@@ -1,6 +1,3 @@
-// Legal page content extracted from the rendered mirror
-// (http://localhost:8091/trova-travel.framer.website/terms-of-service.html, ...).
-
 export const LEGAL = {
   terms: {
     slug: "terms-of-service",

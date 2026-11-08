@@ -284,7 +284,7 @@ export default function TourDetailPage() {
             so it stays in flow. */}
         <aside className="flex w-full min-w-0 shrink-0 flex-col gap-5 self-start rounded-lg bg-mist p-6 min-[1100px]:sticky min-[1100px]:top-6 min-[1100px]:w-[470px]">
           <div className="h-[170px] overflow-hidden rounded-lg">
-            <img src={record.image} alt="" className="h-full w-full object-cover" />
+            <img src={record.image} alt={record.alt} className="h-full w-full object-cover" />
           </div>
 
           {detail.start ? (

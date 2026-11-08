@@ -7,7 +7,7 @@ function FeatureCard({ item, className = "" }) {
   return (
     <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-4 ${className}`}>
       <Icon id={item.icon} size={36} />
-      <h4 className="t-h4 mt-8">{item.title}</h4>
+      <p className="t-h4 mt-8">{item.title}</p>
       <p className="t-body mt-1">{item.body}</p>
     </div>
   );
@@ -17,9 +17,9 @@ function FeatureCard({ item, className = "" }) {
 function PhotoCard({ item, className = "" }) {
   return (
     <div className={`relative h-[180px] overflow-hidden rounded-lg ${className}`}>
-      <img src={item.image} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img src={item.image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 flex flex-col justify-end p-4">
-        <h4 className="t-h4 text-mist">{item.title}</h4>
+        <p className="t-h4 text-mist">{item.title}</p>
         <p className="t-body mt-1 text-sage">{item.body}</p>
       </div>
     </div>

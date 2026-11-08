@@ -32,7 +32,7 @@ export default function Services() {
           {SERVICES.map((s) => (
             <div key={s.title} className="flex flex-col rounded-lg bg-mist p-6">
               <Icon id={s.icon} size={36} />
-              <h4 className="t-h4 mt-6">{s.title}</h4>
+              <p className="t-h4 mt-6">{s.title}</p>
               <p className="t-body mt-2">{s.body}</p>
             </div>
           ))}

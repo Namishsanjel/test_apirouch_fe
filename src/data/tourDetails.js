@@ -1,6 +1,3 @@
-// Tour detail content extracted from the rendered mirror
-// (http://localhost:8091/trova-travel.framer.website/hikes/*.html).
-
 export const TOUR_DETAILS = {
   "annapurna-base-camp": {
     slug: "annapurna-base-camp",

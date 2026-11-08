@@ -1,4 +1,3 @@
-// Content for the pages added on top of the original Framer site.
 // Existing copy is reused verbatim wherever the source already had a line
 // for it (home sections, About, tours listing, footer, testimonials).
 
@@ -265,8 +264,8 @@ export const PLAN_TRIP = {
     { label: "Phone", value: "+1 (970) 555-0148" },
   ],
   form: {
-    name: { label: "Full Name", placeholder: "John Smith " },
-    email: { label: "Email", placeholder: "you@company.com" },
+    name: { label: "Full Name", placeholder: "Your name" },
+    email: { label: "Email", placeholder: "Your email" },
     destination: { label: "Which destination are you thinking about?", options: [] },
     date: { label: "When are you thinking of going?" },
     group: { label: "Group size", options: ["1 – 2 travellers", "3 – 4 travellers", "5 – 6 travellers", "7 – 8 travellers"] },

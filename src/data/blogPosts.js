@@ -1,6 +1,3 @@
-// Blog article content extracted from the rendered mirror
-// (http://localhost:8091/trova-travel.framer.website/journal/*.html).
-
 export const BLOG_POSTS = {
   "how-we-pick-a-route": {
     author: {
