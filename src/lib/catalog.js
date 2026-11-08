@@ -76,6 +76,49 @@ function fallbackListing(slug) {
   return HIKES_ALL.find((h) => h.slug === slug) || null;
 }
 
+/** The label prefix Strapi sometimes repeats inside `title` ("Day 1: …"). */
+const LABEL_PREFIX = /^\s*(Day|Stop)\s+\d+\s*[:.\-–—]\s*/i;
+
+/** Escapes a string for use inside a RegExp. */
+function escapeRegExp(text) {
+  return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * The collapsed accordion title, and the altitude/duration details that belong
+ * in the expanded body instead.
+ *
+ * The CMS carries `day` ("Day 1" / "Stop 1") as the label and `title` as the
+ * heading, but older rows put both in the title and appended the altitude and
+ * walking time there too. The label is already shown beside it, so a leading
+ * "Day N:" is dropped. A trailing detail is only removed when it *exactly*
+ * matches the row's own `altitudeText` / `durationText`: text that differs is
+ * genuinely extra information and is left untouched rather than rewritten.
+ */
+export function itineraryHeading(day) {
+  const rawTitle = String(day?.title ?? "").trim();
+  const altitude = String(day?.altitudeText ?? "").trim();
+  const duration = String(day?.durationText ?? "").trim();
+
+  let title = rawTitle.replace(LABEL_PREFIX, "");
+  const details = [altitude, duration].filter(Boolean);
+
+  for (const detail of details) {
+    const d = escapeRegExp(detail);
+    title = title
+      .replace(new RegExp(`\\s*[,(]\\s*${d}\\s*[)]`, "gi"), "")
+      .replace(new RegExp(`\\s*[,–—-]\\s*${d}\\s*$`, "gi"), "");
+  }
+
+  title = title
+    .replace(/\(\s*\)/g, "")
+    .replace(/\s*[,;]\s*$/g, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  return { title: title || rawTitle, altitude, duration };
+}
+
 /**
  * A Strapi tour as the two objects the site consumes today:
  *   - listing fields (slug, chips, title, href, image, alt) at the top level,
@@ -117,11 +160,21 @@ export function tourToRecord(entry) {
     end: entry.endLocation || "",
     overview: entry.overview || "",
     highlights: [],
-    itinerary: (entry.itinerary || []).map((day) => ({
-      day: day.day,
-      title: day.title || "",
-      body: day.body,
-    })),
+    itinerary: (entry.itinerary || []).map((day) => {
+      const heading = itineraryHeading(day);
+      return {
+        // the row label as the CMS gives it; older rows keep a label in dayLabel
+        day: day.day || String(day.dayLabel || "").replace(LABEL_PREFIX, "").split("(")[0].trim(),
+        title: heading.title,
+        body: day.body || day.description || "",
+        // the CMS stores these as a JSON array; only keep non-empty strings
+        points: Array.isArray(day.points)
+          ? day.points.map((p) => String(p ?? "").trim()).filter(Boolean)
+          : [],
+        altitudeText: heading.altitude,
+        durationText: heading.duration,
+      };
+    }),
     inclusions: (entry.inclusions || []).map((i) => i.text).filter(Boolean),
     exclusions: (entry.exclusions || []).map((i) => i.text).filter(Boolean),
 
