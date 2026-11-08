@@ -616,7 +616,7 @@ export function NavMenuSkeleton({
   return (
     <SkeletonRegion
       label={label}
-      className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border border-white bg-cream p-6"
+      className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-2 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6"
     >
       <div className="flex gap-5">
         <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
