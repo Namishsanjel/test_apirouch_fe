@@ -1,6 +1,8 @@
 // Existing copy is reused verbatim wherever the source already had a line
 // for it (home sections, About, tours listing, footer, testimonials).
 
+import { CONTACT_DETAILS } from "./content.js";
+
 // ---------------------------------------------------------------------------
 // Destinations (page + per-destination detail pages)
 // ---------------------------------------------------------------------------
@@ -260,8 +262,8 @@ export const PLAN_TRIP = {
   info: [
     { label: "Response Time", value: "We reply within 24 hours" },
     { label: "Group size", value: "Never more than 8 per guide" },
-    { label: "Email", value: "email@API Touch.com" },
-    { label: "Phone", value: "+1 (970) 555-0148" },
+    { label: "Email", value: CONTACT_DETAILS.email, href: CONTACT_DETAILS.emailHref },
+    { label: "Phone", value: CONTACT_DETAILS.phones, hrefs: CONTACT_DETAILS.phoneHrefs },
   ],
   form: {
     name: { label: "Full Name", placeholder: "Your name" },

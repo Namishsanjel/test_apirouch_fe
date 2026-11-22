@@ -1,3 +1,5 @@
+import { CONTACT_DETAILS } from "./content.js";
+
 export const LEGAL = {
   terms: {
     slug: "terms-of-service",
@@ -80,7 +82,7 @@ export const LEGAL = {
         heading: "Contact Us",
         paragraphs: [
           "Questions about this policy or your data?",
-          "Write to us: email@API Touch.com",
+          `Write to us: ${CONTACT_DETAILS.email}`,
         ],
       },
     ],
@@ -153,7 +155,7 @@ export const LEGAL = {
           "Correct anything that's wrong.",
           "Delete your data outright.",
           "Withdraw consent you'd previously given.",
-          "Reach out to email@API Touch.com and we'll take care of it.",
+          `Reach out to ${CONTACT_DETAILS.email} and we'll take care of it.`,
         ],
       },
       {
@@ -178,7 +180,7 @@ export const LEGAL = {
         heading: "Get in Touch",
         paragraphs: [
           "Questions about this policy or your data?",
-          "Write to us: email@API Touch.com",
+          `Write to us: ${CONTACT_DETAILS.email}`,
         ],
       },
     ],

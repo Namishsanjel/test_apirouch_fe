@@ -1,4 +1,4 @@
-import { FOOTER } from "../data/content.js";
+import { FOOTER, CONTACT_DETAILS } from "../data/content.js";
 import { useGlobalState, imageOf, STRAPI_STATUS } from "../lib/strapiData.jsx";
 import { FooterBrandSkeleton, FooterLogomarkSkeleton } from "./skeletons.jsx";
 import Logo from "./Logo.jsx";
@@ -52,12 +52,21 @@ export default function Footer() {
   const closingLine = global?.footerText || subline;
   const copyrightLine = global?.siteName ? `© ${YEAR} ${global.siteName}` : copyright;
 
+  const telHref = (value) => `tel:${String(value).replace(/[^+\d]/g, "")}`;
+  // Prefer the global entry; when a field is empty, fall back to the shared
+  // contact constants so the footer never silently drops the agency's details.
+  const phoneValues = global?.contactPhone
+    ? [global.contactPhone]
+    : CONTACT_DETAILS.phones;
+  const phoneHrefs = phoneValues.map(telHref);
+  const emailValue = global?.contactEmail || CONTACT_DETAILS.email;
+  const addressValue = global?.address || CONTACT_DETAILS.location;
   const contacts = degraded
     ? []
     : [
-        global?.contactEmail ? { label: "Email", value: global.contactEmail, href: `mailto:${global.contactEmail}` } : null,
-        global?.contactPhone ? { label: "Phone", value: global.contactPhone, href: `tel:${String(global.contactPhone).replace(/[^+\d]/g, "")}` } : null,
-        global?.address ? { label: "Address", value: global.address, href: null } : null,
+        emailValue ? { label: "Email", value: emailValue, href: `mailto:${emailValue}` } : null,
+        phoneValues.length ? { label: "Phone", value: phoneValues, hrefs: phoneHrefs } : null,
+        addressValue ? { label: "Address", value: addressValue, href: null } : null,
       ].filter(Boolean);
 
   // The Social column keeps its place in the grid; only its links come from
@@ -115,7 +124,15 @@ export default function Footer() {
                     {contacts.map((c) => (
                       <div key={c.label} className="flex flex-col gap-1">
                         <p className="t-eyebrow text-mist/70">{c.label}</p>
-                        {c.href ? (
+                        {c.hrefs ? (
+                          <div className="flex flex-col gap-1">
+                            {c.hrefs.map((href, i) => (
+                              <a key={href} href={href} className="t-link w-fit break-words text-sage">
+                                {c.value[i]}
+                              </a>
+                            ))}
+                          </div>
+                        ) : c.href ? (
                           <a href={c.href} className="t-link w-fit break-words text-sage">
                             {c.value}
                           </a>

@@ -125,6 +125,36 @@ export function Container({ className = "", children }) {
 }
 
 /**
+ * Renders one contact-block value. A plain string is shown as-is; a `href`
+ * entry (email) becomes a mailto: link; a `hrefs` array (the phones) becomes
+ * one tel: link per line so every number is visible and dialable. Link styling
+ * reuses the existing `t-link` class from these info grids.
+ */
+export function ContactInfoValue({ value, href, hrefs }) {
+  const linkClass = "t-link break-words text-sage";
+  if (Array.isArray(hrefs) && hrefs.length) {
+    const labels = Array.isArray(value) ? value : hrefs.map(() => value);
+    return (
+      <div className="flex flex-col gap-1">
+        {hrefs.map((h, i) => (
+          <a key={h} href={h} className={`${linkClass} w-fit`}>
+            {labels[i]}
+          </a>
+        ))}
+      </div>
+    );
+  }
+  if (href) {
+    return (
+      <a href={href} className={`${linkClass} w-fit`}>
+        {value}
+      </a>
+    );
+  }
+  return <p className="t-link capitalize break-words text-sage">{value}</p>;
+}
+
+/**
  * Framer's banded progressive-blur stack: eight backdrop-filter layers whose
  * staggered mask-image gradients each own a horizontal band of the image
  * (blur ramps from ~0 at the top to `max` px at the bottom). Present in the

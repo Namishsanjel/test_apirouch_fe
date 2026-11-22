@@ -1,11 +1,10 @@
-import { CONTACT, PAGES, SITE_URL } from "../data/content.js";
+import { CONTACT, CONTACT_DETAILS, PAGES, SITE_URL } from "../data/content.js";
 import { LOGO_PATH } from "./brand.js";
 
 function contactValue(label) {
   return CONTACT.info.find((item) => item.label === label)?.value ?? null;
 }
 
-const phone = contactValue("Phone");
 const location = contactValue("Location"); // e.g. "Kathmandu, Nepal"
 
 function locationToAddress() {
@@ -45,7 +44,12 @@ export function organizationJsonLd() {
   };
   const address = locationToAddress();
   if (address) org.address = address;
-  if (phone) org.telephone = phone;
+  if (CONTACT_DETAILS.phones.length === 1) {
+    org.telephone = CONTACT_DETAILS.phones[0];
+  } else if (CONTACT_DETAILS.phones.length > 1) {
+    org.telephone = CONTACT_DETAILS.phones;
+  }
+  if (CONTACT_DETAILS.email) org.email = CONTACT_DETAILS.email;
   return org;
 }
 

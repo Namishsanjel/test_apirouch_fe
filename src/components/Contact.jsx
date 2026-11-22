@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CONTACT } from "../data/content.js";
 import { STRAPI_URL } from "../lib/strapi.js";
-import { Eyebrow } from "./ui.jsx";
+import { Eyebrow, ContactInfoValue } from "./ui.jsx";
 import { Reveal } from "../anim.jsx";
 import { useLocationSearch } from "../lib/location.jsx";
 import { usePrefilledValue, lastTour, TOUR_PLACEHOLDER, MAX } from "../lib/prefill.js";
@@ -157,7 +157,7 @@ export default function Contact() {
               {info.map((i) => (
                 <div key={i.label} className="flex min-w-0 flex-col gap-2">
                   <p className="t-eyebrow capitalize text-mist">{i.label}</p>
-                  <p className="t-link capitalize break-words text-sage">{i.value}</p>
+                  <ContactInfoValue value={i.value} href={i.href} hrefs={i.hrefs} />
                 </div>
               ))}
             </div>

@@ -34,15 +34,49 @@ export const IMG = {
   footer: "/img/footer.jpg",
 };
 
+/**
+ * The single source of truth for the agency's contact details. Every place
+ * that shows, links to, or embeds (JSON-LD) a phone or email reads from here,
+ * so updating a number or address is a one-file change.
+ *
+ * `tel:`/`mailto:` hrefs are derived from the readable values below, with the
+ * spaces and dashes stripped, so the visible text stays readable while the
+ * link is machine-usable. The landline keeps its country code for dialling.
+ */
+const PHONE_MOBILES = ["+977 9861189565", "+977 9810268276", "+977 9841332053"];
+const PHONE_LANDLINE = "01-4500157";
+const EMAIL = "apitouch123@gmail.com";
+const LOCATION = "Kathmandu, Nepal";
+
+const telHref = (value) => `tel:${value.replace(/[^+\d]/g, "")}`;
+
+export const CONTACT_DETAILS = {
+  email: EMAIL,
+  emailHref: `mailto:${EMAIL}`,
+  // International dialling form of the landline, so a tel: link works abroad.
+  landline: PHONE_LANDLINE,
+  landlineHref: telHref("+977 1 4500157"),
+  mobiles: PHONE_MOBILES,
+  mobileHrefs: PHONE_MOBILES.map(telHref),
+  location: LOCATION,
+  // Readable phone lines for layouts with room: one mobile per line, then the
+  // landline, so all of them are shown rather than just the first.
+  phones: [...PHONE_MOBILES, PHONE_LANDLINE],
+  phoneHrefs: [...PHONE_MOBILES.map(telHref), telHref("+977 1 4500157")],
+  // The single number for tight spots (small cards, single-line contexts).
+  primaryPhone: PHONE_MOBILES[0],
+  primaryPhoneHref: telHref(PHONE_MOBILES[0]),
+};
+
 export const CONTACT = {
   badge: "Contact us",
   title: ["Let's plan your", "next adventure"],
   image: IMG.contact,
   imageAlt: "Misty forest route background for the AP",
   info: [
-    { label: "Email", value: "email@API Touch.com" },
-    { label: "Phone", value: "+1 (970) 555-0148" },
-    { label: "Location", value: "Kathmandu, Nepal" },
+    { label: "Email", value: CONTACT_DETAILS.email, href: CONTACT_DETAILS.emailHref },
+    { label: "Phone", value: CONTACT_DETAILS.phones, hrefs: CONTACT_DETAILS.phoneHrefs },
+    { label: "Location", value: CONTACT_DETAILS.location },
     { label: "Response Time", value: "We reply within 24 hours" },
   ],
   form: {

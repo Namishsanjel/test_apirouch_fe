@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PageShell from "../components/PageShell.jsx";
-import { Eyebrow } from "../components/ui.jsx";
+import { Eyebrow, ContactInfoValue } from "../components/ui.jsx";
 import { Reveal } from "../anim.jsx";
 import { PLAN_TRIP } from "../data/newPages.js";
 import { CONTACT, PAGES } from "../data/content.js";
@@ -236,7 +236,7 @@ export default function PlanTripPage() {
                 {info.map((i) => (
                   <div key={i.label} className="flex min-w-0 flex-col gap-2">
                     <p className="t-eyebrow capitalize text-mist">{i.label}</p>
-                    <p className="t-link capitalize break-words text-sage">{i.value}</p>
+                    <ContactInfoValue value={i.value} href={i.href} hrefs={i.hrefs} />
                   </div>
                 ))}
               </div>
