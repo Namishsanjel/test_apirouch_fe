@@ -199,15 +199,19 @@ export default function TourDetailPage() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="t-h4 text-ink">What's Included</h2>
-            <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
-              {detail.inclusions.map((i) => (
-                <div key={i} className="flex items-center gap-2 text-ink">
-                  <CheckIcon />
-                  <p className="t-body text-ink">{i}</p>
+            {detail.inclusions.length ? (
+              <>
+                <h2 className="t-h4 text-ink">What's Included</h2>
+                <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
+                  {detail.inclusions.map((i) => (
+                    <div key={i} className="flex items-center gap-2 text-ink">
+                      <CheckIcon />
+                      <p className="t-body text-ink">{i}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </>
+            ) : null}
           </div>
 
           <div className="flex flex-col gap-4">
@@ -302,10 +306,12 @@ export default function TourDetailPage() {
           ) : null}
 
           <div className="flex flex-col gap-4">
-            <div className="flex items-baseline gap-1">
-              <span className="t-h2 text-ink">{amount}</span>
-              {unit ? <span className="t-body">/{unit}</span> : null}
-            </div>
+            {amount ? (
+              <div className="flex items-baseline gap-1">
+                <span className="t-h2 text-ink">{amount}</span>
+                {unit ? <span className="t-body">/{unit}</span> : null}
+              </div>
+            ) : null}
 
             {/* To the contact form with this tour's title already in the field, so the
                 enquiry arrives knowing which tour it is about. encodeURIComponent
@@ -316,6 +322,22 @@ export default function TourDetailPage() {
             >
               Book This Tour
             </a>
+
+            {/* The downloadable brochure, only when the tour has one attached.
+                Same-origin /uploads path from the API; size in the label when
+                the API reports it. */}
+            {detail.brochure ? (
+              <a
+                href={detail.brochure.href}
+                download
+                target="_blank"
+                rel="noopener"
+                className="btn btn-cream h-[51px] w-full"
+              >
+                Download brochure (PDF
+                {detail.brochure.sizeLabel ? `, ${detail.brochure.sizeLabel}` : ""})
+              </a>
+            ) : null}
           </div>
         </aside>
       </section>

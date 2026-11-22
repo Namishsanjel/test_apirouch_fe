@@ -57,6 +57,27 @@ export function formatPrice(amount, per) {
   return per ? `$${text} /${per}` : `$${text}`;
 }
 
+/**
+ * The downloadable brochure, or null. Strapi stores `size` in decimal
+ * kilobytes, so it is shown in MB (one decimal) — the unit travellers expect
+ * for a PDF download.
+ */
+export function brochureOf(media) {
+  if (!media || typeof media !== "object") return null;
+
+  const href = mediaUrl(media.url);
+  if (!href) return null;
+
+  const sizeKb = typeof media.size === "number" ? media.size : null;
+
+  return {
+    href,
+    name: media.name || "brochure.pdf",
+    sizeKb,
+    sizeLabel: sizeKb == null ? "" : `${(sizeKb / 1000).toFixed(1)} MB`,
+  };
+}
+
 /** "53.5" stays 53.5, 38 stays 38 — Number#toString already does this. */
 const km = (value) => (value == null ? null : `${value} Km`);
 const days = (value) => (value == null ? null : `${value} Days`);
@@ -185,6 +206,7 @@ export function tourToRecord(entry) {
     order: entry.order ?? null,
     priceAmount: typeof entry.priceAmount === "number" ? entry.priceAmount : null,
     gallery: (entry.gallery || []).map((m) => bestImage(m, entry.title)).filter(Boolean),
+    brochure: brochureOf(entry.brochure),
     destination: entry.destination || null,
     /** True when the CMS record is missing something the hardcoded one had. */
     detailFallback: !detail,
