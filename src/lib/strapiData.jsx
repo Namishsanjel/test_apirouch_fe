@@ -46,7 +46,7 @@ export const STRAPI_STATUS = Object.freeze({
  * present the lists in.
  */
 const TOURS_PATH =
-  "tours?populate[coverImage]=true&populate[gallery]=true&populate[brochure]=true&populate[itinerary]=true" +
+  "tours?populate[coverImage]=true&populate[gallery]=true&populate[brochure]=true&populate[itinerary][populate][image]=true" +
   "&populate[inclusions]=true&populate[exclusions]=true&populate[destination]=true" +
   "&sort=order:asc&pagination[pageSize]=100";
 

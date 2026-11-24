@@ -272,6 +272,8 @@ export default function TourDetailPage() {
                 points: d.points,
                 altitudeText: d.altitudeText,
                 durationText: d.durationText,
+                image: d.image,
+                imageAlt: d.imageAlt,
               }))}
             />
           </div>

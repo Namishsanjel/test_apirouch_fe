@@ -88,32 +88,51 @@ export default function Accordion({ items, className = "", style }) {
                     isOpen ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  {Array.isArray(item.points) && item.points.length ? (
-                    <ul className="flex flex-col gap-2">
-                      {item.points.map((point, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full bg-primary" />
-                          <span className="t-body">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : item.body ? (
-                    <p className="t-body">{item.body}</p>
-                  ) : null}
-                  {item.altitudeText || item.durationText ? (
-                    <div className="flex flex-wrap gap-x-5 gap-y-1">
-                      {item.altitudeText ? (
-                        <p className="t-eyebrow text-ink">
-                          <span className="text-smoke">Altitude:</span> {item.altitudeText}
-                        </p>
+                  <div
+                    className={`flex flex-col gap-4 ${
+                      item.image ? "min-[900px]:flex-row min-[900px]:items-start" : ""
+                    }`}
+                  >
+                    {item.image ? (
+                      <img
+                        src={item.image.src}
+                        alt={item.imageAlt || item.title || ""}
+                        loading="lazy"
+                        decoding="async"
+                        width={item.image.width ?? undefined}
+                        height={item.image.height ?? undefined}
+                        className="aspect-[4/3] w-full shrink-0 rounded-lg object-cover min-[900px]:w-[240px]"
+                      />
+                    ) : null}
+                    <div className="flex min-w-0 flex-1 flex-col gap-2">
+                      {Array.isArray(item.points) && item.points.length ? (
+                        <ul className="flex flex-col gap-2">
+                          {item.points.map((point, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                              <span className="mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full bg-primary" />
+                              <span className="t-body">{point}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : item.body ? (
+                        <p className="t-body">{item.body}</p>
                       ) : null}
-                      {item.durationText ? (
-                        <p className="t-eyebrow text-ink">
-                          <span className="text-smoke">Duration:</span> {item.durationText}
-                        </p>
+                      {item.altitudeText || item.durationText ? (
+                        <div className="flex flex-wrap gap-x-5 gap-y-1">
+                          {item.altitudeText ? (
+                            <p className="t-eyebrow text-ink">
+                              <span className="text-smoke">Altitude:</span> {item.altitudeText}
+                            </p>
+                          ) : null}
+                          {item.durationText ? (
+                            <p className="t-eyebrow text-ink">
+                              <span className="text-smoke">Duration:</span> {item.durationText}
+                            </p>
+                          ) : null}
+                        </div>
                       ) : null}
                     </div>
-                  ) : null}
+                  </div>
                 </div>
               </div>
             </div>

@@ -183,6 +183,7 @@ export function tourToRecord(entry) {
     highlights: [],
     itinerary: (entry.itinerary || []).map((day) => {
       const heading = itineraryHeading(day);
+      const dayImage = bestImage(day.image, heading.title || day.title || "");
       return {
         // the row label as the CMS gives it; older rows keep a label in dayLabel
         day: day.day || String(day.dayLabel || "").replace(LABEL_PREFIX, "").split("(")[0].trim(),
@@ -194,6 +195,10 @@ export function tourToRecord(entry) {
           : [],
         altitudeText: heading.altitude,
         durationText: heading.duration,
+        // optional day photo; null when the editor has not uploaded one. The
+        // alt falls back to the editor's own imageAlt/caption, then the day title.
+        image: dayImage,
+        imageAlt: String(day.imageAlt ?? "").trim() || dayImage?.alt || heading.title,
       };
     }),
     inclusions: (entry.inclusions || []).map((i) => i.text).filter(Boolean),
