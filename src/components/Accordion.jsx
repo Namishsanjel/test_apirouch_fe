@@ -88,22 +88,7 @@ export default function Accordion({ items, className = "", style }) {
                     isOpen ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  <div
-                    className={`flex flex-col gap-4 ${
-                      item.image ? "min-[900px]:flex-row min-[900px]:items-start" : ""
-                    }`}
-                  >
-                    {item.image ? (
-                      <img
-                        src={item.image.src}
-                        alt={item.imageAlt || item.title || ""}
-                        loading="lazy"
-                        decoding="async"
-                        width={item.image.width ?? undefined}
-                        height={item.image.height ?? undefined}
-                        className="aspect-[4/3] w-full shrink-0 rounded-lg object-cover min-[900px]:w-[240px]"
-                      />
-                    ) : null}
+                  <div className="flex flex-col gap-4">
                     <div className="flex min-w-0 flex-1 flex-col gap-2">
                       {Array.isArray(item.points) && item.points.length ? (
                         <ul className="flex flex-col gap-2">
@@ -132,6 +117,17 @@ export default function Accordion({ items, className = "", style }) {
                         </div>
                       ) : null}
                     </div>
+                    {item.image ? (
+                      <img
+                        src={item.image.src}
+                        alt={item.imageAlt || item.title || ""}
+                        loading="lazy"
+                        decoding="async"
+                        width={item.image.width ?? undefined}
+                        height={item.image.height ?? undefined}
+                        className="mt-4 aspect-[4/3] w-full rounded-lg object-cover sm:aspect-video"
+                      />
+                    ) : null}
                   </div>
                 </div>
               </div>
