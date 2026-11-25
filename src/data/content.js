@@ -18,7 +18,7 @@ export const IMG = {
   // surface, so there is no separate white variant any more.
   logo: "/logo.png",
   logoDark: "/logo.png",
-  hero: "/img/hero.jpg",
+  hero: "/img/homepage/hero.jpeg",
   contact: "/img/SKEOxyccXWzDnPBCqes8OKxWFE-36b270.jpg",
   about: "/img/JlclD7cUSGbFs5da7U2YZ0Jfo-e3f5d8.png",
   polaroid1: "/img/STbQ0TTQSrsZiFejlw0ISo8f8Cg-d589c2.png",
@@ -31,7 +31,7 @@ export const IMG = {
   testimonial: "/img/Lb7a9F2Y442x6WewlTOqDC6JVF0-784858.png",
   avatar1: "/img/Tb2IyWFVhCYJMmLVbyfHF949LoQ-cd2d3e.png",
   avatar2: "/img/rminNLvD1Ra33ajEBBIbdkyDw-cd2d3e.png",
-  footer: "/img/footer.jpg",
+  footer: "/img/homepage/footer.jpeg",
 };
 
 /**
