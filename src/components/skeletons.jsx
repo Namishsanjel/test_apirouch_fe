@@ -480,54 +480,6 @@ export function TeamSkeleton({ count = 6 }) {
 }
 
 /* ------------------------------------------------------------------ *
- * testimonials
- * ------------------------------------------------------------------ */
-
-/** Testimonials — the featured quote over its photo, and the two written cards. */
-export function TestimonialsSkeleton({ cards = 2 }) {
-  return (
-    <SkeletonRegion
-      label="Loading testimonials…"
-      className="mt-8 flex flex-col gap-6 min-[639.98px]:mt-12 min-[1100px]:flex-row"
-    >
-      {/* featured quote */}
-      <div className="relative h-[420px] w-full shrink-0 overflow-hidden rounded-lg bg-mist min-[639.98px]:h-[495px] min-[1100px]:w-[480px]">
-        <div className="absolute inset-0 flex flex-col justify-end px-6 pt-6 pb-[27px]">
-          <Skeleton tone="cream" className="h-[15px] w-[110px]" />
-          <div className="mt-3 flex flex-col gap-2">
-            <Skeleton tone="cream" className="h-[31px] w-full" />
-            <Skeleton tone="cream" className="h-[31px] w-full" />
-            <Skeleton tone="cream" className="h-[31px] w-4/5" />
-          </div>
-          <Skeleton tone="cream" className="mt-4 h-[22px] w-[168px]" />
-          <Skeleton tone="cream" className="mt-1 h-[16px] w-[130px]" />
-        </div>
-      </div>
-
-      {/* two written reviews */}
-      <div className="flex w-full min-w-0 flex-col gap-6" style={{ maxWidth: 762 }}>
-        {Array.from({ length: cards }, (_, i) => (
-          <div key={i} className="h-auto min-h-[236px] rounded-lg bg-mist p-6">
-            <Skeleton tone="cream" className="h-[15px] w-[96px]" />
-            <div className="mt-3 flex flex-col gap-2">
-              <Skeleton tone="cream" className="h-[31px] w-full" />
-              <Skeleton tone="cream" className="h-[31px] w-3/5" />
-            </div>
-            <div className="mt-6 flex gap-[10px]">
-              <Skeleton tone="cream" className="h-[41px] w-[41px] shrink-0" radius="md" />
-              <div className="flex min-w-0 flex-1 flex-col gap-1">
-                <Skeleton tone="cream" radius="sm" className="h-[22px] w-[152px]" />
-                <Skeleton tone="cream" radius="sm" className="h-[17px] w-[116px]" />
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </SkeletonRegion>
-  );
-}
-
-/* ------------------------------------------------------------------ *
  * faq
  * ------------------------------------------------------------------ */
 

@@ -20,7 +20,7 @@ export const IMG = {
   logoDark: "/logo.png",
   hero: "/img/homepage/hero.jpeg",
   contact: "/img/SKEOxyccXWzDnPBCqes8OKxWFE-36b270.jpg",
-  about: "/img/JlclD7cUSGbFs5da7U2YZ0Jfo-e3f5d8.png",
+  about: "/img/homepage/aboutusmain.jpeg",
   polaroid1: "/img/STbQ0TTQSrsZiFejlw0ISo8f8Cg-d589c2.png",
   polaroid2: "/img/kyESw1RHyMdsAjTFdft5SBan1g-37340a.png",
   polaroid3: "/img/VrrJ1dN3SN22nkPBDkuTXuLC8-d589c2.png",
