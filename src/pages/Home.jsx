@@ -8,7 +8,6 @@ import Destinations from "../components/Destinations.jsx";
 import Included from "../components/Included.jsx";
 import Guide from "../components/Guide.jsx";
 import Services from "../components/Services.jsx";
-import Testimonials from "../components/Testimonials.jsx";
 import Faq from "../components/Faq.jsx";
 import Footer from "../components/Footer.jsx";
 
@@ -30,7 +29,6 @@ export default function Home() {
         <Included />
         <Guide />
         <Services />
-        <Testimonials />
         <Faq />
       </main>
       <Footer />
