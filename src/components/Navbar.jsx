@@ -25,10 +25,14 @@ import { SectionErrorInline, SectionEmptyInline } from "./SectionError.jsx";
  * status comes back with it so each menu can say which of the two it is rather
  * than rendering an empty panel.
  */
+const MAX_NAV_TOURS = 10;
+
 function useTourListings() {
   const { data, status, retry } = useStrapiToursState();
   const listings = useMemo(() => tourListings(data), [data]);
-  return { listings, status, retry };
+  // only the first 10 go in the nav menus; /tours still gets all of them
+  const navListings = useMemo(() => listings.slice(0, MAX_NAV_TOURS), [listings]);
+  return { listings, navListings, status, retry };
 }
 
 /**
@@ -273,7 +277,7 @@ function PackagePreview({ pkg }) {
  * tour's card filling the right, and the closing banner underneath.
  */
 function PackagesMenu({ onNavigate }) {
-  const { listings: tours, status, retry } = useTourListings();
+  const { listings: allTours, navListings: tours, status, retry } = useTourListings();
   const [active, setActive] = useState(() => tours[0]?.slug ?? null);
   const groups = DIFFICULTIES.map((level) => tours.filter((p) => p.chips[0] === level)).filter(
     (list) => list.length
@@ -357,7 +361,7 @@ function PackagesMenu({ onNavigate }) {
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
           <div className="flex flex-wrap items-center gap-4 min-[1100px]:gap-6">
             <p className="t-eyebrow text-smoke">
-              {tours.length} packages · {groups.length} difficulty levels
+              {allTours.length} packages · {groups.length} difficulty levels
             </p>
             <a href="/tours" onClick={onNavigate} className="t-link text-ink underline underline-offset-4">
               All packages
@@ -384,7 +388,7 @@ const MENUS = {
  * nothing in the nav is unreachable on a phone or tablet.
  */
 function MobileMenu({ open, onNavigate }) {
-  const { listings: tours, status: toursStatus, retry: retryTours } = useTourListings();
+  const { navListings: tours, status: toursStatus, retry: retryTours } = useTourListings();
   const { destinations, status: destinationsStatus, retry: retryDestinations } = useDestinations();
   const [group, setGroup] = useState(null);
 
