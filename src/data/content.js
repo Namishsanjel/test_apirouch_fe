@@ -262,43 +262,8 @@ export const HIKES = [
 export const DESTINATIONS_SECTION = {
   badge: "Our destinations",
   title: ["Places worth", "the journey"],
-  body: "Four corners of the map where we run our smallest groups. Pick the landscape first — the route, the pace and the places you sleep get built around it.",
+  body: "The corners of the map where we run our smallest groups. Pick the landscape first — the route, the pace and the places you sleep get built around it.",
 };
-
-export const DESTINATIONS = [
-  {
-    slug: "nepal",
-    region: "Nepal · Himalaya",
-    title: "Annapurna Base Camp",
-    body: "A week inside the Annapurna massif: terraced rice fields, Gurung villages, and mornings above the cloud line at 4,130 m. You sleep in tea houses, so the pack stays light and a hot meal is waiting at the end of every day.",
-    image: "/img/abc.jpg",
-    alt: "Traveller standing on a rocky outcrop above layered mountain ridges at sunset",
-  },
-  {
-    slug: "scotland",
-    region: "Scotland · Highlands",
-    title: "West Highland Way",
-    body: "Scotland's classic 150 km route from Glasgow to Fort William, across Rannoch Moor and the Devil's Staircase. Long summer light, empty glens, and a warm pub waiting at the end of each stage.",
-    image: "/img/60ioZwOh48dho1umQUVMdKewdE-3d84e1.jpg",
-    alt: "Two tents pitched on an open meadow beneath a mountain ridge at sunset",
-  },
-  {
-    slug: "germany",
-    region: "Germany · Black Forest",
-    title: "Black Forest Ridge Trail",
-    body: "Germany's Black Forest walked ridge to ridge above pine valleys and clock-making villages. The gentlest tour we run — short days, good food, and routes that start less than an hour from the airport.",
-    image: "/img/bUA57OR2II2k1PqzhTWRuyCnbG4-3d84e1.jpg",
-    alt: "Small group walking a narrow path through a tall pine forest",
-  },
-  {
-    slug: "new-zealand",
-    region: "New Zealand · Fiordland",
-    title: "Milford Track",
-    body: "Fiordland's finest walk in the world: rainforest, hanging valleys and Sutherland Falls over four days. The country stays green all year, and with huts booked and bags moved ahead, you only carry a day pack.",
-    image: "/img/v5nyoTWBMfBB1GntKSZQ2HCIAs-3d84e1.jpg",
-    alt: "Two travellers resting on a rock above a misty forested valley",
-  },
-];
 
 export const INCLUDED_SECTION = {
   badge: "What's included",
