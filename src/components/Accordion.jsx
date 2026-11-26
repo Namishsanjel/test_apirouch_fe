@@ -1,14 +1,19 @@
 import { useId, useState } from "react";
 
 /**
- * An independent-row accordion, styled to match the FAQ list: a mist panel per
- * item, a rounded-lg card, and the same grid-rows slide with a plus/close cross
- * fade. Unlike the FAQ column (one answer at a time), each row here opens and
- * closes on its own, which is what the tour schedule wants.
+ * A single-open accordion, styled to match the FAQ list: a mist panel per item,
+ * a rounded-lg card, and the same grid-rows slide with a plus/close cross fade.
+ * Opening one row closes whichever row was open, so only one is ever expanded;
+ * clicking the open row closes it, so zero open is allowed. Nothing starts open.
+ *
+ * `allowMultiple` (default false) opts a usage back into independent rows, for a
+ * list that genuinely needs several open at once. With it off, one `openKey`;
+ * with it on, a Set of open keys.
  *
  * Each row's header is a real <button> with aria-expanded and aria-controls, so
  * Enter and Space toggle it and the collapsed/expanded state is announced. The
- * panel stays mounted at zero height so the slide works in both directions.
+ * panel stays mounted at zero height so the slide works both directions, and
+ * switching rows animates the closing and opening panels together.
  */
 function PlusIcon() {
   return (
@@ -26,22 +31,29 @@ function CloseIcon() {
   );
 }
 
-export default function Accordion({ items, className = "", style }) {
+export default function Accordion({ items, allowMultiple = false, className = "", style }) {
   const baseId = useId();
-  const [open, setOpen] = useState(() => new Set());
+  // single-open: one key (or null). allowMultiple: a Set of open keys.
+  const [openKey, setOpenKey] = useState(null);
+  const [openSet, setOpenSet] = useState(() => new Set());
 
-  const toggle = (key) =>
-    setOpen((prev) => {
-      const next = new Set(prev);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
+  const toggle = (key) => {
+    if (allowMultiple) {
+      setOpenSet((prev) => {
+        const next = new Set(prev);
+        if (next.has(key)) next.delete(key);
+        else next.add(key);
+        return next;
+      });
+    } else {
+      setOpenKey((prev) => (prev === key ? null : key));
+    }
+  };
 
   return (
     <div className={`flex flex-col gap-3 ${className}`} style={style}>
       {items.map((item) => {
-        const isOpen = open.has(item.key);
+        const isOpen = allowMultiple ? openSet.has(item.key) : openKey === item.key;
         const headerId = `${baseId}-header-${item.key}`;
         const panelId = `${baseId}-panel-${item.key}`;
         return (
