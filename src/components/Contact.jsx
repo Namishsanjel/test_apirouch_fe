@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CONTACT } from "../data/content.js";
+import { CONTACT, CONTACT_DETAILS } from "../data/content.js";
 import { STRAPI_URL } from "../lib/strapi.js";
 import { Eyebrow, ContactInfoValue } from "./ui.jsx";
 import { Reveal } from "../anim.jsx";
@@ -37,6 +37,15 @@ const EMPTY = {
 
 export default function Contact() {
   const { badge, title, image, imageAlt, info, form } = CONTACT;
+
+  // This section lists only the first mobile and the landline; the full list in
+  // CONTACT.info is still used by the footer, plan-your-trip page and JSON-LD,
+  // so the trimmed pair is derived here without changing the shared data.
+  const phones = [CONTACT_DETAILS.mobiles[0], CONTACT_DETAILS.landline];
+  const phoneHrefs = [CONTACT_DETAILS.mobileHrefs[0], CONTACT_DETAILS.landlineHref];
+  const contactInfo = info.map((i) =>
+    i.label === "Phone" ? { ...i, value: phones, hrefs: phoneHrefs } : i,
+  );
 
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState({});
@@ -154,7 +163,7 @@ export default function Contact() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 min-[480px]:gap-6">
-              {info.map((i) => (
+              {contactInfo.map((i) => (
                 <div key={i.label} className="flex min-w-0 flex-col gap-2">
                   <p className="t-eyebrow capitalize text-mist">{i.label}</p>
                   <ContactInfoValue value={i.value} href={i.href} hrefs={i.hrefs} />
