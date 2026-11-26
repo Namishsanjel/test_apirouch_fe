@@ -315,6 +315,17 @@ export function TourDetailSkeleton({ others = 2 }) {
   );
 }
 
+/** One "Why API Touch" service card, matching the white tile on the About page. */
+export function WhyCardSkeleton({ className = "" }) {
+  return (
+    <div className={`flex min-h-[160px] flex-1 flex-col justify-end gap-1 rounded-lg bg-mist p-4 ${className}`}>
+      <Skeleton tone="cream" className="h-[24px] w-[70%]" />
+      <Skeleton tone="cream" className="h-[22px] w-full" />
+      <Skeleton tone="cream" className="h-[22px] w-4/5" />
+    </div>
+  );
+}
+
 /** The destination page's "tour packages" block, while the tours list is in flight. */
 export function TourPackagesSkeleton({ count = 2 }) {
   return (

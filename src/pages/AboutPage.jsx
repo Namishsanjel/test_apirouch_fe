@@ -6,7 +6,7 @@ import { Eyebrow, SectionHead, HeadCopy, Words } from "../components/ui.jsx";
 import { ABOUT } from "../data/pages.js";
 import { PAGES } from "../data/content.js";
 import { useStrapiList, imageOf, STRAPI_STATUS } from "../lib/strapiData.jsx";
-import { TeamSkeleton } from "../components/skeletons.jsx";
+import { TeamSkeleton, WhyCardSkeleton } from "../components/skeletons.jsx";
 import { SectionError, SectionEmpty } from "../components/SectionError.jsx";
 
 /**
@@ -50,6 +50,18 @@ export default function AboutPage() {
   const page = PAGES["/about"];
   const { items, status, retry } = useStrapiList("team-members?populate=photo&sort=order:asc");
   const ready = status === STRAPI_STATUS.READY && Array.isArray(items) && items.length > 0;
+
+  // The "Why API Touch" cards come from the services collection — the same
+  // endpoint and shared cache the Services page and the home "What's included"
+  // section read. First three, by `order`.
+  const { items: services, status: servicesStatus } = useStrapiList(
+    "services?populate=image&sort=order:asc",
+  );
+  const whyLoading = servicesStatus === STRAPI_STATUS.LOADING;
+  const whyServices =
+    servicesStatus === STRAPI_STATUS.READY && Array.isArray(services)
+      ? services.slice(0, 3)
+      : [];
 
   useEffect(() => {
     document.title = page.title;
@@ -121,17 +133,25 @@ export default function AboutPage() {
               aria-hidden="true"
               className="absolute inset-0 h-full w-full object-cover"
             />
-            <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">
-              {ABOUT.why.cards.map((c) => (
-                <div
-                  key={c.title}
-                  className="flex min-h-[160px] flex-1 flex-col justify-end gap-1 rounded-lg bg-mist p-4"
-                >
-                  <p className="t-h4 text-ink">{c.title}</p>
-                  <p className="t-body">{c.body}</p>
-                </div>
-              ))}
-            </div>
+            {whyLoading ? (
+              <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">
+                {[0, 1, 2].map((i) => (
+                  <WhyCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : whyServices.length ? (
+              <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">
+                {whyServices.map((s) => (
+                  <div
+                    key={s.documentId ?? s.id ?? s.slug ?? s.title}
+                    className="flex min-h-[160px] flex-1 flex-col justify-end gap-1 rounded-lg bg-mist p-4"
+                  >
+                    <p className="t-h4 text-ink">{s.title}</p>
+                    <p className="t-body">{s.shortDescription}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </section>
 
