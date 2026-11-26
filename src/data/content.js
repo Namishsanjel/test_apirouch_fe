@@ -72,7 +72,7 @@ export const CONTACT = {
   badge: "Contact us",
   title: ["Let's plan your", "next adventure"],
   image: IMG.contact,
-  imageAlt: "Misty forest route background for the AP",
+  imageAlt: "Misty forest road background for the AP",
   info: [
     { label: "Email", value: CONTACT_DETAILS.email, href: CONTACT_DETAILS.emailHref },
     { label: "Phone", value: CONTACT_DETAILS.phones, hrefs: CONTACT_DETAILS.phoneHrefs },
@@ -108,22 +108,22 @@ export const PAGES = {
   "/": {
     title: "API Touch — Guided Tours & Vacations",
     description:
-      "Discover guided tours, scenic mountain destinations, curated outdoor adventures, and stress-free holiday planning with API Touch.",
+      "Discover guided tours, scenic destinations, curated travel experiences, and stress-free holiday planning with API Touch.",
   },
   "/contact": {
     title: "Contact API Touch — Plan Your Next Vacation",
     description:
-      "Contact API Touch to plan a guided tour, ask about routes, group sizes, dates, and outdoor adventure travel support.",
+      "Contact API Touch to plan a guided tour, ask about itineraries, group sizes, dates, and travel support.",
   },
   "/about": {
     title: "About API Touch — Our Story & Guides",
     description:
-      "Learn about API Touch’s approach to guided tours, curated routes, local expertise, and thoughtful outdoor adventure planning.",
+      "Learn about API Touch’s approach to guided tours, curated itineraries, local expertise, and thoughtful travel planning.",
   },
   "/gallery": {
     title: "Travel Photo Gallery — API Touch",
     description:
-      "Explore API Touch’s travel photo gallery with scenic routes, camps, mountain landscapes, and outdoor adventure moments from guided trips.",
+      "Explore API Touch’s travel photo gallery with scenic destinations, stays, and memorable moments from guided trips.",
   },
   "/blog": {
     title: "Blog & Travel Guide, Trip Stories & Tips — API Touch",
@@ -143,7 +143,7 @@ export const PAGES = {
   "/experiences": {
     title: "Experiences — API Touch",
     description:
-      "Browse trips by travel purpose — trekking, adventure, culture, wildlife, pilgrimage, honeymoon and family travel.",
+      "Browse trips by travel purpose — adventure, culture, wildlife, pilgrimage, honeymoon and family travel.",
   },
   "/services": {
     title: "Travel Services — API Touch",
@@ -158,7 +158,7 @@ export const PAGES = {
   "/plan-your-trip": {
     title: "Plan Your Trip — API Touch",
     description:
-      "Send API Touch your destination, dates, group size, preferences and budget, and get a route and a price back.",
+      "Send API Touch your destination, dates, group size, preferences and budget, and get an itinerary and a price back.",
   },
   "/why-apitouch": {
     title: "Why API Touch — Local Expertise & Small Groups",
@@ -189,13 +189,13 @@ export const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 export const HERO = {
-  eyebrow: "Global Expeditions · Est. Wild",
+  eyebrow: "Global Journeys · Set to Wander",
   title: "Go Where the Journey Begins",
   cta: "Find your next tour",
   ctaHref: "/tours",
-  sub: "Guided expeditions to wild peaks, hidden coastlines, and forests few ever reach.",
+  sub: "Guided journeys to wild landscapes, hidden coastlines, and places few ever reach.",
   image: IMG.hero,
-  imageAlt: "Traveller overlooking a coastal bay and mountains at golden hour",
+  imageAlt: "Traveller overlooking a coastal bay and hills at golden hour",
 };
 
 export const ABOUT = {
@@ -211,14 +211,14 @@ export const ABOUT = {
   ],
   image: IMG.about,
   cardTitle: "Every trip, a new story",
-  cardBody: "From summit to valley — every path has something to say.",
+  cardBody: "From coast to countryside — every journey has something to say.",
   polaroids: [IMG.polaroid1, IMG.polaroid2, IMG.polaroid3],
 };
 
 export const HIKES_SECTION = {
   badge: "Our tours",
   title: ["Discover What Awaits", "Beyond the Path"],
-  body: "From hidden valleys to iconic summits, explore tours designed for curious minds and adventurous spirits.",
+  body: "From hidden valleys to iconic destinations, explore tours designed for curious minds and adventurous spirits.",
   cta: "Browse all tours",
   ctaHref: "/tours",
 };
@@ -230,7 +230,7 @@ export const HIKES = [
     title: "Annapurna Base Camp",
     href: "/tours/annapurna-base-camp",
     image: "/img/abc.jpg",
-    alt: "Annapurna Base Camp tour photo showing scenic mountain views",
+    alt: "Annapurna Base Camp tour photo showing scenic views",
   },
   {
     slug: "inca-tour-machu-picchu",
@@ -262,19 +262,19 @@ export const HIKES = [
 export const DESTINATIONS_SECTION = {
   badge: "Our destinations",
   title: ["Places worth", "the journey"],
-  body: "The corners of the map where we run our smallest groups. Pick the landscape first — the route, the pace and the places you sleep get built around it.",
+  body: "The corners of the map where we run our smallest groups. Pick the destination first — the itinerary, the pace and the places you stay get built around it.",
 };
 
 export const INCLUDED_SECTION = {
   badge: "What's included",
   title: ["What makes the", "experience different"],
-  body: "From local guides and door-to-door transfers to meals, gear, and small groups, every detail is thoughtfully arranged before you arrive.",
+  body: "From local guides and door-to-door transfers to meals, stays, and small groups, every detail is thoughtfully arranged before you arrive.",
 };
 
 // Feature (mist) cards: icon + heading + copy
 export const INCLUDED_FEATURES = {
-  guiding: { icon: "2784223275", title: "Guiding", body: "A local lead on every route, start to finish" },
-  gear: { icon: "1118047839", title: "Gear", body: "Tents, mats and cookware, already packed" },
+  guiding: { icon: "2784223275", title: "Guiding", body: "A local lead on every itinerary, start to finish" },
+  gear: { icon: "1118047839", title: "Equipment", body: "Tents, mats and cookware, already packed" },
   meals: { icon: "50407791", title: "Meals", body: "Fresh meals and snacks, ready every day" },
   groups: { icon: "2109778876", title: "Small groups", body: "Never more than 8 travellers per guide, every time" },
 };
@@ -303,11 +303,11 @@ export const EXPERIENCE_IMAGES = [
 export const GUIDE_SECTION = {
   badge: "Who are we",
   title: ["Meet the people", "behind the path"],
-  body1: "Our guides grew up exploring these mountains, long before it was a job. They know which route fits your pace and what you actually need along the way — whether it's your first multi-day tour or your tenth.",
+  body1: "Our guides grew up exploring these regions, long before it was a job. They know which itinerary fits your pace and what you actually need along the way — whether it's your first multi-day tour or your tenth.",
   body2: "They adjust to whoever shows up. Beginners get the full walkthrough, no assumptions made. Experienced travellers get pushed further, faster, with less hand-holding. Either way, you're out there with someone who knows the ground.",
   points: [
-    { icon: "2327548604", title: "WFR-Certified", body: "WFR-certified guides, 5+ years leading multi-day routes." },
-    { icon: "535953797", title: "Small groups", body: "Max 8 travellers per guide. Real attention on the route." },
+    { icon: "2327548604", title: "WFR-Certified", body: "Certified guides, 5+ years leading multi-day tours." },
+    { icon: "535953797", title: "Small groups", body: "Max 8 travellers per guide. Real attention on the journey." },
   ],
   // Read by the Why page's small "meet us" thumbnail; the Home section below
   // has its own pair, so replacing one does not affect the other.
@@ -329,12 +329,12 @@ export const SERVICES = [
   {
     icon: "2327548604",
     title: "Visas",
-    body: "Your passport checked against every entry rule on the route, then the applications lodged — visas, transit stops and permits, all of it before you book anything else.",
+    body: "Your passport checked against every entry rule for your itinerary, then the applications lodged — visas, transit stops and permits, all of it before you book anything else.",
   },
   {
     icon: "1403532491",
     title: "Air Ticketing",
-    body: "Flights shaped around the route: a day of buffer before day one, and layovers that leave room for delayed bags or a missed connection.",
+    body: "Flights shaped around your itinerary: a day of buffer before day one, and layovers that leave room for delayed bags or a missed connection.",
   },
   {
     icon: "4159562592",
@@ -350,7 +350,7 @@ export const TESTIMONIAL_SECTION = {
 };
 
 export const FEATURED_QUOTE = {
-  quote: "\"I came for the mountains, but I left with memories I'll never forget. Every route, every viewpoint, and every conversation made this journey feel truly special.\"",
+  quote: "\"I came for the views, but I left with memories I'll never forget. Every itinerary, every viewpoint, and every conversation made this journey feel truly special.\"",
   name: "Emily Carter",
   trip: "Milford Track",
   image: IMG.testimonial,
@@ -359,14 +359,14 @@ export const FEATURED_QUOTE = {
 export const REVIEWS = [
   {
     title: "Every step felt worth it",
-    body: "I've done plenty of tours before, but this one stood out. The route was stunning, the guide knew every hidden viewpoint, and the small group made it easy to connect with everyone. It felt less like a package and more like an adventure with friends",
+    body: "I've done plenty of tours before, but this one stood out. The itinerary was stunning, the guide knew every hidden viewpoint, and the small group made it easy to connect with everyone. It felt less like a package and more like an adventure with friends",
     name: "Sofia Williams",
     trip: "Annapurna Base Camp",
     avatar: IMG.avatar1,
   },
   {
     title: "Memories that stayed with me",
-    body: "Watching the sunrise from the peak was unforgettable, but what made the trip special was the people. The guide created such a welcoming atmosphere that even solo travelers felt like part of the group from day one.",
+    body: "Watching the sunrise from the viewpoint was unforgettable, but what made the trip special was the people. The guide created such a welcoming atmosphere that even solo travelers felt like part of the group from day one.",
     name: "Liam Carter",
     trip: "Mount Kilimanjaro",
     avatar: IMG.avatar2,
@@ -391,24 +391,24 @@ export const JOURNAL = [
   },
   {
     tags: ["guide notes", "4 min read"],
-    title: "Why the same route feels different every season",
+    title: "Why the same itinerary feels different every season",
     href: "/blog/why-the-same-route-feels-different-every-season",
     image: IMG.cms,
     alt: "Seasonal shift along a familiar path on ",
   },
   {
     tags: ["guide notes", "4 min read"],
-    title: "The gear we replace every year",
+    title: "The equipment we replace every year",
     href: "/blog/the-gear-we-replace-every-year",
     image: IMG.cms,
-    alt: "Guide safety gear including rope and fir",
+    alt: "Guide travel equipment including rope and first-aid supplies",
   },
 ];
 
 export const FAQ_SECTION = {
   badge: "FAQ",
   title: ["Good to know", "before you go"],
-  body: "From packing lists to route difficulty, here's everything you need to feel prepared.",
+  body: "From packing lists to tour difficulty, here's everything you need to feel prepared.",
   cta: "Get in touch",
   ctaHref: "/contact",
 };
@@ -417,17 +417,17 @@ export const FAQS = [
   { q: "How experienced do I need to be?", a: "If you can walk a few hours on uneven ground, you're ready." },
   { q: "How many people are in a group?", a: "Usually 6 to 8— small enough to stay quiet." },
   { q: "What should I bring?", a: "A packing list goes out once you book, built around the season ahead." },
-  { q: "What happens if the weather turns?", a: "Guides know the alternate routes and adjust the day." },
+  { q: "What happens if the weather turns?", a: "Guides know the alternate itineraries and adjust the day." },
   { q: "Can I change my dates after booking?", a: "Yes, up to 14 days before departure, no extra cost." },
 ];
 
 export const FOOTER = {
   title: ["Your next adventure", "starts here"],
-  body: "Explore remote landscapes, local stories, and unforgettable moments waiting beyond the next ridge.",
+  body: "Explore remote landscapes, local stories, and unforgettable moments waiting just around the corner.",
   cta: "Explore Tours",
   ctaHref: "/tours",
   background: IMG.footer,
-  backgroundAlt: "Traveller resting on a mountain path with a backpack",
+  backgroundAlt: "Traveller resting on a scenic path with a backpack",
   subline: "Guided tours, breathtaking destinations, and unforgettable moments—all thoughtfully crafted in one place.",
   copyright: "© 2026 API Touch",
   columns: [

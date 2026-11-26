@@ -62,7 +62,7 @@ export default function ReviewsPage() {
         <div className="flex flex-col items-start gap-4 rounded-lg bg-mist p-6 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between min-[900px]:gap-6">
           <div className="flex min-w-0 flex-col gap-1">
             <p className="t-h4 text-ink">Traveled with us?</p>
-            <p className="t-body">Tell us how the route felt — the next group reads every word of it.</p>
+            <p className="t-body">Tell us how the trip felt — the next group reads every word of it.</p>
           </div>
           <a href="/contact" className="btn btn-dark w-[140px]">
             get in touch

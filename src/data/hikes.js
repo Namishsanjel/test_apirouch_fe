@@ -6,7 +6,7 @@ export const HIKES_PAGE = {
   documentTitle: "Tours & Packages — API Touch",
   badge: "Tours & Packages",
   title: ["Find", "Your", "Next", "Trip"],
-  sub: "From peaceful forest walks to challenging mountain summits, discover adventures made for every kind of explorer.",
+  sub: "From peaceful countryside strolls to adventurous getaways, discover journeys made for every kind of explorer.",
   filters: ["All", "Easy", "Moderate", "Tough"],
 };
 
@@ -17,7 +17,7 @@ export const HIKES_ALL = [
     title: "Annapurna Base Camp",
     href: "/tours/annapurna-base-camp",
     image: "/img/abc.jpg",
-    alt: "Annapurna Base Camp tour photo showing scenic mountain conditions and landscape",
+    alt: "Annapurna Base Camp tour photo showing scenic views and landscape",
   },
   {
     slug: "inca-tour-machu-picchu",
@@ -25,7 +25,7 @@ export const HIKES_ALL = [
     title: "Inca Trail to Machu Picchu",
     href: "/tours/inca-tour-machu-picchu",
     image: "/img/machu-picchu.jpg",
-    alt: "Inca Trail to Machu Picchu guided tour hero image for API Touch outdoor adventures",
+    alt: "Inca Trail to Machu Picchu guided tour hero image for API Touch travel adventures",
   },
   {
     slug: "cinque-terre-coast",
@@ -33,7 +33,7 @@ export const HIKES_ALL = [
     title: "Cinque Terre Coastal Trail",
     href: "/tours/cinque-terre-coast",
     image: "/img/cinque-terre-coastal-trail.jpg",
-    alt: "Cinque Terre Coastal Trail guided tour hero image for API Touch outdoor adventures",
+    alt: "Cinque Terre Coastal Trail guided tour hero image for API Touch travel adventures",
   },
   {
     slug: "mount-kilimanjaro",
@@ -41,7 +41,7 @@ export const HIKES_ALL = [
     title: "Mount Kilimanjaro",
     href: "/tours/mount-kilimanjaro",
     image: "/img/mount-kilimanjaro.jpg",
-    alt: "Mount Kilimanjaro guided tour hero image for API Touch outdoor adventures",
+    alt: "Mount Kilimanjaro guided tour hero image for API Touch travel adventures",
   },
   {
     slug: "black-forest-ridge",
@@ -49,7 +49,7 @@ export const HIKES_ALL = [
     title: "Black Forest Ridge Trail",
     href: "/tours/black-forest-ridge",
     image: "/img/black-forest-ridge-trail.jpg",
-    alt: "Black Forest Ridge Trail guided tour hero image for API Touch outdoor adventures",
+    alt: "Black Forest Ridge Trail guided tour hero image for API Touch travel adventures",
   },
   {
     slug: "milford-track",
@@ -73,7 +73,7 @@ export const HIKES_ALL = [
     title: "Tour du Mont Blanc",
     href: "/tours/tour-du-mont-blanc",
     image: "/img/tour-du-mont-blanc.jpg",
-    alt: "The alpine route of the Tour du Mont Blanc with the massif rising in the distance",
+    alt: "The scenic route of the Tour du Mont Blanc with the peaks rising in the distance",
   },
   {
     slug: "west-highland-way",
@@ -81,7 +81,7 @@ export const HIKES_ALL = [
     title: "West Highland Way",
     href: "/tours/west-highland-way",
     image: "/img/west-highland-way.jpg",
-    alt: "The wide open moorland of Rannoch Moor along the West Highland Way",
+    alt: "The wide open countryside of Rannoch Moor along the West Highland Way",
   },
   {
     slug: "laugavegur",
@@ -89,6 +89,6 @@ export const HIKES_ALL = [
     title: "Laugavegur Trail",
     href: "/tours/laugavegur",
     image: "/img/laugavegur-trail.jpg",
-    alt: "The rhyolite mountains of Landmannalaugar along the start of the Laugavegur Trail",
+    alt: "The colourful landscapes of Landmannalaugar along the start of the Laugavegur Trail",
   },
 ];

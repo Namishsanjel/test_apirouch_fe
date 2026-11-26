@@ -10,7 +10,7 @@ import { GUIDE_SECTION, PAGES } from "../data/content.js";
 const STRENGTHS = [
   ...ABOUT.why.cards,
   { title: "Experienced guides", body: GUIDE_SECTION.points[0].body },
-  { title: "Personalized service", body: "Beginners get the full walkthrough, gear to footing, no assumptions made." },
+  { title: "Personalized service", body: "Beginners get the full walkthrough, start to finish, no assumptions made." },
   { title: "Safety & support", body: GUIDE_SECTION.points[1].body },
 ];
 

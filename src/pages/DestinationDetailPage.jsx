@@ -135,7 +135,7 @@ export default function DestinationDetailPage() {
         <div className="flex flex-col items-start gap-4 rounded-lg bg-mist p-6 min-[900px]:flex-row min-[900px]:items-center min-[900px]:justify-between min-[900px]:gap-6">
           <div className="flex min-w-0 flex-col gap-1">
             <p className="t-h4 text-ink">Want {dest.name} built around you?</p>
-            <p className="t-body">Tell us your dates and group size — we come back with a route and a price.</p>
+            <p className="t-body">Tell us your dates and group size — we come back with an itinerary and a price.</p>
           </div>
           {/* To the plan-your-trip form with this destination's name already in
               the field, encoded because names carry spaces and accents. */}
