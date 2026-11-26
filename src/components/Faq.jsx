@@ -130,7 +130,7 @@ export function FaqList({ className = "w-full min-w-0" }) {
   );
 }
 
-export default function Faq({ showCta = true }) {
+export default function Faq({ showCta = true, showAllLink = true }) {
   const { badge, title, body, cta, ctaHref } = FAQ_SECTION;
 
   return (
@@ -154,9 +154,11 @@ export default function Faq({ showCta = true }) {
               {cta}
             </a>
           ) : null}
-          <a href="/faq" className="t-link mt-3 block text-ink underline underline-offset-4">
-            Read all FAQs
-          </a>
+          {showAllLink ? (
+            <a href="/faq" className="t-link mt-3 block text-ink underline underline-offset-4">
+              Read all FAQs
+            </a>
+          ) : null}
         </div>
 
         {/* accordion */}

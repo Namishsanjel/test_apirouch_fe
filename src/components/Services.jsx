@@ -22,9 +22,6 @@ export default function Services() {
           <a href={ctaHref} className="btn btn-dark mt-4 w-[134px]">
             {cta}
           </a>
-          <a href="/services" className="t-link mt-3 block text-ink underline underline-offset-4">
-            All services
-          </a>
         </div>
 
         {/* right column — three service cards (Visas / Air Ticketing / Hotel Booking) */}
