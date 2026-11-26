@@ -47,7 +47,7 @@ export function ServiceCardSkeleton({ className = "" }) {
  */
 export function FeatureCardSkeleton({ className = "" }) {
   return (
-    <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-4 ${className}`}>
+    <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-5 ${className}`}>
       <Skeleton tone="cream" radius="sm" className="h-[36px] w-[36px]" />
       <Skeleton tone="cream" className="mt-8 h-[24px] w-[60%]" />
       <Skeleton tone="cream" className="mt-1 h-[22px] w-full" />

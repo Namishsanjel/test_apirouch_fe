@@ -7,7 +7,6 @@ import Hikes from "../components/Hikes.jsx";
 import Destinations from "../components/Destinations.jsx";
 import Included from "../components/Included.jsx";
 import Guide from "../components/Guide.jsx";
-import Services from "../components/Services.jsx";
 import Faq from "../components/Faq.jsx";
 import Footer from "../components/Footer.jsx";
 
@@ -28,7 +27,6 @@ export default function Home() {
         <Destinations />
         <Included />
         <Guide />
-        <Services />
         <Faq />
       </main>
       <Footer />
