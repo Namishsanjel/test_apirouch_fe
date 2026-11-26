@@ -31,9 +31,6 @@ export default function Destinations() {
       <div className="container-x">
         <SectionHead badge={DESTINATIONS_SECTION.badge} title={DESTINATIONS_SECTION.title}>
           <HeadCopy>{DESTINATIONS_SECTION.body}</HeadCopy>
-          <a href="/destinations" className="t-link text-ink underline underline-offset-4">
-            All destinations
-          </a>
         </SectionHead>
 
         {status === STRAPI_STATUS.ERROR ? (

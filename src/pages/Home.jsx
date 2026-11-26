@@ -29,7 +29,7 @@ export default function Home() {
         <Included />
         <Guide />
         <Services />
-        <Faq />
+        <Faq showAllLink={false} />
       </main>
       <Footer />
     </>
