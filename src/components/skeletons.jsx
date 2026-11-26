@@ -315,15 +315,6 @@ export function TourDetailSkeleton({ others = 2 }) {
   );
 }
 
-/** The tour detail page's photo strip, when the shared gallery is still in flight. */
-export function GalleryStripSkeleton() {
-  return (
-    <SkeletonRegion label="Loading photos…" className="relative h-[240px] overflow-hidden rounded-lg min-[639.98px]:h-[300px] min-[1100px]:h-[380px]">
-      <Skeleton className="h-full w-full" />
-    </SkeletonRegion>
-  );
-}
-
 /** The destination page's "tour packages" block, while the tours list is in flight. */
 export function TourPackagesSkeleton({ count = 2 }) {
   return (

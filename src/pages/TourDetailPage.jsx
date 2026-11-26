@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { prefersReducedMotion } from "../motion.js";
 import PageShell from "../components/PageShell.jsx";
 import { PageHeader, ImgBlur } from "../components/ui.jsx";
 import TourCard from "../components/TourCard.jsx";
@@ -15,7 +16,7 @@ import {
 } from "../lib/strapiData.jsx";
 import { tourListings, asTourDetail, galleryItems, destinationList } from "../lib/catalog.js";
 import { rememberTour } from "../lib/prefill.js";
-import { TourDetailSkeleton, GalleryStripSkeleton } from "../components/skeletons.jsx";
+import { TourDetailSkeleton } from "../components/skeletons.jsx";
 import { SectionError, SectionEmpty } from "../components/SectionError.jsx";
 
 function CheckIcon() {
@@ -41,6 +42,114 @@ function Arrow({ dir }) {
   );
 }
 
+const SLIDE_MS = 450;
+
+/**
+ * The sidebar photo as a horizontal slideshow over the tour's photos.
+ *
+ * A two-up track sits inside the fixed-height, rounded, overflow-hidden frame.
+ * For a Next click the track is [current, next] and slides -100% (current moves
+ * out left, next enters from the right); for a Previous click it is
+ * [prev, current] and starts at -100% sliding to 0 (current moves out right,
+ * prev enters from the left). On transitionend the committed index advances and
+ * the track resets. Clicks are ignored while sliding, wrap-around keeps the
+ * button's direction, prefers-reduced-motion swaps with no animation, and a
+ * single photo renders plainly with no arrows. No library — React state + CSS
+ * transform (translateX) with overflow hidden.
+ */
+function SidebarSlideshow({ images, className = "" }) {
+  const count = images.length;
+  // `index` is the committed photo. While sliding, `dir` is +1/-1 and `active`
+  // positions the track at the slide's end offset (start → end is animated via
+  // the effect below); at rest, `dir` is 0 and the first frame shows `index`.
+  const [state, setState] = useState({ index: 0, dir: 0, active: false });
+  const { index, dir, active } = state;
+
+  const go = (step) => {
+    if (count < 2 || dir !== 0) return; // ignore clicks during a transition
+    if (prefersReducedMotion()) {
+      setState((s) => ({ index: (s.index + step + count) % count, dir: 0, active: false }));
+      return;
+    }
+    setState((s) => ({ ...s, dir: step, active: false }));
+  };
+
+  // When a slide begins (dir set, not yet active), flip to the end offset on the
+  // next frame so the browser animates from the start offset it has painted.
+  useEffect(() => {
+    if (dir === 0 || active) return;
+    const raf = requestAnimationFrame(() => setState((s) => (s.dir ? { ...s, active: true } : s)));
+    return () => cancelAnimationFrame(raf);
+  }, [dir, active]);
+
+  const finish = () => {
+    if (dir === 0) return;
+    setState((s) => ({ index: (s.index + s.dir + count) % count, dir: 0, active: false }));
+  };
+
+  const prevIdx = (index - 1 + count) % count;
+  const nextIdx = (index + 1) % count;
+
+  // Pair the frames by direction: Next = [current, next] sliding 0 → -100%;
+  // Prev = [prev, current] sliding -100% → 0. The end offset is where the track
+  // sits once `active`; the start offset is the opposite end.
+  const isNext = dir > 0;
+  const left = dir === 0 ? images[index] : isNext ? images[index] : images[prevIdx];
+  const right = dir === 0 ? images[nextIdx] : isNext ? images[nextIdx] : images[index];
+
+  // Track is 200% wide, so one frame is 50% of the track's own width.
+  const startOffset = dir === 0 ? 0 : isNext ? 0 : -50;
+  const endOffset = dir === 0 ? 0 : isNext ? -50 : 0;
+  const offset = active ? endOffset : startOffset;
+
+  return (
+    <div className={`relative h-[170px] overflow-hidden rounded-lg ${className}`}>
+      <div
+        className="flex h-full w-[200%] will-change-transform"
+        style={{
+          transform: `translateX(${offset}%)`,
+          transition: active ? `transform ${SLIDE_MS}ms ease-in-out` : "none",
+        }}
+        onTransitionEnd={finish}
+      >
+        <img
+          src={left?.src}
+          alt={left?.alt ?? ""}
+          className="h-full w-1/2 shrink-0 object-cover"
+          loading="lazy"
+        />
+        <img
+          src={right?.src}
+          alt={right?.alt ?? ""}
+          className="h-full w-1/2 shrink-0 object-cover"
+          loading="lazy"
+        />
+      </div>
+
+      {count > 1 ? (
+        <div className="absolute bottom-3 right-3 z-10 flex gap-2">
+          <button
+            type="button"
+            aria-label="Previous image"
+            onClick={() => go(-1)}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-mist text-ink"
+          >
+            <Arrow dir="left" />
+          </button>
+          <button
+            type="button"
+            aria-label="Next image"
+            onClick={() => go(1)}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-mist text-ink"
+          >
+            <Arrow dir="right" />
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export default function TourDetailPage() {
   const slug = window.location.pathname.split("/").filter(Boolean).pop() ?? "";
   const { data: strapiTours, status: toursStatus, retry: retryTours } = useStrapiToursState();
@@ -48,15 +157,12 @@ export default function TourDetailPage() {
   // The shared site gallery, fetched only for a tour that turns out to have no
   // photos of its own. Same path string as GalleryPage, so the 60s cache hands
   // back the request that page already made.
-  const { items: strapiGallery, status: galleryStatus, retry: retryGallery } = useStrapiList(GALLERY_PATH);
+  const { items: strapiGallery } = useStrapiList(GALLERY_PATH);
   const records = useMemo(() => tourListings(strapiTours), [strapiTours]);
   const record = records.find((h) => h.slug === slug) ?? null;
   const detail = record ? asTourDetail(record) : null;
-  const [shot, setShot] = useState(0);
 
   const loading = toursStatus === STRAPI_STATUS.LOADING;
-  // the photo strip has its own request; only that block waits on it
-  const galleryLoading = galleryStatus === STRAPI_STATUS.LOADING;
 
   const tagline = (detail?.overview ?? "").split("\n\n")[0] ?? "";
 
@@ -153,6 +259,20 @@ export default function TourDetailPage() {
      GALLERY, which are hardcoded copy for a collection we could not read. */
   const cmsGallery = galleryItems(Array.isArray(strapiGallery) ? strapiGallery[0]?.photos : null);
   const gallery = record.gallery?.length ? record.gallery : cmsGallery;
+  /* Sidebar slideshow photos: the cover first (record.image), then the tour's
+     gallery photos, de-duplicated by src so the same image never shows twice. */
+  const sidebarImages = (() => {
+    const list = [];
+    const seen = new Set();
+    const push = (img) => {
+      if (!img?.src || seen.has(img.src)) return;
+      seen.add(img.src);
+      list.push({ src: img.src, alt: img.alt ?? record.alt ?? "" });
+    };
+    push({ src: record.image, alt: record.alt });
+    gallery.forEach(push);
+    return list;
+  })();
   const tourSchema = tourJsonLd({
     ...record,
     // structured values the schema already knows how to emit
@@ -215,53 +335,6 @@ export default function TourDetailPage() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h2 className="t-h4 text-ink">Gallery</h2>
-            {galleryLoading ? (
-              <GalleryStripSkeleton />
-            ) : galleryStatus === STRAPI_STATUS.ERROR ? (
-              /* held at the strip's own 240 / 300 / 380px box, so the page does
-                 not jump when the retry brings the photos in */
-              <SectionError
-                onRetry={retryGallery}
-                className="flex h-[240px] items-center min-[639.98px]:h-[300px] min-[1100px]:h-[380px]"
-              />
-            ) : !gallery.length ? (
-              /* this tour published no photos and the shared gallery has none
-                 either: an empty frame in the same box, not a broken one */
-              <div className="relative h-[240px] overflow-hidden rounded-lg min-[639.98px]:h-[300px] min-[1100px]:h-[380px]">
-                <SectionEmpty className="h-full w-full justify-center" />
-              </div>
-            ) : (
-              <div className="relative h-[240px] overflow-hidden rounded-lg min-[639.98px]:h-[300px] min-[1100px]:h-[380px]">
-                <img
-                  key={shot}
-                  src={gallery[shot]?.src}
-                  alt={gallery[shot]?.alt ?? record.alt}
-                  className="shot-in absolute inset-0 h-full w-full object-cover"
-                />
-                <div className="absolute bottom-4 right-4 z-10 flex gap-2">
-                  <button
-                    type="button"
-                    aria-label="Previous photo"
-                    onClick={() => setShot((i) => (i - 1 + gallery.length) % gallery.length)}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-mist text-ink"
-                  >
-                    <Arrow dir="left" />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next photo"
-                    onClick={() => setShot((i) => (i + 1) % gallery.length)}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-mist text-ink"
-                  >
-                    <Arrow dir="right" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-col gap-4">
             <h2 className="t-h4 text-ink">Tour Schedule</h2>
             <Accordion
               items={detail.itinerary.map((d, i) => ({
@@ -289,9 +362,7 @@ export default function TourDetailPage() {
             Below 1100px the card stacks under the copy with nothing beside it,
             so it stays in flow. */}
         <aside className="flex w-full min-w-0 shrink-0 flex-col gap-5 self-start rounded-lg bg-mist p-6 min-[1100px]:sticky min-[1100px]:top-6 min-[1100px]:w-[470px]">
-          <div className="h-[170px] overflow-hidden rounded-lg">
-            <img src={record.image} alt={record.alt} className="h-full w-full object-cover" />
-          </div>
+          <SidebarSlideshow images={sidebarImages} />
 
           {detail.start ? (
             <div className="flex items-center gap-3">
