@@ -29,7 +29,7 @@ const DEFAULT_ICON = "2327548604";
 /** Mist card: icon, heading, one-line description (measured 625/305 x 180). */
 function FeatureCard({ item, className = "" }) {
   return (
-    <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-4 ${className}`}>
+    <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-5 ${className}`}>
       <Icon id={SERVICE_ICON[item.title] ?? DEFAULT_ICON} size={36} />
       <p className="t-h4 mt-8">{item.title}</p>
       <p className="t-body mt-1">{item.shortDescription}</p>
@@ -42,7 +42,7 @@ function PhotoCard({ item, className = "" }) {
   return (
     <div className={`relative h-[180px] overflow-hidden rounded-lg ${className}`}>
       <img src={item.image} alt="" aria-hidden="true" className="absolute inset-0 h-full w-full object-cover" />
-      <div className="absolute inset-0 flex flex-col justify-end p-4">
+      <div className="absolute inset-0 flex flex-col justify-end p-5">
         <p className="t-h4 text-mist">{item.title}</p>
         <p className="t-body mt-1 text-sage">{item.body}</p>
       </div>

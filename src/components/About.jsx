@@ -92,7 +92,7 @@ export default function About() {
         {/* centre photo */}
         <img
           src={ABOUT.image}
-          alt="Scenic travel landscape used to introduc"
+          alt="Traveller standing in a scenic landscape"
           className="h-[380px] w-full shrink-0 rounded-lg object-cover min-[1100px]:h-[600px] min-[1100px]:w-[406px]"
         />
 
