@@ -70,9 +70,6 @@ export default function AboutPage() {
                 <Words text={ABOUT.title} />
               </h1>
             </div>
-            <p className="t-body w-full min-w-0 text-left min-[900px]:text-right" style={{ maxWidth: 706 }}>
-              {ABOUT.sub}
-            </p>
           </div>
           <img
             src={ABOUT.banner}

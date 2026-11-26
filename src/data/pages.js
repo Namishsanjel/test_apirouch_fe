@@ -1,7 +1,6 @@
 export const ABOUT = {
   badge: "About Us",
   title: "Where Every Journey Begins",
-  sub: "Meet the passionate explorers, guides, and adventure enthusiasts creating unforgettable travel experiences.",
   banner: "/img/about1.jpeg",
   story: {
     badge: "Our Story",
