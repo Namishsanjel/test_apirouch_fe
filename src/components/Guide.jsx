@@ -1,9 +1,8 @@
 import { GUIDE_SECTION } from "../data/content.js";
-import Icon from "../data/Icon.jsx";
 import { Eyebrow } from "./ui.jsx";
 
 export default function Guide() {
-  const { badge, title, body1, body2, points, storyImage, storyImageAlt } = GUIDE_SECTION;
+  const { badge, title, sectionBody1, sectionBody2, storyImage, storyImageAlt } = GUIDE_SECTION;
 
   return (
     <section className="section-py">
@@ -18,18 +17,8 @@ export default function Guide() {
               </span>
             ))}
           </h2>
-          <p className="t-body mt-4 max-w-[480px]">{body1}</p>
-          <p className="t-body mt-2 max-w-[480px]">{body2}</p>
-
-          <div className="mt-8 grid grid-cols-1 gap-6 min-[639.98px]:mt-12 min-[639.98px]:grid-cols-3">
-            {points.map((pt) => (
-              <div key={pt.title} className="min-w-0">
-                <Icon id={pt.icon} size={36} />
-                <p className="t-h4 mt-4">{pt.title}</p>
-                <p className="t-body mt-1">{pt.body}</p>
-              </div>
-            ))}
-          </div>
+          <p className="t-body mt-4 max-w-[480px]">{sectionBody1}</p>
+          <p className="t-body mt-2 max-w-[480px]">{sectionBody2}</p>
         </div>
 
         {/* section photo */}
