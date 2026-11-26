@@ -6,8 +6,8 @@ export const ABOUT = {
   story: {
     badge: "Our Story",
     paragraphs: [
-      "API Touch began with a handful of weekend trips among friends who wanted more than a walk in the woods. We were tired of generic itineraries and guides who treated every group the same. So we built something smaller — itineraries chosen with care, groups kept intentionally intimate, and a belief that travel deserves more attention than a checklist.",
-      "What started as informal weekend trips has become a small team of guides who know these regions personally. Every tour we run is shaped by that same instinct — go slower, plan better, and treat every group like it's the only one we're guiding that week.",
+      "API Touch began with a handful of weekend getaways among friends who wanted more than just another holiday. We were tired of generic travel packages and experiences that treated every traveller the same. So we built something different — thoughtfully curated itineraries, carefully selected destinations, intentionally small groups, and a belief that travel should be about meaningful experiences, not simply ticking places off a checklist.",
+      "What started as informal weekend trips has grown into a dedicated team of travel experts who know these destinations firsthand. Every journey we offer is shaped by that same philosophy — take the time to explore, plan every detail with care, and treat every traveller as if they're the only ones we're looking after that week.",
     ],
     image: "/img/team.jpeg",
   },
