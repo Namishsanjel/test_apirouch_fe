@@ -116,9 +116,6 @@ export default function AboutPage() {
             rightW={846}
           >
             <HeadCopy>{ABOUT.why.body}</HeadCopy>
-            <a href="/why-apitouch" className="t-link text-ink underline underline-offset-4">
-              All reasons to travel with us
-            </a>
           </SectionHead>
           <div className="relative h-auto overflow-hidden rounded-lg p-4 pt-[180px] min-[639.98px]:p-6 min-[639.98px]:pt-[200px] min-[1100px]:h-[444px] min-[1100px]:p-[24px] min-[1100px]:pt-[240px]">
             <img
