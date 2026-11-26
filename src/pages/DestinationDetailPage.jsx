@@ -96,7 +96,7 @@ export default function DestinationDetailPage() {
     <PageShell>
       <JsonLd id="jsonld-breadcrumb-destination" data={breadcrumbSchema} />
       <section className="container-x flex flex-col gap-6 pt-[120px] max-[1099.98px]:pt-[100px] max-[639.98px]:pt-[88px]">
-        <PageHeader badge={dest.region} title={dest.name} sub={dest.body} />
+        <PageHeader badge={dest.region} title={dest.name} />
         <img src={dest.image} alt={dest.alt} className="h-[240px] w-full rounded-lg object-cover min-[639.98px]:h-[320px] min-[1100px]:h-[420px]" />
         {/* the CMS description is a blocks field; the hardcoded one is plain text */}
         {Array.isArray(dest.description) ? <Blocks content={dest.description} /> : null}

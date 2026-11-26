@@ -104,7 +104,6 @@ function DestinationPreview({ dest }) {
           <div className="flex items-end justify-between gap-4 min-[1100px]:gap-8">
             <div className="flex min-w-0 flex-col gap-3">
               <h3 className="t-h3l text-mist">{dest.name}</h3>
-              <p className="t-body max-w-[430px] text-mist max-[1099.98px]:hidden">{dest.body}</p>
             </div>
             <span className="btn btn-cream w-[104px]">explore</span>
           </div>
