@@ -6,8 +6,8 @@ export const ABOUT = {
   story: {
     badge: "Our Story",
     paragraphs: [
-      "API Touch began with a handful of weekend hikes among friends who wanted more than a walk in the woods. We were tired of generic itineraries and guides who treated every group the same. So we built something smaller — routes chosen with care, groups kept intentionally intimate, and a belief that the outdoors deserves more attention than a checklist.",
-      "What started as informal weekend trips has become a small team of guides who know these mountains personally. Every hike we run is shaped by that same instinct — go slower, plan better, and treat every group like it's the only one we're guiding that week.",
+      "API Touch began with a handful of weekend trips among friends who wanted more than a walk in the woods. We were tired of generic itineraries and guides who treated every group the same. So we built something smaller — itineraries chosen with care, groups kept intentionally intimate, and a belief that travel deserves more attention than a checklist.",
+      "What started as informal weekend trips has become a small team of guides who know these regions personally. Every tour we run is shaped by that same instinct — go slower, plan better, and treat every group like it's the only one we're guiding that week.",
     ],
     image: "/img/team.jpeg",
   },
@@ -17,15 +17,15 @@ export const ABOUT = {
     body: "Thoughtfully crafted experiences that bring together adventure, connection, and the beauty of the outdoors in every journey.",
     banner: "/img/DSeT2ifT6plLUrqFksN1V5rvoJc-36b270.jpg",
     cards: [
-      { title: "Local guides, not scripts", body: "Every route led by someone who's walked it before." },
-      { title: "Small groups, real caps", body: "Never more than 8 hikers joining a single guide." },
-      { title: "Chosen routes, not permits", body: "Fewer routes offered, each one picked on purpose." },
+      { title: "Local guides, not scripts", body: "Every itinerary led by someone who's travelled it before." },
+      { title: "Small groups, real caps", body: "Never more than 8 travellers joining a single guide." },
+      { title: "Chosen itineraries, not checklists", body: "Fewer itineraries offered, each one picked on purpose." },
     ],
   },
   guides: {
     badge: "Our Guides",
     title: ["Experts who know", "every path"],
-    body: "From hidden viewpoints to challenging climbs, our guides lead every journey with experience and care.",
+    body: "From hidden viewpoints to rewarding excursions, our guides lead every journey with experience and care.",
     people: [
       { role: "lead guide", name: "Maren K.", image: "/img/9LRjdvq7qodL0yYahLpqgygYuk-c022b9.png" },
       { role: "coastal route specialist", name: "Sofia Bianchi", image: "/img/PIX3swnixBY1QBeWJeiz8FGXcHg-c022b9.png" },
@@ -86,16 +86,16 @@ export const JOURNAL_PAGE = {
     href: "/blog/what-we-tell-you-before-day-one",
     image: "/img/NENgCJ6izkRDL4t6pG8ydu5abM-36b270.jpg",
   },
-  categories: ["All", "Trip planning", "Guide notes", "Gear"],
+  categories: ["All", "Trip planning", "Guide notes", "Equipment"],
   posts: [
-    { tag: "Guide notes", read: "4 min read", title: "Why the same route feels different every season", href: "/blog/why-the-same-route-feels-different-every-season", image: "/img/QUqWUHn2rJ1LpPe4XycDXekcI0-36b270.jpg" },
-    { tag: "Gear", read: "4 min read", title: "The gear we replace every year", href: "/blog/the-gear-we-replace-every-year", image: "/img/D6hhxyu1yvA3ktjfHLLQp39hGo-36b270.jpg" },
+    { tag: "Guide notes", read: "4 min read", title: "Why the same itinerary feels different every season", href: "/blog/why-the-same-route-feels-different-every-season", image: "/img/QUqWUHn2rJ1LpPe4XycDXekcI0-36b270.jpg" },
+    { tag: "Gear", read: "4 min read", title: "The equipment we replace every year", href: "/blog/the-gear-we-replace-every-year", image: "/img/D6hhxyu1yvA3ktjfHLLQp39hGo-36b270.jpg" },
     { tag: "Guide notes", read: "4 min read", title: "When to turn a group around", href: "/blog/when-to-turn-a-group-around", image: "/img/LB8mF9nLMz2COnEkZJ8sN18k4M-36b270.jpg" },
     { tag: "Gear", read: "3 min read", title: "What actually goes in your pack", href: "/blog/what-actually-goes-in-your-pack", image: "/img/wEacF8wyJjiVnuzit9TMFQ2G0sw-36b270.jpg" },
     { tag: "Trip planning", read: "4 min read", title: "What eight days on foot actually changes", href: "/blog/what-eight-days-on-foot-actually-changes", image: "/img/QNXHdlqZw3aarEaU7hEjT7DdZZk-36b270.jpg" },
-    { tag: "Trip planning", read: "4 min read", title: "What we look for in a campsite", href: "/blog/what-we-look-for-in-a-campsite", image: "/img/wOa2z7EWlsHWggwolHDiXaCMxmE-36b270.jpg" },
-    { tag: "Guide notes", read: "4 min read", title: "How we choose a route", href: "/blog/how-we-pick-a-route", image: "/img/A80eHXIRREM5birbFvpWFn5E-36b270.jpg" },
-    { tag: "Guide notes", read: "3 min read", title: "Reading a mountain before you climb it", href: "/blog/reading-a-mountain-before-you-climb-it", image: "/img/k54Jt90u1SbWB4REScNu4VTIVc-36b270.jpg" },
+    { tag: "Trip planning", read: "4 min read", title: "What we look for in a place to stay", href: "/blog/what-we-look-for-in-a-campsite", image: "/img/wOa2z7EWlsHWggwolHDiXaCMxmE-36b270.jpg" },
+    { tag: "Guide notes", read: "4 min read", title: "How we choose an itinerary", href: "/blog/how-we-pick-a-route", image: "/img/A80eHXIRREM5birbFvpWFn5E-36b270.jpg" },
+    { tag: "Guide notes", read: "3 min read", title: "Reading a destination before you arrive", href: "/blog/reading-a-mountain-before-you-climb-it", image: "/img/k54Jt90u1SbWB4REScNu4VTIVc-36b270.jpg" },
     { tag: "Trip planning", read: "3 min read", title: "Why we cap groups at eight", href: "/blog/why-we-cap-groups-at-eight", image: "/img/owzBIx6L2o5qYj65iVBUPi7GF6A-36b270.jpg" },
   ],
 };

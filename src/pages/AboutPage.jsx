@@ -100,7 +100,7 @@ export default function AboutPage() {
             <div className="relative h-[280px] w-full shrink-0 min-[1340px]:h-auto min-[1340px]:w-[360px] min-[1340px]:self-stretch">
               <img
                 src={ABOUT.story.image}
-                alt="The API Touch team on a group hike"
+                alt="The API Touch team on a group trip"
                 className="absolute inset-0 h-full w-full rounded-lg object-cover object-[center_30%]"
               />
             </div>

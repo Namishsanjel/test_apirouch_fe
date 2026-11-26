@@ -416,14 +416,6 @@ export function DestinationDetailSkeleton() {
               <Skeleton className="h-[17px] w-[180px]" />
               <Skeleton className="h-[40px] w-[340px] max-w-full min-[639.98px]:h-[70px]" />
             </div>
-            <div
-              className="flex w-full min-w-0 flex-col gap-2 min-[900px]:items-end"
-              style={{ maxWidth: 706 }}
-            >
-              <Skeleton className="h-[22px] w-full" />
-              <Skeleton className="h-[22px] w-[94%] min-[900px]:self-end" />
-              <Skeleton className="h-[22px] w-[70%] min-[900px]:self-end" />
-            </div>
           </div>
           <Skeleton className="h-[240px] w-full min-[639.98px]:h-[320px] min-[1100px]:h-[420px]" />
         </SkeletonRegion>

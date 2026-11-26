@@ -9,22 +9,22 @@ export const LEGAL = {
       {
         heading: "",
         paragraphs: [
-          "These Terms set out the ground rules for booking a trek with API Touch and using our website. Please read them alongside our Privacy Policy before you book.",
+          "These Terms set out the ground rules for booking a tour with API Touch and using our website. Please read them alongside our Privacy Policy before you book.",
         ],
       },
       {
         heading: "About API Touch",
         paragraphs: [
-          "By using this site or booking a hike with us, you agree to the terms below. For how we handle your data, see our Privacy Policy.",
+          "By using this site or booking a tour with us, you agree to the terms below. For how we handle your data, see our Privacy Policy.",
         ],
       },
       {
         heading: "Booking & Payments",
         paragraphs: [
           "A booking is confirmed once payment (in full or as a deposit, depending on the trip) has been received and you get a confirmation email from us.",
-          "Prices listed include what's stated on each hike's detail page; anything not listed as included is the traveler's responsibility.",
+          "Prices listed include what's stated on each tour's detail page; anything not listed as included is the traveler's responsibility.",
           "Payment is processed through our third-party payment provider. We don't store your full card details.",
-          "Group size, dates, and route availability are subject to change until a booking is confirmed.",
+          "Group size, dates, and tour availability are subject to change until a booking is confirmed.",
         ],
       },
       {
@@ -32,38 +32,38 @@ export const LEGAL = {
         paragraphs: [
           "Cancellations made 15 days or more before departure are eligible for 50% refund, minus any non-recoverable costs (permits, deposits paid to local partners).",
           "Cancellations made after this window may not be refundable.",
-          "We reserve the right to cancel or reschedule a trek due to unsafe conditions, insufficient group size, or events outside our control, in which case you'll be offered a full refund or the option to rebook.",
+          "We reserve the right to cancel or reschedule a tour due to unsafe conditions, insufficient group size, or events outside our control, in which case you'll be offered a full refund or the option to rebook.",
           "We strongly recommend travelers carry independent travel insurance to cover cancellations, delays, and medical emergencies.",
         ],
       },
       {
         heading: "Traveler Responsibilities",
         paragraphs: [
-          "You're responsible for arriving in the physical condition appropriate for your chosen route's difficulty rating.",
+          "You're responsible for arriving in the physical condition appropriate for your chosen tour's difficulty rating.",
           "Any relevant health conditions should be disclosed to your guide before departure.",
-          "Travelers are expected to follow guide instructions throughout the trek, particularly around pacing, route decisions, and safety calls.",
+          "Travelers are expected to follow guide instructions throughout the tour, particularly around pacing, itinerary decisions, and safety calls.",
           "Required travel documents, visas, and vaccinations are the traveler's own responsibility to arrange.",
         ],
       },
       {
         heading: "Liability & Assumption of Risk",
         paragraphs: [
-          "Our guided tours and treks, particularly at high altitude or in remote terrain, carry inherent risk — including but not limited to altitude sickness, adverse weather, difficult terrain, and limited access to emergency medical care.",
-          "By booking a trek with API Touch, you acknowledge and accept these risks. API Touch and its guides will take reasonable care to ensure your safety, but we are not liable for injury, illness, loss, or delay arising from circumstances outside our reasonable control.",
-          "We require all travelers to carry valid travel and medical evacuation insurance covering the altitude and activities of their chosen route.",
+          "Our guided tours, particularly in remote destinations, carry inherent risk — including but not limited to altitude sickness, adverse weather, difficult conditions, and limited access to emergency medical care.",
+          "By booking a tour with API Touch, you acknowledge and accept these risks. API Touch and its guides will take reasonable care to ensure your safety, but we are not liable for injury, illness, loss, or delay arising from circumstances outside our reasonable control.",
+          "We require all travelers to carry valid travel and medical evacuation insurance covering the conditions and activities of their chosen tour.",
         ],
       },
       {
-        heading: "Permits & Route Changes",
+        heading: "Permits & Itinerary Changes",
         paragraphs: [
-          "Certain hikes require permits or park registration, arranged on your behalf as part of the booking. Availability of permits is not guaranteed until confirmed.",
-          "Guides retain full authority to adjust, shorten, or reroute a trek — including turning back — where conditions, weather, or traveler safety require it. Such changes do not entitle a traveler to a refund unless the trek is cancelled entirely by API Touch.",
+          "Certain tours require permits or site registration, arranged on your behalf as part of the booking. Availability of permits is not guaranteed until confirmed.",
+          "Guides retain full authority to adjust, shorten, or reroute a tour — including turning back — where conditions, weather, or traveler safety require it. Such changes do not entitle a traveler to a refund unless the tour is cancelled entirely by API Touch.",
         ],
       },
       {
         heading: "Intellectual Property",
         paragraphs: [
-          "All content on this site — including route descriptions, photography, and branding — belongs to API Touch or its licensors and may not be reproduced without permission.",
+          "All content on this site — including itinerary descriptions, photography, and branding — belongs to API Touch or its licensors and may not be reproduced without permission.",
         ],
       },
       {
@@ -95,7 +95,7 @@ export const LEGAL = {
       {
         heading: "",
         paragraphs: [
-          "API Touch values the trust you place in us when you browse our site, plan a trek, or reach out with a question. This page explains, in plain terms, what information we gather, why we gather it, and how it's kept safe.",
+          "API Touch values the trust you place in us when you browse our site, plan a trip, or reach out with a question. This page explains, in plain terms, what information we gather, why we gather it, and how it's kept safe.",
         ],
       },
       {
@@ -104,7 +104,7 @@ export const LEGAL = {
           "Depending on how you interact with us, we may gather:",
           "Contact details — name, email, phone number, nationality.",
           "Trip details — the tour you've chosen, travel dates, group size, and any preferences you mention.",
-          "Health notes for the trip — fitness level, dietary needs, or medical conditions you choose to share, so your guide can plan a safer trek at altitude or on remote routes.",
+          "Health notes for the trip — fitness level, dietary needs, or medical conditions you choose to share, so your guide can plan a safer tour at altitude or in remote destinations.",
           "Payment details — handled through our payment partners; your full card number never touches our servers.",
           "Messages — anything sent through a contact form, booking inquiry, or email.",
           "Site activity — general browsing data like device type, browser, and approximate location, used to understand how people use the site.",
@@ -115,10 +115,10 @@ export const LEGAL = {
         paragraphs: [
           "Your information helps us:",
           "Confirm and manage your booking.",
-          "Arrange the guides, permits, and logistics your route requires.",
-          "Keep you updated on itinerary details or route conditions.",
+          "Arrange the guides, permits, and logistics your itinerary requires.",
+          "Keep you updated on itinerary details or travel conditions.",
           "Answer your questions before, during, and after your trip.",
-          "Refine our routes, site, and how we communicate with travelers.",
+          "Refine our itineraries, site, and how we communicate with travelers.",
           "Meet legal or tax requirements where applicable.",
           "We do not sell, rent, or trade your personal data with third parties for marketing purposes.",
         ],
@@ -127,9 +127,9 @@ export const LEGAL = {
         heading: "Who We Share It With",
         paragraphs: [
           "We only pass your data along where it's genuinely needed:",
-          "Guides and on-the-ground partners, so your trek can actually happen.",
+          "Guides and on-the-ground partners, so your tour can actually happen.",
           "Payment processors, to complete transactions securely.",
-          "Park and permit authorities, for routes that require registration or access permits.",
+          "Site and permit authorities, for tours that require registration or access permits.",
           "Site tools like Framer and Google Analytics, which help us run and improve the website.",
           "Every partner we work with is bound to keep your data confidential.",
         ],
@@ -167,7 +167,7 @@ export const LEGAL = {
       {
         heading: "International Transfers",
         paragraphs: [
-          "Booking a trek often means your information crosses borders — to guides, permit offices, or service providers in other regions. When that happens, we make sure the handling still meets solid data protection standards.",
+          "Booking a tour often means your information crosses borders — to guides, permit offices, or service providers in other regions. When that happens, we make sure the handling still meets solid data protection standards.",
         ],
       },
       {

@@ -84,7 +84,7 @@ export default function DestinationsPage() {
 
         <div className="flex flex-col items-start gap-4 rounded-lg bg-mist p-6 min-[639.98px]:flex-row min-[639.98px]:items-center min-[639.98px]:justify-between">
           <div className="flex min-w-0 flex-col gap-1">
-            <p className="t-h4 text-ink">Ready to pick a route?</p>
+            <p className="t-h4 text-ink">Ready to pick an itinerary?</p>
             <p className="t-body">Every destination above has at least one tour we run ourselves.</p>
           </div>
           <a href="/tours" className="btn btn-dark w-[150px]">

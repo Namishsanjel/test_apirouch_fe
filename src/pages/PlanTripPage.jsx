@@ -370,8 +370,7 @@ export default function PlanTripPage() {
 
                 {status === "sent" ? (
                   <p role="status" className="t-body mt-5 rounded-lg bg-mist p-4 text-ink">
-                    Thanks — your trip request is on its way. We reply within 24 hours with a route,
-                    a price and dates that fit.
+                    Thanks — your trip request is on its way. We reply within 24 hours with an itinerary, a price and dates that fit.
                   </p>
                 ) : null}
 
