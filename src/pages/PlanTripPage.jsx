@@ -3,7 +3,7 @@ import PageShell from "../components/PageShell.jsx";
 import { Eyebrow, ContactInfoValue } from "../components/ui.jsx";
 import { Reveal } from "../anim.jsx";
 import { PLAN_TRIP } from "../data/newPages.js";
-import { CONTACT, PAGES } from "../data/content.js";
+import { CONTACT, CONTACT_DETAILS, PAGES } from "../data/content.js";
 import { STRAPI_URL } from "../lib/strapi.js";
 import { useLocationSearch } from "../lib/location.jsx";
 import {
@@ -89,6 +89,15 @@ const EMPTY = {
 export default function PlanTripPage() {
   const page = PAGES["/plan-your-trip"];
   const { badge, title, sub, info, form } = PLAN_TRIP;
+
+  // This section lists only the first mobile and the landline; the full list in
+  // CONTACT_DETAILS.phones is still used by the footer, contact page and
+  // JSON-LD, so the trimmed pair is derived here without changing shared data.
+  const phones = [CONTACT_DETAILS.mobiles[0], CONTACT_DETAILS.landline];
+  const phoneHrefs = [CONTACT_DETAILS.mobileHrefs[0], CONTACT_DETAILS.landlineHref];
+  const contactInfo = info.map((i) =>
+    i.label === "Phone" ? { ...i, value: phones, hrefs: phoneHrefs } : i,
+  );
 
   // Free text now, so there is no list to build: ?destination= from the link on
   // a destination page, else the last destination looked at, else empty.
@@ -233,7 +242,7 @@ export default function PlanTripPage() {
               </div>
 
               <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 min-[480px]:gap-6">
-                {info.map((i) => (
+                {contactInfo.map((i) => (
                   <div key={i.label} className="flex min-w-0 flex-col gap-2">
                     <p className="t-eyebrow capitalize text-mist">{i.label}</p>
                     <ContactInfoValue value={i.value} href={i.href} hrefs={i.hrefs} />
@@ -288,13 +297,7 @@ export default function PlanTripPage() {
                       maxLength={MAX}
                       value={destination.value}
                       onChange={destination.onChange}
-                      aria-describedby={destination.prefilled ? "trip-destination-hint" : undefined}
                     />
-                    {destination.prefilled ? (
-                      <p id="trip-destination-hint" className="t-eyebrow text-smoke">
-                        {destination.hint}
-                      </p>
-                    ) : null}
                   </Field>
 
                   <Field label={form.date.label} htmlFor="trip-date">
