@@ -271,14 +271,6 @@ export const INCLUDED_SECTION = {
   body: "From local guides and door-to-door transfers to meals, stays, and small groups, every detail is thoughtfully arranged before you arrive.",
 };
 
-// Feature (mist) cards: icon + heading + copy
-export const INCLUDED_FEATURES = {
-  guiding: { icon: "2784223275", title: "Guiding", body: "A local lead on every itinerary, start to finish" },
-  gear: { icon: "1118047839", title: "Equipment", body: "Tents, mats and cookware, already packed" },
-  meals: { icon: "50407791", title: "Meals", body: "Fresh meals and snacks, ready every day" },
-  groups: { icon: "2109778876", title: "Small groups", body: "Never more than 8 travellers per guide, every time" },
-};
-
 // Photo cards: image + heading + one-line caption
 export const INCLUDED_PHOTOS = {
   transfers: { image: IMG.includedTransfers, title: "Transfers", body: "Door to door, no detours" },
