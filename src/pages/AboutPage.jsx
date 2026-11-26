@@ -131,7 +131,7 @@ export default function AboutPage() {
               src={ABOUT.why.banner}
               alt=""
               aria-hidden="true"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover object-[center_35%]"
             />
             {whyLoading ? (
               <div className="relative z-10 flex flex-col gap-4 min-[900px]:flex-row min-[900px]:gap-6">

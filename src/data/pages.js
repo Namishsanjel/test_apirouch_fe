@@ -14,7 +14,7 @@ export const ABOUT = {
     badge: "Why API Touch",
     title: ["What sets every", "trip apart"],
     body: "Thoughtfully crafted experiences that bring together adventure, connection, and the beauty of the outdoors in every journey.",
-    banner: "/img/DSeT2ifT6plLUrqFksN1V5rvoJc-36b270.jpg",
+    banner: "/img/why-banner.jpg",
     cards: [
       { title: "Local guides, not scripts", body: "Every itinerary led by someone who's travelled it before." },
       { title: "Small groups, real caps", body: "Never more than 8 travellers joining a single guide." },
