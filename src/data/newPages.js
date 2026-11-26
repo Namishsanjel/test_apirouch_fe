@@ -261,7 +261,6 @@ export const PLAN_TRIP = {
   sub: "Tell us the destination, the dates and who is coming — we come back with an itinerary, a price and the dates that fit.",
   info: [
     { label: "Response Time", value: "We reply within 24 hours" },
-    { label: "Group size", value: "Never more than 8 per guide" },
     { label: "Email", value: CONTACT_DETAILS.email, href: CONTACT_DETAILS.emailHref },
     { label: "Phone", value: CONTACT_DETAILS.phones, hrefs: CONTACT_DETAILS.phoneHrefs },
   ],
