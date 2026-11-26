@@ -40,6 +40,23 @@ export function ServiceCardSkeleton({ className = "" }) {
 }
 
 /**
+ * FeatureCardSkeleton — the "What's included" mist tile (icon + heading + one
+ * line of copy). Same min-height, padding and radius as FeatureCard in
+ * Included.jsx, so the photo tiles beside it do not move while the services
+ * request is in flight.
+ */
+export function FeatureCardSkeleton({ className = "" }) {
+  return (
+    <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-4 ${className}`}>
+      <Skeleton tone="cream" radius="sm" className="h-[36px] w-[36px]" />
+      <Skeleton tone="cream" className="mt-8 h-[24px] w-[60%]" />
+      <Skeleton tone="cream" className="mt-1 h-[22px] w-full" />
+      <Skeleton tone="cream" className="mt-1 h-[22px] w-3/4" />
+    </div>
+  );
+}
+
+/**
  * HikeCardSkeleton — the tour card, at the listing page's size and the home
  * section's. Same fixed-height photo card, same p-1 frame, same overlay with
  * the chips along the top and the title + learn-more button along the bottom,

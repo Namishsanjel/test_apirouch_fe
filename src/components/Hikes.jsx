@@ -93,8 +93,8 @@ export default function Hikes() {
      Error and empty are no longer answered with the original four from
      content.js. A failed request now shows the error state and an empty
      collection one neutral line; both keep this section's header, because the
-     header carries the two static links ("Browse by experience" and the tours
-     CTA) that are useful whether or not the CMS has tours published. */
+     header carries the tours CTA that is useful whether or not the CMS has
+     tours published. */
   const picks = useMemo(() => featuredTours(strapiTours, 4), [strapiTours]);
   const tours = picks;
   const mosaic = tours.length >= 4;
@@ -109,9 +109,6 @@ export default function Hikes() {
               <span>{HIKES_SECTION.cta}</span>
               <span aria-hidden="true">{HIKES_SECTION.cta}</span>
             </span>
-          </a>
-          <a href="/experiences" className="t-link text-ink underline underline-offset-4">
-            Browse by experience
           </a>
         </SectionHead>
 

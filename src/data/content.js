@@ -303,6 +303,10 @@ export const EXPERIENCE_IMAGES = [
 export const GUIDE_SECTION = {
   badge: "Who are we",
   title: ["Meet the people", "behind the path"],
+  // About/home "Meet the people" section copy. Kept separate from body1, which
+  // the Why page still renders verbatim (its /why-apitouch blurb reuses body1).
+  sectionBody1: "Our travel experts have spent years exploring these destinations, long before it became their profession. They know how to match the right itinerary to your pace, interests, and preferences — whether it's your first multi-day holiday or your tenth.",
+  sectionBody2: "Every journey is tailored to the people taking it. First-time travellers receive thoughtful guidance and support at every step, while experienced explorers enjoy greater flexibility, independence, and opportunities to discover more. Whatever your travel style, you're travelling with someone who knows the destination inside and out.",
   body1: "Our guides grew up exploring these regions, long before it was a job. They know which itinerary fits your pace and what you actually need along the way — whether it's your first multi-day tour or your tenth.",
   body2: "They adjust to whoever shows up. Beginners get the full walkthrough, no assumptions made. Experienced travellers get pushed further, faster, with less hand-holding. Either way, you're out there with someone who knows the ground.",
   points: [
