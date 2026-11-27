@@ -170,8 +170,8 @@ export function ServicesMenuSkeleton() {
         {["col-span-2", "col-span-1", "col-span-1", "col-span-2"].map((cls, i) => (
           <div key={i} className={`flex flex-col justify-between rounded-lg bg-mist p-4 ${cls}`}>
             <div className="flex items-start justify-between">
-              <Skeleton tone="cream" radius="sm" className="h-[28px] w-[28px]" />
-              <Skeleton tone="cream" radius="sm" className="h-[16px] w-[16px]" />
+              <Skeleton tone="cream" radius="sm" className="h-[40px] w-[40px]" />
+              <Skeleton tone="cream" radius="sm" className="h-[24px] w-[24px]" />
             </div>
             <Skeleton tone="cream" className="mt-3 h-[18px] w-[70%]" />
           </div>

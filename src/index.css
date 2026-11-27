@@ -866,3 +866,20 @@ a.t-link.text-ink:hover {
     opacity: 1;
   }
 }
+
+/* ---------- services dropdown tile: larger arrow ----------
+
+   The dropdown tiles reuse the Services-page .learn-arrow slide (two arrows in
+   a clipped box, first slides out, second follows in), but at a larger 24px
+   box. Only the box size is overridden here; all the transform/opacity timing
+   and the reduced-motion rules come from the shared .service-tile .learn-arrow
+   block above. */
+.service-menu-tile .learn-arrow {
+  width: 24px;
+  height: 24px;
+}
+
+.service-menu-tile .learn-arrow > svg {
+  width: 24px;
+  height: 24px;
+}
