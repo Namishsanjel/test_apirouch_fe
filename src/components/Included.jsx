@@ -3,6 +3,7 @@ import { SectionHead, HeadCopy } from "./ui.jsx";
 import Icon from "../data/Icon.jsx";
 import { useStrapiList, STRAPI_STATUS } from "../lib/strapiData.jsx";
 import { FeatureCardSkeleton } from "./skeletons.jsx";
+import { serviceIconFor } from "../assets/service-icons.jsx";
 
 /**
  * The four "What makes the experience different" text tiles come from the
@@ -28,9 +29,22 @@ const DEFAULT_ICON = "2327548604";
 
 /** Mist card: icon, heading, one-line description (measured 625/305 x 180). */
 function FeatureCard({ item, className = "" }) {
+  // the service's own SVG when one matches (same helper the Services page
+  // uses); the existing shield icon otherwise, so nothing ever shows a gap
+  const ServiceIcon = serviceIconFor(item.title, item.slug);
+
   return (
     <div className={`flex min-h-[180px] flex-col rounded-lg bg-mist p-5 ${className}`}>
-      <Icon id={SERVICE_ICON[item.title] ?? DEFAULT_ICON} size={36} />
+      {ServiceIcon ? (
+        <span
+          className="icon-svg text-ink"
+          style={{ display: "block", width: 36, height: 36, maxWidth: "100%", flex: "none" }}
+        >
+          <ServiceIcon size={36} />
+        </span>
+      ) : (
+        <Icon id={SERVICE_ICON[item.title] ?? DEFAULT_ICON} size={36} />
+      )}
       <p className="t-h4 mt-8">{item.title}</p>
       <p className="t-body mt-1">{item.shortDescription}</p>
     </div>
