@@ -18,6 +18,7 @@ import Logo from "./Logo.jsx";
 import { resolveLogo, SITE_NAME, LOGO_SIZES, LOGO_CLASSES } from "../lib/brand.js";
 import { Skeleton, SkeletonRegion } from "./Skeleton.jsx";
 import { SectionErrorInline, SectionEmptyInline } from "./SectionError.jsx";
+import { ServiceTile, spanFor, SPAN_CLASS } from "./ServiceTile.jsx";
 
 /**
  * Tours as the listing records.
@@ -382,40 +383,13 @@ function PackagesMenu({ onNavigate }) {
 }
 
 /**
- * Services mega-menu: the services down the left (titles only, in backend
- * order), the hovered service's card filling the right, and the closing links
- * underneath — the same shape as the destinations and packages panels.
+ * Services mega-menu: the four services as the same asymmetric bento cards the
+ * Services page uses — no photos, the service's own icon, title and summary.
+ * The panel opens/closes and navigates exactly as before; each card links to
+ * its service page.
  */
-function ServicesPreview({ service }) {
-  const image = imageOf(service.image, service.title);
-
-  return (
-    <a href={`/services/${service.slug}`} className="relative min-w-0 flex-1 rounded-lg bg-mist p-1">
-      <div className="relative h-[300px] w-full overflow-hidden rounded min-[1100px]:h-[380px]">
-        {image ? (
-          <img src={image.src} alt={image.alt} className="absolute inset-0 h-full w-full object-cover" />
-        ) : null}
-        <div className="grad-card absolute inset-0" />
-        <ImgBlur />
-        <div className="absolute inset-0 z-10 flex flex-col justify-between p-6">
-          <div className="flex flex-wrap gap-2" />
-          <div className="flex items-end justify-between gap-4 min-[1100px]:gap-8">
-            <div className="flex min-w-0 flex-col gap-3">
-              <h3 className="t-h3l text-mist">{service.title}</h3>
-            </div>
-            <span className="btn btn-cream w-[104px]">explore</span>
-          </div>
-        </div>
-      </div>
-    </a>
-  );
-}
-
 function ServicesMenu({ onNavigate }) {
   const { services, status, retry } = useServices();
-  const [active, setActive] = useState(() => services[0]?.slug ?? null);
-  const current = services.find((s) => s.slug === active) ?? services[0] ?? null;
-  const currentSlug = current?.slug ?? null;
 
   if (status === STRAPI_STATUS.LOADING) {
     return (
@@ -460,28 +434,19 @@ function ServicesMenu({ onNavigate }) {
   return (
     <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
-        <div className="flex gap-5">
-          <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
-            {services.map((s) => (
-              <a
+        <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-4">
+          {services.map((s, i) => {
+            const size = spanFor(i);
+            return (
+              <ServiceTile
                 key={s.documentId ?? s.id ?? s.slug}
-                href={`/services/${s.slug}`}
-                onClick={onNavigate}
-                onMouseEnter={() => setActive(s.slug)}
-                onFocus={() => setActive(s.slug)}
-                aria-current={s.slug === currentSlug ? "true" : undefined}
-                className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
-                  s.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
-                }`}
-              >
-                <span className={`t-h6 min-w-0 truncate ${s.slug === currentSlug ? "text-primary" : "text-ink"}`}>
-                  {s.title}
-                </span>
-              </a>
-            ))}
-          </nav>
-
-          {current ? <ServicesPreview service={current} /> : null}
+                service={s}
+                size={size}
+                className={SPAN_CLASS[size]}
+                onNavigate={onNavigate}
+              />
+            );
+          })}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
