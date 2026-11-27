@@ -18,7 +18,6 @@ import Logo from "./Logo.jsx";
 import { resolveLogo, SITE_NAME, LOGO_SIZES, LOGO_CLASSES } from "../lib/brand.js";
 import { Skeleton, SkeletonRegion } from "./Skeleton.jsx";
 import { SectionErrorInline, SectionEmptyInline } from "./SectionError.jsx";
-import { ServiceTile, spanFor, SPAN_CLASS } from "./ServiceTile.jsx";
 
 /**
  * Tours as the listing records.
@@ -71,6 +70,26 @@ function useServices() {
       : [];
   }, [items]);
   return { services, status, retry };
+}
+
+/**
+ * The Destinations menu's left-list name size, scaled down as the backend adds
+ * destinations so the list never overflows the panel. Full size (17px, up from
+ * the old 15px) up to 6 items, then one step smaller per band down to a 13px
+ * floor (never below the old size minus 2px). Row spacing scales with the font
+ * so rows stay proportional. Returns CSS custom properties consumed inline.
+ */
+function destinationsListScale(count) {
+  let size = 17;
+  if (count > 6) size = 16;
+  if (count > 8) size = 15;
+  if (count > 10) size = 14;
+  if (count > 12) size = 13;
+  // row line-height and the row min-height stay proportional to the font
+  return {
+    "--dest-name-size": `${size}px`,
+    "--dest-row-min-h": `${Math.round(size * 2.1)}px`,
+  };
 }
 
 /** The 11x7 chevron the booking form's select already uses, pointed down. */
@@ -144,6 +163,9 @@ function DestinationsMenu({ onNavigate }) {
   const total = groups.reduce((n, list) => n + list.length, 0);
   const current = destinations.find((d) => d.slug === active) ?? destinations[0];
   const currentSlug = current?.slug ?? null;
+  // name size / row spacing for the left list, shrunk as the backend adds more
+  // destinations so the panel never overflows (see destinationsListScale)
+  const scale = destinationsListScale(total);
 
   // Still in flight: the rows of the menu and the count beside its closing link
   // are both read off the collection, so both are held. The hovered
@@ -198,7 +220,7 @@ function DestinationsMenu({ onNavigate }) {
     <div id="nav-destinations-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
         <div className="flex gap-5">
-          <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
+          <nav style={scale} className="flex max-h-[calc(100dvh-220px)] w-[260px] shrink-0 flex-col overflow-y-auto overscroll-contain min-[1100px]:w-[360px]">
             {groups.flat().map((d) => (
               <a
                 key={d.slug}
@@ -207,11 +229,15 @@ function DestinationsMenu({ onNavigate }) {
                 onMouseEnter={() => setActive(d.slug)}
                 onFocus={() => setActive(d.slug)}
                 aria-current={d.slug === currentSlug ? "true" : undefined}
+                style={{ minHeight: "var(--dest-row-min-h)" }}
                 className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
                   d.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
                 }`}
               >
-                <span className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}>
+                <span
+                  style={{ fontSize: "var(--dest-name-size)" }}
+                  className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}
+                >
                   {d.name}
                 </span>
               </a>
@@ -241,6 +267,15 @@ function DestinationsMenu({ onNavigate }) {
 
 /** Tours grouped by their difficulty chip; "All" is a filter, not a level. */
 const DIFFICULTIES = HIKES_PAGE.filters.filter((f) => f !== "All");
+
+/**
+ * The mega-menu panel chrome and the left-list column, shared by the Our
+ * Package and Services dropdowns so both panels are exactly the same size
+ * (width, height, padding, radius, row height and spacing).
+ */
+const NAV_PANEL_CLASS =
+  "menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6";
+const NAV_LIST_CLASS = "flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]";
 
 /**
  * Package preview — the tours page card (photo + grad-card + ImgBlur +
@@ -338,9 +373,9 @@ function PackagesMenu({ onNavigate }) {
 
   return (
     <div id="nav-packages-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+      <div className={NAV_PANEL_CLASS}>
         <div className="flex gap-5">
-          <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
+          <nav className={NAV_LIST_CLASS}>
             {groups.flat().map((p) => (
               <a
                 key={p.slug}
@@ -383,13 +418,43 @@ function PackagesMenu({ onNavigate }) {
 }
 
 /**
- * Services mega-menu: the four services as the same asymmetric bento cards the
- * Services page uses — no photos, the service's own icon, title and summary.
- * The panel opens/closes and navigates exactly as before; each card links to
- * its service page.
+ * Services mega-menu: same shape and size as the Our Package dropdown — the
+ * services down the left (titles only, in backend order), the hovered service's
+ * card filling the right, and the closing links underneath. The panel chrome and
+ * list column come from NAV_PANEL_CLASS / NAV_LIST_CLASS, so the two panels are
+ * exactly the same size. The preview shows the service photo and its title with
+ * an "explore" button (no description), mirroring the package preview.
  */
+function ServicePreview({ service }) {
+  const image = imageOf(service.image, service.title);
+
+  return (
+    <a href={`/services/${service.slug}`} className="relative min-w-0 flex-1 rounded-lg bg-mist p-1">
+      <div className="relative h-[300px] w-full overflow-hidden rounded min-[1100px]:h-[380px]">
+        {image ? (
+          <img src={image.src} alt={image.alt} className="absolute inset-0 h-full w-full object-cover" />
+        ) : null}
+        <div className="grad-card absolute inset-0" />
+        <ImgBlur />
+        <div className="absolute inset-0 z-10 flex flex-col justify-between p-6">
+          <div className="flex flex-wrap gap-2" />
+          <div className="flex items-end justify-between gap-4 min-[1100px]:gap-8">
+            <div className="flex min-w-0 flex-col gap-3">
+              <h3 className="t-h3l text-mist">{service.title}</h3>
+            </div>
+            <span className="btn btn-cream w-[104px]">explore</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
 function ServicesMenu({ onNavigate }) {
   const { services, status, retry } = useServices();
+  const [active, setActive] = useState(() => services[0]?.slug ?? null);
+  const current = services.find((s) => s.slug === active) ?? services[0] ?? null;
+  const currentSlug = current?.slug ?? null;
 
   if (status === STRAPI_STATUS.LOADING) {
     return (
@@ -433,20 +498,29 @@ function ServicesMenu({ onNavigate }) {
 
   return (
     <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
-        <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-4">
-          {services.map((s, i) => {
-            const size = spanFor(i);
-            return (
-              <ServiceTile
+      <div className={NAV_PANEL_CLASS}>
+        <div className="flex gap-5">
+          <nav className={NAV_LIST_CLASS}>
+            {services.map((s) => (
+              <a
                 key={s.documentId ?? s.id ?? s.slug}
-                service={s}
-                size={size}
-                className={SPAN_CLASS[size]}
-                onNavigate={onNavigate}
-              />
-            );
-          })}
+                href={`/services/${s.slug}`}
+                onClick={onNavigate}
+                onMouseEnter={() => setActive(s.slug)}
+                onFocus={() => setActive(s.slug)}
+                aria-current={s.slug === currentSlug ? "true" : undefined}
+                className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
+                  s.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
+                }`}
+              >
+                <span className={`t-h6 min-w-0 truncate ${s.slug === currentSlug ? "text-primary" : "text-ink"}`}>
+                  {s.title}
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          {current ? <ServicePreview service={current} /> : null}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">

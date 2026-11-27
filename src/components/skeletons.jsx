@@ -132,11 +132,12 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  * shown while the request is in flight, matching the layout that replaces it.
  */
 export function ServicesGridSkeleton() {
+  // matches the 4-card spans from ServiceTile.spansFor(4): [2, 1, 1, 4]
   const block = [
-    "min-[900px]:col-span-3",
+    "min-[900px]:col-span-2",
     "min-[900px]:col-span-1",
     "min-[900px]:col-span-1",
-    "min-[900px]:col-span-3",
+    "min-[900px]:col-span-4",
   ];
 
   return (
@@ -375,18 +376,18 @@ export function ServiceDetailSkeleton() {
           </div>
         </div>
 
-        <Skeleton className="h-[220px] w-full min-[639.98px]:h-[320px] min-[1100px]:h-[420px]" />
-
-        <div className="flex w-full min-w-0 flex-col gap-6" style={{ maxWidth: 706 }}>
-          <Skeleton className="h-[26px] w-[190px]" />
-          <SkeletonLines count={3} />
-          <Skeleton className="h-[26px] w-[150px]" />
-          <SkeletonLines count={3} />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-4">
-          <Skeleton radius="md" className="h-[44px] w-[170px]" />
-          <Skeleton radius="sm" className="h-[19px] w-[120px]" />
+        <div className="flex flex-col gap-8 min-[900px]:flex-row min-[900px]:items-start min-[900px]:gap-12">
+          <div className="flex w-full min-w-0 flex-col gap-6 min-[900px]:flex-1" style={{ maxWidth: 706 }}>
+            <Skeleton className="h-[26px] w-[190px]" />
+            <SkeletonLines count={3} />
+            <Skeleton className="h-[26px] w-[150px]" />
+            <SkeletonLines count={3} />
+            <div className="flex flex-wrap items-center gap-4">
+              <Skeleton radius="md" className="h-[44px] w-[170px]" />
+              <Skeleton radius="sm" className="h-[19px] w-[120px]" />
+            </div>
+          </div>
+          <Skeleton className="h-[220px] w-full min-[639.98px]:h-[320px] min-[900px]:h-[420px] min-[900px]:w-[420px] min-[900px]:shrink-0" />
         </div>
       </SkeletonRegion>
     </section>

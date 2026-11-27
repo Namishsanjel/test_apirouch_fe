@@ -14,25 +14,51 @@ const SERVICE_ICON = {
 const DEFAULT_ICON = "2327548604";
 
 /**
- * Asymmetric bento on a 4-column grid, shared by the Services page and the
- * Services nav dropdown. Row 1 is a wide card (3 cols) beside a narrow one
- * (1 col); row 2 is the mirror — narrow then wide:
+ * Asymmetric bento on a 4-column grid: a wide card is exactly TWO normal cards
+ * wide (2 columns vs 1), never wider. Full rows are built in blocks of three —
+ * wide + narrow + narrow (or the mirror narrow + wide + narrow) — and any
+ * leftover fills the row so no gap is left:
  *
- *   [ wide (3) | narrow (1) ]
- *   [ narrow (1) | wide (3) ]
+ *   rem 0 -> mirrored blocks of [2,1,1] / [1,2,1]
+ *   rem 1 -> the lone card spans the whole row  [4]
+ *   rem 2 -> two wide cards side by side        [2,2]
  *
- * The size is chosen by a card's position in this list, not by its title, so
- * the order and content stay whatever the backend returns. Below ~900px every
- * card collapses to a single full-width column.
+ * The size comes from position, never from the title. Below ~900px every card
+ * collapses to a single full-width column.
  */
-export const SIZES = ["wide", "narrow", "narrow", "wide"];
+const BLOCK = [2, 1, 1, 1, 2, 1]; // one block = two full 4-col rows (3 + 3 cards)
+const TAIL = {
+  1: [4], //          lone card fills the row
+  2: [2, 2], //       two wide cards side by side
+  3: [2, 1, 1], //    one full row: wide + narrow + narrow
+  4: [2, 1, 1, 4], // full row, then the leftover spans the row
+  5: [2, 1, 1, 2, 2], // full row, then two wide cards
+};
 
-export const spanFor = (i) => (SIZES[i] === "wide" ? "wide" : "narrow");
+/** Column span (of 4) for each card, by count then position. */
+export function spansFor(count) {
+  const out = [];
+  const full = Math.floor(count / BLOCK.length);
+  for (let b = 0; b < full; b += 1) out.push(...BLOCK);
+  const rem = count % BLOCK.length;
+  if (rem) out.push(...(TAIL[rem] ?? BLOCK.slice(0, rem)));
+  return out;
+}
+
+/** The span of the card at index `i` for a list of `count` cards. */
+export const spanFor = (i, count) => {
+  const list = spansFor(count);
+  return list[i] ?? 4;
+};
 
 export const SPAN_CLASS = {
-  wide: "min-[900px]:col-span-3",
-  narrow: "min-[900px]:col-span-1",
+  1: "min-[900px]:col-span-1",
+  2: "min-[900px]:col-span-2",
+  4: "min-[900px]:col-span-4",
 };
+
+/** Size label from a span: a 2-wide card is "wide" (2x1); 1 is "narrow". */
+export const sizeFor = (span) => (span === 1 ? "narrow" : "wide");
 
 /** The arrow pair that rolls out/in on hover and focus. */
 export function LearnArrow() {

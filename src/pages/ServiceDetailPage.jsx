@@ -77,26 +77,31 @@ export default function ServiceDetailPage() {
       <section className="page-sec container-x flex flex-col gap-8 min-[639.98px]:gap-12">
         <PageHeader badge="Service" title={service.title} sub={service.shortDescription} />
 
-        {/* no image in Strapi means no banner at all, rather than a broken one */}
-        {image ? (
-          <img
-            src={image.src}
-            alt={image.alt}
-            className="h-[220px] w-full rounded-lg object-cover min-[639.98px]:h-[320px] min-[1100px]:h-[420px]"
-          />
-        ) : null}
+        {/* Two columns on desktop: the copy (description, then the actions)
+            on the left, the image on the right, both top-aligned. On mobile the
+            columns stack in that same order — text first, image second. */}
+        <div className="flex flex-col gap-8 min-[900px]:flex-row min-[900px]:items-start min-[900px]:gap-12">
+          <div className="flex w-full min-w-0 flex-col gap-6 min-[900px]:flex-1" style={{ maxWidth: 706 }}>
+            <Blocks content={service.description} />
 
-        <div className="flex w-full min-w-0 flex-col gap-6" style={{ maxWidth: 706 }}>
-          <Blocks content={service.description} />
-        </div>
+            <div className="flex flex-wrap items-center gap-4">
+              <a href="/services" className="btn btn-dark w-[170px]">
+                All services
+              </a>
+              <a href="/plan-your-trip" className="t-link text-ink underline underline-offset-4">
+                Plan your tour
+              </a>
+            </div>
+          </div>
 
-        <div className="flex flex-wrap items-center gap-4">
-          <a href="/services" className="btn btn-dark w-[170px]">
-            All services
-          </a>
-          <a href="/plan-your-trip" className="t-link text-ink underline underline-offset-4">
-            Plan your tour
-          </a>
+          {/* no image in Strapi means no banner at all, rather than a broken one */}
+          {image ? (
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="h-[220px] w-full rounded-lg object-cover min-[639.98px]:h-[320px] min-[900px]:h-[420px] min-[900px]:w-[420px] min-[900px]:shrink-0"
+            />
+          ) : null}
         </div>
       </section>
     </PageShell>
