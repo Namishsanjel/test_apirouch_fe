@@ -332,6 +332,14 @@ export function destinationToRecord(entry) {
     activities: (entry.activities || []).map((i) => i.text).filter(Boolean),
     bestTime: (entry.bestTime || []).map((i) => i.text).filter(Boolean),
     tours: (entry.tours || []).map((t) => t.slug),
+    // optional gallery (multiple media). Absent when the schema does not have
+    // the field yet — the carousel then falls back to the local images.
+    gallery: (Array.isArray(entry.gallery) ? entry.gallery : [])
+      .map((m) => {
+        const img = bestImage(m, entry.name);
+        return img ? { src: img.src, alt: img.alt } : null;
+      })
+      .filter(Boolean),
     // null on the hardcoded list, which has no order field — same as tourToRecord
     order: entry.order ?? null,
     documentId: entry.documentId,

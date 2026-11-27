@@ -16,6 +16,8 @@ import { tourListings, destinationBySlug } from "../lib/catalog.js";
 import { rememberDestination } from "../lib/prefill.js";
 import { DestinationDetailSkeleton, TourPackagesSkeleton } from "../components/skeletons.jsx";
 import { SectionError } from "../components/SectionError.jsx";
+import DestinationCarousel from "../components/DestinationCarousel.jsx";
+import { localDestinationImages } from "../data/destinationImages.js";
 
 function FactList({ title, items }) {
   return (
@@ -92,12 +94,39 @@ export default function DestinationDetailPage() {
   const tours = listings.filter((h) => dest.tours.includes(h.slug));
   const breadcrumbSchema = breadcrumbJsonLd(destinationBreadcrumbs(dest.name, dest.slug));
 
+  /* Carousel images, in preference order: the CMS gallery, then the local
+     photos for this destination, then the Strapi main image followed by the
+     covers of the tours shown here (de-duplicated by URL), then the main image
+     alone. One image renders as the plain frame, exactly as before. */
+  const carouselImages = (() => {
+    const list = [];
+    const seen = new Set();
+    const push = (src, altText) => {
+      if (!src || seen.has(src)) return;
+      seen.add(src);
+      list.push({ src, alt: altText || `${dest.name} — image ${list.length + 1}` });
+    };
+    if (Array.isArray(dest.gallery) && dest.gallery.length) {
+      dest.gallery.forEach((g) => push(g.src, g.alt));
+    } else {
+      const local = localDestinationImages(dest.slug, dest.continent);
+      if (local.length) {
+        local.forEach((src) => push(src, `${dest.name} — image`));
+      } else {
+        push(dest.image, dest.alt);
+        tours.forEach((t) => push(t.image, `${dest.name} — ${t.title}`));
+      }
+    }
+    if (!list.length) push(dest.image, dest.alt);
+    return list;
+  })();
+
   return (
     <PageShell>
       <JsonLd id="jsonld-breadcrumb-destination" data={breadcrumbSchema} />
       <section className="container-x flex flex-col gap-6 pt-[120px] max-[1099.98px]:pt-[100px] max-[639.98px]:pt-[88px]">
         <PageHeader badge={dest.region} title={dest.name} />
-        <img src={dest.image} alt={dest.alt} className="h-[240px] w-full rounded-lg object-cover min-[639.98px]:h-[320px] min-[1100px]:h-[420px]" />
+        <DestinationCarousel images={carouselImages} name={dest.name} />
         {/* the CMS description is a blocks field; the hardcoded one is plain text */}
         {Array.isArray(dest.description) ? <Blocks content={dest.description} /> : null}
       </section>
