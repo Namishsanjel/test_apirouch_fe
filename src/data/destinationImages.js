@@ -1,51 +1,38 @@
 // Local destination gallery images.
 //
 // The source photos live in the backend repository under
-// "final images /destination/<region>/", organised by region ("asia",
-// "europe", "nepal"), not by destination slug. They were compressed to JPEG,
-// max 1920px wide, quality 80, and copied to
-// public/img/destinations/<region>/NN.jpg (max 8 per region, sorted by source
-// file name). The originals are untouched.
+// "final images /destination/<folder>/" ("asia", "europe", "nepal"), compressed
+// to JPEG (max 1920px wide, quality 80, sorted by source file name) and copied
+// to public/img/destinations/<folder>/NN.jpg. The originals are untouched.
 //
-// The live Strapi destination list (verified against /api/destinations) is:
-//   bali-indonesia-2 (asia), kyoto-japan-1 (asia), ladakh-india-3 (asia),
-//   dolomites-italy-5 (europe), lisbon-portugal-4 (europe),
-//   cape-town-south-africa-9 (africa), marrakech-morocco-7 (africa),
-//   cusco-peru-11 (south_america).
-//
-// The folders are named by region, and no destination slug is "asia", "europe"
-// or "nepal", so a folder is matched to a destination by its continent — every
-// photo in a region folder belongs to that region, never to an unrelated one.
-// The "nepal" folder has no matching destination and is therefore not mapped.
-// Destinations whose continent has no folder (africa, south_america) fall
-// through to their tour covers / main image.
+// A folder is used ONLY on the destination of the same name. The production
+// Strapi destinations (https://apitouch.com/api/destinations) are:
+//   Europe -> slug "europe"
+//   Nepal  -> slug "Nepal"
+//   Asia   -> slug "asia"
+// So each folder maps to exactly that destination's slug, keyed lower-cased for
+// a case-insensitive match ("Nepal" -> "nepal"). There is no continent, region
+// or per-country logic, and no folder is shared with another page. A destination
+// with no folder of its own has no local images and falls through to its CMS
+// gallery / main image / tour covers.
 
-const count = 5; // images copied per region folder
+const count = 5; // images copied per folder
 
-const paths = (region) =>
-  Array.from({ length: count }, (_, i) => `/img/destinations/${region}/${String(i + 1).padStart(2, "0")}.jpg`);
+const paths = (folder) =>
+  Array.from({ length: count }, (_, i) => `/img/destinations/${folder}/${String(i + 1).padStart(2, "0")}.jpg`);
 
-// region folder -> ordered image paths (also usable by an exact slug entry)
-export const REGION_IMAGES = {
+// lower-cased destination slug -> that destination's own folder images
+export const SLUG_IMAGES = {
   asia: paths("asia"),
   europe: paths("europe"),
+  nepal: paths("nepal"), // slug "Nepal"
 };
-
-// continent (as `destinationToRecord` labels it) -> region folder
-const CONTINENT_REGION = {
-  Asia: "asia",
-  Europe: "europe",
-};
-
-// exact slug -> region folder. Empty today: the folders name regions, not the
-// live destination slugs. Kept as the hook for a future single-place folder.
-const SLUG_REGION = {};
 
 /**
- * The local image paths for a destination, or [] when none apply.
- * Exact slug match wins; otherwise the continent's region folder.
+ * The local image paths for a destination slug, or [] when that slug has no
+ * folder of its own. The slug is compared case-insensitively.
  */
-export function localDestinationImages(slug, continent) {
-  const region = SLUG_REGION[slug] ?? CONTINENT_REGION[continent];
-  return region ? [...(REGION_IMAGES[region] ?? [])] : [];
+export function localDestinationImages(slug) {
+  const key = String(slug ?? "").toLowerCase();
+  return key && SLUG_IMAGES[key] ? [...SLUG_IMAGES[key]] : [];
 }

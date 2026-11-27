@@ -109,7 +109,7 @@ export default function DestinationDetailPage() {
     if (Array.isArray(dest.gallery) && dest.gallery.length) {
       dest.gallery.forEach((g) => push(g.src, g.alt));
     } else {
-      const local = localDestinationImages(dest.slug, dest.continent);
+      const local = localDestinationImages(dest.slug);
       if (local.length) {
         local.forEach((src) => push(src, `${dest.name} — image`));
       } else {
