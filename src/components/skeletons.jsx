@@ -247,7 +247,7 @@ export function TourDetailSkeleton({ others = 2 }) {
 
           <div className="flex flex-col gap-4">
             <Skeleton className="h-[26px] w-[164px]" />
-            <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
+            <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-2">
               {Array.from({ length: 9 }, (_, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <Skeleton radius="sm" className="h-[16px] w-[16px] shrink-0" />

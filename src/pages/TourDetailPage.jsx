@@ -322,7 +322,7 @@ export default function TourDetailPage() {
             {detail.inclusions.length ? (
               <>
                 <h2 className="t-h4 text-ink">What's Included</h2>
-                <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3">
+                <div className="grid grid-cols-1 gap-x-6 gap-y-3 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-2">
                   {detail.inclusions.map((i) => (
                     <div key={i} className="flex items-center gap-2 text-ink">
                       <CheckIcon />

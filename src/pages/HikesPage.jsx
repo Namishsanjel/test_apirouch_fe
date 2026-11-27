@@ -52,8 +52,8 @@ function HikeCard({ hike, className = "", index = null }) {
 /** One labelled row of filter pills, in the listing page's own pill style. */
 function FilterRow({ label, options, value, onChange, surface = "bg-mist" }) {
   return (
-    <div className="flex flex-col items-start gap-3 min-[639.98px]:flex-row min-[639.98px]:items-center">
-      <p className="t-eyebrow w-auto shrink-0 text-smoke min-[639.98px]:w-[100px]">{label}</p>
+    <div className="flex flex-col items-start gap-3 min-[639.98px]:flex-row min-[639.98px]:items-start">
+      <p className="t-eyebrow w-auto shrink-0 text-smoke min-[639.98px]:w-[100px] min-[639.98px]:pt-2">{label}</p>
       <div className="flex flex-wrap gap-2">
         {options.map((o) => {
           const on = o === value;
@@ -111,7 +111,7 @@ function FilterMenu({ groups, onReset }) {
         aria-haspopup="true"
         className="group flex cursor-pointer items-center gap-3 rounded-lg bg-mist px-4 py-3 transition-colors duration-200 hover:bg-secondary"
       >
-        <span className="t-link text-ink group-hover:text-mist">filters</span>
+        <span className="t-link text-ink group-hover:text-mist">Filter</span>
         {active > 0 ? (
           <span className="t-eyebrow flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-2 text-mist">
             {active}
