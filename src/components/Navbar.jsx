@@ -68,17 +68,6 @@ function ChevronDown({ className = "" }) {
 }
 
 /**
- * Regions read "Country · Area"; the list already shows the country.
- *
- * Strapi's shortDescription uses the same shape ("India · Golden Triangle and
- * beyond"), so this is unchanged — but an entry with no region, or one with no
- * " · " in it, must not throw on the way to rendering the rest of the menu.
- */
-function areaOf(dest) {
-  return String(dest?.region ?? "").split("·").pop().trim();
-}
-
-/**
  * Destination preview — the destinations page card (photo + grad-card +
  * ImgBlur + glass region chip + name + cream CTA) at menu size, with the
  * page's body copy set beside the name.
@@ -149,6 +138,7 @@ function DestinationsMenu({ onNavigate }) {
           linkHref="/destinations"
           ctaLabel="Browse all tours"
           ctaHref="/tours"
+          showSecondary={false}
           onNavigate={onNavigate}
         />
       </div>
@@ -203,10 +193,6 @@ function DestinationsMenu({ onNavigate }) {
                 <span className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}>
                   {d.name}
                 </span>
-                {/* the area can now be a whole phrase ("Golden Triangle and
-                    beyond"), so it truncates like the name rather than taking a
-                    fixed share the name then has to give back */}
-                <span className="t-eyebrow-s min-w-0 truncate text-smoke">{areaOf(d)}</span>
               </a>
             ))}
           </nav>

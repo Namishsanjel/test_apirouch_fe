@@ -118,7 +118,7 @@ export default function DestinationDetailPage() {
           <SectionError onRetry={retryTours} />
         ) : tours.length ? (
           <div className="flex flex-col gap-6">
-            <div className="flex items-baseline justify-between border-b border-smoke/30 pb-3">
+            <div className="flex items-baseline justify-between pb-3">
               <h2 className="t-h3s text-ink">Tour packages</h2>
               <a href="/tours" className="t-link text-smoke">
                 All tours

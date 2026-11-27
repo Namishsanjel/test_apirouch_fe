@@ -330,7 +330,7 @@ export function WhyCardSkeleton({ className = "" }) {
 export function TourPackagesSkeleton({ count = 2 }) {
   return (
     <SkeletonRegion label="Loading tours…" className="flex flex-col gap-6">
-      <div className="flex items-baseline justify-between border-b border-smoke/30 pb-3">
+      <div className="flex items-baseline justify-between pb-3">
         <Skeleton className="h-[26px] w-[148px]" />
         <Skeleton radius="sm" className="h-[19px] w-[82px]" />
       </div>
@@ -574,6 +574,7 @@ export function NavMenuSkeleton({
   linkHref = "/destinations",
   ctaLabel = "Browse all tours",
   ctaHref = "/tours",
+  showSecondary = true,
   onNavigate,
 }) {
   return (
@@ -589,7 +590,7 @@ export function NavMenuSkeleton({
               className="flex flex-1 items-center justify-between gap-3 rounded-lg px-3"
             >
               <Skeleton className="h-[21px] w-[58%]" />
-              <Skeleton className="h-[16px] w-[58px] shrink-0" />
+              {showSecondary ? <Skeleton className="h-[16px] w-[58px] shrink-0" /> : null}
             </div>
           ))}
         </nav>
