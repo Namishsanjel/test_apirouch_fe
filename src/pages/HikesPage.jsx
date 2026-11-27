@@ -143,7 +143,7 @@ function FilterMenu({ groups, onReset }) {
               }}
               className="t-link text-smoke transition-colors duration-200 hover:text-primary"
             >
-              reset filters
+              Reset Filter
             </button>
           </div>
         </div>
@@ -312,7 +312,7 @@ export default function HikesPage() {
                   <p className="t-h4 text-ink">No tours match those filters</p>
                   <p className="t-body">Try a wider budget or destination — or reset the filters to see all ten.</p>
                   <button type="button" onClick={reset} className="t-link self-start text-smoke">
-                    reset filters
+                    Reset Filter
                   </button>
                 </div>
               )}
