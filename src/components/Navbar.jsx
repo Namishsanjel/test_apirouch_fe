@@ -13,11 +13,13 @@ import {
   STRAPI_STATUS,
 } from "../lib/strapiData.jsx";
 import { tourListings, destinationList } from "../lib/catalog.js";
-import { NavMenuSkeleton, LogoSkeleton } from "./skeletons.jsx";
+import { NavMenuSkeleton, LogoSkeleton, ServicesMenuSkeleton } from "./skeletons.jsx";
 import Logo from "./Logo.jsx";
 import { resolveLogo, SITE_NAME, LOGO_SIZES, LOGO_CLASSES } from "../lib/brand.js";
 import { Skeleton, SkeletonRegion } from "./Skeleton.jsx";
 import { SectionErrorInline, SectionEmptyInline } from "./SectionError.jsx";
+import { spansFor, sizeFor, SPAN_CLASS } from "./ServiceTile.jsx";
+import { serviceIconFor } from "../assets/service-icons.jsx";
 
 /**
  * Tours as the listing records.
@@ -429,57 +431,58 @@ function PackagesMenu({ onNavigate }) {
 }
 
 /**
- * Services mega-menu: same shape and size as the Our Package dropdown — the
- * services down the left (titles only, in backend order), the hovered service's
- * card filling the right, and the closing links underneath. The panel chrome and
- * list column come from NAV_PANEL_CLASS / NAV_LIST_CLASS, so the two panels are
- * exactly the same size. The preview shows the service photo and its title with
- * an "explore" button (no description), mirroring the package preview.
+ * Services mega-menu: the same bento arrangement as the Services page, inside
+ * the shared panel size (NAV_PANEL_CLASS) so it matches the Destinations and
+ * Our Package panels to the pixel. Each tile is the service icon, its title and
+ * a small arrow (no description); the columns come from the same spansFor()
+ * function the Services page uses. For 4 services: Tour Packages (wide) +
+ * Flight Ticketing on top, Visa Assistance + Hotel Booking (wide) below.
  */
-function ServicePreview({ service }) {
-  const image = imageOf(service.image, service.title);
+function ServiceMenuTile({ service, size, className = "", onNavigate }) {
+  const narrow = size === "narrow";
+  const ServiceIcon = serviceIconFor(service.title, service.slug);
 
   return (
-    <a href={`/services/${service.slug}`} className="relative min-w-0 flex-1 rounded-lg bg-mist p-1">
-      <div className="relative h-[300px] w-full overflow-hidden rounded min-[1100px]:h-[380px]">
-        {image ? (
-          <img src={image.src} alt={image.alt} className="absolute inset-0 h-full w-full object-cover" />
+    <a
+      href={`/services/${service.slug}`}
+      onClick={onNavigate}
+      aria-label={`Learn more about ${service.title}`}
+      className={`service-tile group flex h-full min-h-[96px] flex-col justify-between gap-2 overflow-hidden rounded-lg bg-mist p-4 transition-colors hover:bg-cream ${className}`}
+    >
+      <div className="flex shrink-0 items-start justify-between gap-2">
+        {ServiceIcon ? (
+          <span
+            className="icon-svg text-ink"
+            style={{ display: "block", width: 28, height: 28, maxWidth: "100%", flex: "none" }}
+          >
+            <ServiceIcon size={28} />
+          </span>
         ) : null}
-        <div className="grad-card absolute inset-0" />
-        <ImgBlur />
-        <div className="absolute inset-0 z-10 flex flex-col justify-between p-6">
-          <div className="flex flex-wrap gap-2" />
-          <div className="flex items-end justify-between gap-4 min-[1100px]:gap-8">
-            <div className="flex min-w-0 flex-col gap-3">
-              <h3 className="t-h3l text-mist">{service.title}</h3>
-            </div>
-            <span className="btn btn-cream w-[104px]">explore</span>
-          </div>
-        </div>
+        <span className="learn-arrow flex items-center text-ink" aria-hidden="true">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+            <path d="M3 10h13M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
       </div>
+      {/* Title: always rendered, ink colour (same as the Services page cards),
+          wraps to at most two lines rather than truncating to nothing. */}
+      <p
+        title={service.title}
+        className={`t-h6 line-clamp-2 text-ink ${narrow ? "text-[clamp(13px,1vw,15px)]" : ""}`}
+      >
+        {service.title}
+      </p>
     </a>
   );
 }
 
 function ServicesMenu({ onNavigate }) {
   const { services, status, retry } = useServices();
-  const [active, setActive] = useState(() => services[0]?.slug ?? null);
-  const current = services.find((s) => s.slug === active) ?? services[0] ?? null;
-  const currentSlug = current?.slug ?? null;
 
   if (status === STRAPI_STATUS.LOADING) {
     return (
       <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-        <NavMenuSkeleton
-          rows={services.length || 4}
-          label="Loading services…"
-          linkLabel="All services"
-          linkHref="/services"
-          ctaLabel="Plan your trip"
-          ctaHref="/plan-your-trip"
-          showSecondary={false}
-          onNavigate={onNavigate}
-        />
+        <ServicesMenuSkeleton />
       </div>
     );
   }
@@ -510,28 +513,19 @@ function ServicesMenu({ onNavigate }) {
   return (
     <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className={NAV_PANEL_CLASS}>
-        <div className={NAV_BODY_CLASS}>
-          <nav className={NAV_LIST_CLASS}>
-            {services.map((s) => (
-              <a
+        <div className="grid min-h-0 flex-1 auto-rows-fr grid-cols-3 gap-4 overflow-y-auto overscroll-contain">
+          {services.map((s, i) => {
+            const span = spansFor(services.length)[i];
+            return (
+              <ServiceMenuTile
                 key={s.documentId ?? s.id ?? s.slug}
-                href={`/services/${s.slug}`}
-                onClick={onNavigate}
-                onMouseEnter={() => setActive(s.slug)}
-                onFocus={() => setActive(s.slug)}
-                aria-current={s.slug === currentSlug ? "true" : undefined}
-                className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
-                  s.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
-                }`}
-              >
-                <span className={`t-h6 min-w-0 truncate ${s.slug === currentSlug ? "text-primary" : "text-ink"}`}>
-                  {s.title}
-                </span>
-              </a>
-            ))}
-          </nav>
-
-          {current ? <ServicePreview service={current} /> : null}
+                service={s}
+                size={sizeFor(span)}
+                className={SPAN_CLASS[span]}
+                onNavigate={onNavigate}
+              />
+            );
+          })}
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">

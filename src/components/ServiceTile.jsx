@@ -14,46 +14,41 @@ const SERVICE_ICON = {
 const DEFAULT_ICON = "2327548604";
 
 /**
- * Asymmetric bento on a 4-unit desktop grid. A normal card is 1 unit, a wide
- * card exactly 2 units (2x1) — never 3 or 4, except a lone single-service page.
- * Every row is a completely full 4 units (no gaps). The layouts by count:
+ * Asymmetric bento on a 3-column desktop grid. A normal card is 1 column, a
+ * wide card 2 columns (2x1). Rows alternate W N then N W; a lone leftover card
+ * at the end spans all 3 columns. Every row is completely full (no gaps):
  *
- *   1 -> [4]                     (only full-width exception)
- *   2 -> 2 2
- *   3 -> 1 1 2
- *   4 -> 2 2 / 2 2
- *   5 -> 1 1 2 / 2 2
- *   6 -> 1 1 2 / 2 1 1
- *   7 -> 1 1 2 / 2 2 / 2 2
- *   8 -> 1 1 2 / 2 1 1 / 2 2
+ *   1 -> [3]
+ *   2 -> [2,1]
+ *   3 -> [2,1,3]
+ *   4 -> W N / N W          (2,1,1,2)
+ *   5 -> W N / N W / [3]    (2,1,1,2,3)
+ *   6 -> W N / N W / W N    (2,1,1,2,2,1)
  *
- * Above 8, the 6-item block [1,1,2,2,1,1] repeats (each pair fills two full
- * rows), then the remainder (count % 6) is laid out with the small-count table
- * below — each of which also fills whole rows — so no gap and no tile > 2 wide.
- * Below ~900px the grid is a single column, so the spans only apply on desktop.
+ * Above 4, the 4-item block [2,1,1,2] repeats (two full rows), then the
+ * remainder (count % 4) uses REM below — each also fills whole rows.
+ * Tablet keeps 2 columns and mobile 1 column, so the spans only apply at the
+ * desktop breakpoint (min-[900px]).
  */
-const SMALL = {
-  1: [4],
-  2: [2, 2],
-  3: [1, 1, 2],
-  4: [2, 2, 2, 2],
-  5: [1, 1, 2, 2, 2],
-  6: [1, 1, 2, 2, 1, 1],
-  7: [1, 1, 2, 2, 2, 2, 2],
-  8: [1, 1, 2, 2, 1, 1, 2, 2],
-};
-const BLOCK6 = [1, 1, 2, 2, 1, 1];
-// remainder (1..5) layouts used after repeated 6-blocks; each fills whole rows
-const REM = { 1: [4], 2: [2, 2], 3: [1, 1, 2], 4: [2, 2, 2, 2], 5: [1, 1, 2, 2, 2] };
+// One repeating block lays out two full 3-column rows: W N (2+1), then N W (1+2).
+const BLOCK = [2, 1, 1, 2];
+// left-over rows after whole blocks; each still fills 3 columns (2+1, or a lone
+// card spanning the whole row).
+const REM = { 1: [3], 2: [2, 1], 3: [2, 1, 3] };
 
-/** Column span (of 4) for each card, by count then position. */
+/**
+ * Column span (of 3) for each card, by count then position. Rows alternate
+ * W N then N W; a card left over on its own at the end spans all 3 columns.
+ *
+ *   1 -> [3]          2 -> [2,1]        3 -> [2,1,3]
+ *   4 -> [2,1,1,2]    5 -> [2,1,1,2,3]  6 -> [2,1,1,2,2,1]
+ */
 export function spansFor(count) {
   if (count <= 0) return [];
-  if (SMALL[count]) return [...SMALL[count]];
   const out = [];
-  const full = Math.floor(count / 6);
-  for (let i = 0; i < full; i += 1) out.push(...BLOCK6);
-  const rem = count % 6;
+  const full = Math.floor(count / BLOCK.length);
+  for (let i = 0; i < full; i += 1) out.push(...BLOCK);
+  const rem = count % BLOCK.length;
   if (rem) out.push(...REM[rem]);
   return out;
 }
@@ -64,10 +59,11 @@ export const spanFor = (i, count) => {
   return list[i] ?? 1;
 };
 
+// desktop = 3-column grid (see ServicesPage / the nav dropdown)
 export const SPAN_CLASS = {
   1: "min-[900px]:col-span-1",
   2: "min-[900px]:col-span-2",
-  4: "min-[900px]:col-span-4",
+  3: "min-[900px]:col-span-3",
 };
 
 /** Size label from a span: a 2-wide card is "wide" (2x1); 1 is "narrow". */

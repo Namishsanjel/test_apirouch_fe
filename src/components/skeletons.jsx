@@ -132,17 +132,17 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  * shown while the request is in flight, matching the layout that replaces it.
  */
 export function ServicesGridSkeleton() {
-  // matches ServiceTile.spansFor(4): [2, 2, 2, 2] — four half-width cards
+  // matches ServiceTile.spansFor(4): [2, 1, 1, 2] on the 3-column desktop grid
   const block = [
     "min-[900px]:col-span-2",
-    "min-[900px]:col-span-2",
-    "min-[900px]:col-span-2",
+    "min-[900px]:col-span-1",
+    "min-[900px]:col-span-1",
     "min-[900px]:col-span-2",
   ];
 
   return (
     <SkeletonRegion label="Loading services…" className="flex flex-col gap-8 min-[639.98px]:gap-12">
-      <div className="grid grid-cols-1 gap-4 min-[900px]:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 min-[639.98px]:grid-cols-2 min-[900px]:grid-cols-3">
         {block.map((cls, i) => (
           <div
             key={i}
@@ -156,6 +156,32 @@ export function ServicesGridSkeleton() {
         ))}
       </div>
     </SkeletonRegion>
+  );
+}
+
+/**
+ * ServicesDropdown bento skeleton — the same fixed panel size and 3-column
+ * bento the loaded Services dropdown uses (spans [2,1,1,2] for four tiles).
+ */
+export function ServicesMenuSkeleton() {
+  return (
+    <div className="menu-in flex h-[524px] flex-col gap-5 overflow-hidden rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+      <SkeletonRegion label="Loading services…" className="grid min-h-0 flex-1 auto-rows-fr grid-cols-3 gap-4">
+        {["col-span-2", "col-span-1", "col-span-1", "col-span-2"].map((cls, i) => (
+          <div key={i} className={`flex flex-col justify-between rounded-lg bg-mist p-4 ${cls}`}>
+            <div className="flex items-start justify-between">
+              <Skeleton tone="cream" radius="sm" className="h-[28px] w-[28px]" />
+              <Skeleton tone="cream" radius="sm" className="h-[16px] w-[16px]" />
+            </div>
+            <Skeleton tone="cream" className="mt-3 h-[18px] w-[70%]" />
+          </div>
+        ))}
+      </SkeletonRegion>
+      <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
+        <Skeleton className="h-[17px] w-[90px]" />
+        <Skeleton radius="md" className="h-[44px] w-[150px]" />
+      </div>
+    </div>
   );
 }
 
