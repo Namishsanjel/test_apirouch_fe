@@ -22,57 +22,23 @@ const SERVICE_ICON = {
 const DEFAULT_ICON = "2327548604";
 
 /**
- * The bento rhythm, as a flat list of tiles on a 12-column grid. One block is
- * the home "What makes the experience different" geometry — two normal cards
- * top-left, a wide card top-right, a wide card bottom-left, two normal cards
- * bottom-right — expressed here as spans:
+ * Asymmetric bento on a 4-column grid. Row 1 is a wide card (3 cols) beside a
+ * narrow one (1 col); row 2 is the mirror — narrow then wide:
  *
- *   [ 3, 3, 6,   ← row 1: normal · normal · wide
- *     6, 3, 3 ]  ← row 2: wide   · normal · normal
+ *   [ wide (3) | narrow (1) ]
+ *   [ narrow (1) | wide (3) ]
  *
- * Tiles repeat that six-wide block down the page. The trailing block is
- * straightened so the last row never leaves an awkward gap.
+ * The size is chosen by a card's position in this list, not by its title, so
+ * the order and content stay whatever the backend returns. Below ~900px every
+ * card collapses to a single full-width column.
  */
-const BLOCK = [3, 3, 6, 6, 3, 3];
+const SIZES = ["wide", "narrow", "narrow", "wide"];
 
-/**
- * The column spans for `count` tiles.
- *
- * Whole blocks of six keep BLOCK's home rhythm untouched. The leftover tiles
- * (count % 6) are laid out on their own so the final row always fills its 12
- * columns — no half-row gap. Every leftover row pattern is a hand-picked set
- * that sums to 12:
- *
- *   1 → [12]              one wide tile, full row
- *   2 → [6, 6]            two half tiles
- *   3 → [4, 4, 4]         three thirds
- *   4 → [6, 6, 6, 6] → two rows: [6,6] then [6,6]
- *   5 → [6, 6] + [4, 4, 4]
- *
- * (4 and 5 are listed for clarity; `TAIL` expands them to whole rows.)
- */
-const TAIL = {
-  1: [12],
-  2: [6, 6],
-  3: [4, 4, 4],
-  4: [6, 6, 6, 6],
-  5: [6, 6, 4, 4, 4],
-};
-
-function spans(count) {
-  const full = Math.floor(count / 6);
-  const out = [];
-  for (let b = 0; b < full; b += 1) out.push(...BLOCK);
-  const rem = count % 6;
-  if (rem) out.push(...TAIL[rem]);
-  return out;
-}
+const spanFor = (i) => (SIZES[i] === "wide" ? "wide" : "narrow");
 
 const SPAN_CLASS = {
-  3: "col-span-1 min-[639.98px]:col-span-3",
-  4: "col-span-1 min-[639.98px]:col-span-4",
-  6: "col-span-1 min-[639.98px]:col-span-6",
-  12: "col-span-1 min-[639.98px]:col-span-12",
+  wide: "min-[900px]:col-span-3",
+  narrow: "min-[900px]:col-span-1",
 };
 
 /** The arrow pair that rolls out/in on hover and focus. */
@@ -90,14 +56,15 @@ function LearnArrow() {
 }
 
 /**
- * One service as a bento tile. Every tile is the same card in the home mist
- * style — icon top-left, title and description, and a "Learn more" row pinned
- * to the bottom. `wide` tiles follow the home photo geometry (shorter, half
- * width) but carry the same colour and content; the min-height is raised a
- * little so the extra "Learn more" row never clips.
+ * One service as a bento tile. Every tile is the same card — icon top-left,
+ * title and description, and a "Learn more" row pinned to the bottom. `size`
+ * is "wide" (3 of 4 columns) or "narrow" (1 of 4); narrow cards get a slightly
+ * smaller title and wrap cleanly, since a long title (e.g. "International &
+ * Domestic Flight Ticketing") has only a quarter of the row to fit in.
  */
-function ServiceTile({ service, wide = false, className = "" }) {
+function ServiceTile({ service, size = "wide", className = "" }) {
   const title = service.title;
+  const narrow = size === "narrow";
   // the service's own SVG when one matches; the existing shield icon otherwise
   const ServiceIcon = serviceIconFor(title, service.slug);
 
@@ -105,9 +72,7 @@ function ServiceTile({ service, wide = false, className = "" }) {
     <a
       href={`/services/${service.slug}`}
       aria-label={`Learn more about ${title}`}
-      className={`service-tile group flex flex-col rounded-lg bg-mist p-5 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(40,40,40,0.12)] ${
-        wide ? "min-h-[200px]" : "min-h-[220px]"
-      } ${className}`}
+      className={`service-tile group flex flex-col rounded-lg bg-mist p-5 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(40,40,40,0.12)] min-h-[200px] ${className}`}
     >
       {ServiceIcon ? (
         <span
@@ -120,7 +85,7 @@ function ServiceTile({ service, wide = false, className = "" }) {
         <Icon id={SERVICE_ICON[title] ?? DEFAULT_ICON} size={36} />
       )}
       <div className="mt-auto flex flex-col pt-6">
-        <p className="t-h4">{title}</p>
+        <p className={`t-h4 break-words ${narrow ? "text-[clamp(15px,1.4vw,18px)]" : ""}`}>{title}</p>
         {service.shortDescription ? <p className="t-body mt-1">{service.shortDescription}</p> : null}
         <span className="mt-6 flex items-center justify-between">
           <span className="t-link text-ink">Learn more</span>
@@ -159,15 +124,15 @@ export default function ServicesPage() {
         ) : !ready ? (
           <SectionEmpty />
         ) : (
-          <div className="grid grid-cols-1 gap-4 min-[639.98px]:grid-cols-12">
+          <div className="grid grid-cols-1 gap-4 min-[900px]:grid-cols-4">
             {items.map((s, i) => {
-              const cols = spans(items.length)[i];
+              const size = spanFor(i);
               return (
                 <ServiceTile
                   key={s.documentId ?? s.id ?? s.slug}
                   service={s}
-                  wide={cols >= 6}
-                  className={SPAN_CLASS[cols]}
+                  size={size}
+                  className={SPAN_CLASS[size]}
                 />
               );
             })}

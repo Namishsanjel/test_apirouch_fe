@@ -133,21 +133,19 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  */
 export function ServicesGridSkeleton() {
   const block = [
-    "col-span-1 min-[639.98px]:col-span-3",
-    "col-span-1 min-[639.98px]:col-span-3",
-    "col-span-1 min-[639.98px]:col-span-6",
-    "col-span-1 min-[639.98px]:col-span-6",
-    "col-span-1 min-[639.98px]:col-span-3",
-    "col-span-1 min-[639.98px]:col-span-3",
+    "min-[900px]:col-span-3",
+    "min-[900px]:col-span-1",
+    "min-[900px]:col-span-1",
+    "min-[900px]:col-span-3",
   ];
 
   return (
     <SkeletonRegion label="Loading services…" className="flex flex-col gap-8 min-[639.98px]:gap-12">
-      <div className="grid grid-cols-1 gap-4 min-[639.98px]:grid-cols-12">
+      <div className="grid grid-cols-1 gap-4 min-[900px]:grid-cols-4">
         {block.map((cls, i) => (
           <div
             key={i}
-            className={`flex min-h-[220px] flex-col rounded-lg bg-mist p-5 ${cls}`}
+            className={`flex min-h-[200px] flex-col rounded-lg bg-mist p-5 ${cls}`}
           >
             <Skeleton tone="cream" radius="sm" className="h-[36px] w-[36px]" />
             <Skeleton tone="cream" className="mt-6 h-[24px] w-[60%]" />
