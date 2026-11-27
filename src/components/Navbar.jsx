@@ -73,6 +73,26 @@ function useServices() {
   return { services, status, retry };
 }
 
+/**
+ * The Destinations menu's left-list name size, scaled down as the backend adds
+ * destinations so the list never overflows the panel. Full size (17px, up from
+ * the old 15px) up to 6 items, then one step smaller per band down to a 13px
+ * floor (never below the old size minus 2px). Row spacing scales with the font
+ * so rows stay proportional. Returns CSS custom properties consumed inline.
+ */
+function destinationsListScale(count) {
+  let size = 17;
+  if (count > 6) size = 16;
+  if (count > 8) size = 15;
+  if (count > 10) size = 14;
+  if (count > 12) size = 13;
+  // row line-height and the row min-height stay proportional to the font
+  return {
+    "--dest-name-size": `${size}px`,
+    "--dest-row-min-h": `${Math.round(size * 2.1)}px`,
+  };
+}
+
 /** The 11x7 chevron the booking form's select already uses, pointed down. */
 function ChevronDown({ className = "" }) {
   return (
@@ -144,6 +164,9 @@ function DestinationsMenu({ onNavigate }) {
   const total = groups.reduce((n, list) => n + list.length, 0);
   const current = destinations.find((d) => d.slug === active) ?? destinations[0];
   const currentSlug = current?.slug ?? null;
+  // name size / row spacing for the left list, shrunk as the backend adds more
+  // destinations so the panel never overflows (see destinationsListScale)
+  const scale = destinationsListScale(total);
 
   // Still in flight: the rows of the menu and the count beside its closing link
   // are both read off the collection, so both are held. The hovered
@@ -198,7 +221,7 @@ function DestinationsMenu({ onNavigate }) {
     <div id="nav-destinations-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
         <div className="flex gap-5">
-          <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
+          <nav style={scale} className="flex max-h-[calc(100dvh-220px)] w-[260px] shrink-0 flex-col overflow-y-auto overscroll-contain min-[1100px]:w-[360px]">
             {groups.flat().map((d) => (
               <a
                 key={d.slug}
@@ -207,11 +230,15 @@ function DestinationsMenu({ onNavigate }) {
                 onMouseEnter={() => setActive(d.slug)}
                 onFocus={() => setActive(d.slug)}
                 aria-current={d.slug === currentSlug ? "true" : undefined}
+                style={{ minHeight: "var(--dest-row-min-h)" }}
                 className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
                   d.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
                 }`}
               >
-                <span className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}>
+                <span
+                  style={{ fontSize: "var(--dest-name-size)" }}
+                  className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}
+                >
                   {d.name}
                 </span>
               </a>
