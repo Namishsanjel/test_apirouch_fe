@@ -7,6 +7,7 @@ import { SERVICES_PAGE } from "../data/newPages.js";
 import { useStrapiList, STRAPI_STATUS } from "../lib/strapiData.jsx";
 import { ServicesGridSkeleton } from "../components/skeletons.jsx";
 import { SectionError, SectionEmpty } from "../components/SectionError.jsx";
+import { serviceIconFor } from "../assets/service-icons.jsx";
 
 // icon ids from the site's own set, one per known service; default below
 const SERVICE_ICON = {
@@ -97,6 +98,8 @@ function LearnArrow() {
  */
 function ServiceTile({ service, wide = false, className = "" }) {
   const title = service.title;
+  // the service's own SVG when one matches; the existing shield icon otherwise
+  const ServiceIcon = serviceIconFor(title, service.slug);
 
   return (
     <a
@@ -106,7 +109,16 @@ function ServiceTile({ service, wide = false, className = "" }) {
         wide ? "min-h-[200px]" : "min-h-[220px]"
       } ${className}`}
     >
-      <Icon id={SERVICE_ICON[title] ?? DEFAULT_ICON} size={36} />
+      {ServiceIcon ? (
+        <span
+          className="icon-svg text-ink"
+          style={{ display: "block", width: 36, height: 36, maxWidth: "100%", flex: "none" }}
+        >
+          <ServiceIcon size={36} />
+        </span>
+      ) : (
+        <Icon id={SERVICE_ICON[title] ?? DEFAULT_ICON} size={36} />
+      )}
       <div className="mt-auto flex flex-col pt-6">
         <p className="t-h4">{title}</p>
         {service.shortDescription ? <p className="t-body mt-1">{service.shortDescription}</p> : null}
