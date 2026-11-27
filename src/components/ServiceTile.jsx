@@ -14,41 +14,54 @@ const SERVICE_ICON = {
 const DEFAULT_ICON = "2327548604";
 
 /**
- * Asymmetric bento on a 4-column grid: a wide card is exactly TWO normal cards
- * wide (2 columns vs 1), never wider. Full rows are built in blocks of three —
- * wide + narrow + narrow (or the mirror narrow + wide + narrow) — and any
- * leftover fills the row so no gap is left:
+ * Asymmetric bento on a 4-unit desktop grid. A normal card is 1 unit, a wide
+ * card exactly 2 units (2x1) — never 3 or 4, except a lone single-service page.
+ * Every row is a completely full 4 units (no gaps). The layouts by count:
  *
- *   rem 0 -> mirrored blocks of [2,1,1] / [1,2,1]
- *   rem 1 -> the lone card spans the whole row  [4]
- *   rem 2 -> two wide cards side by side        [2,2]
+ *   1 -> [4]                     (only full-width exception)
+ *   2 -> 2 2
+ *   3 -> 1 1 2
+ *   4 -> 2 2 / 2 2
+ *   5 -> 1 1 2 / 2 2
+ *   6 -> 1 1 2 / 2 1 1
+ *   7 -> 1 1 2 / 2 2 / 2 2
+ *   8 -> 1 1 2 / 2 1 1 / 2 2
  *
- * The size comes from position, never from the title. Below ~900px every card
- * collapses to a single full-width column.
+ * Above 8, the 6-item block [1,1,2,2,1,1] repeats (each pair fills two full
+ * rows), then the remainder (count % 6) is laid out with the small-count table
+ * below — each of which also fills whole rows — so no gap and no tile > 2 wide.
+ * Below ~900px the grid is a single column, so the spans only apply on desktop.
  */
-const BLOCK = [2, 1, 1, 1, 2, 1]; // one block = two full 4-col rows (3 + 3 cards)
-const TAIL = {
-  1: [4], //          lone card fills the row
-  2: [2, 2], //       two wide cards side by side
-  3: [2, 1, 1], //    one full row: wide + narrow + narrow
-  4: [2, 1, 1, 4], // full row, then the leftover spans the row
-  5: [2, 1, 1, 2, 2], // full row, then two wide cards
+const SMALL = {
+  1: [4],
+  2: [2, 2],
+  3: [1, 1, 2],
+  4: [2, 2, 2, 2],
+  5: [1, 1, 2, 2, 2],
+  6: [1, 1, 2, 2, 1, 1],
+  7: [1, 1, 2, 2, 2, 2, 2],
+  8: [1, 1, 2, 2, 1, 1, 2, 2],
 };
+const BLOCK6 = [1, 1, 2, 2, 1, 1];
+// remainder (1..5) layouts used after repeated 6-blocks; each fills whole rows
+const REM = { 1: [4], 2: [2, 2], 3: [1, 1, 2], 4: [2, 2, 2, 2], 5: [1, 1, 2, 2, 2] };
 
 /** Column span (of 4) for each card, by count then position. */
 export function spansFor(count) {
+  if (count <= 0) return [];
+  if (SMALL[count]) return [...SMALL[count]];
   const out = [];
-  const full = Math.floor(count / BLOCK.length);
-  for (let b = 0; b < full; b += 1) out.push(...BLOCK);
-  const rem = count % BLOCK.length;
-  if (rem) out.push(...(TAIL[rem] ?? BLOCK.slice(0, rem)));
+  const full = Math.floor(count / 6);
+  for (let i = 0; i < full; i += 1) out.push(...BLOCK6);
+  const rem = count % 6;
+  if (rem) out.push(...REM[rem]);
   return out;
 }
 
 /** The span of the card at index `i` for a list of `count` cards. */
 export const spanFor = (i, count) => {
   const list = spansFor(count);
-  return list[i] ?? 4;
+  return list[i] ?? 1;
 };
 
 export const SPAN_CLASS = {
