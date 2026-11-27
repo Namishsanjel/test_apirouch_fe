@@ -447,19 +447,22 @@ function ServiceMenuTile({ service, size, className = "", onNavigate }) {
       href={`/services/${service.slug}`}
       onClick={onNavigate}
       aria-label={`Learn more about ${service.title}`}
-      className={`service-tile group flex h-full min-h-[96px] flex-col justify-between gap-2 overflow-hidden rounded-lg bg-mist p-4 transition-colors hover:bg-cream ${className}`}
+      className={`service-tile service-menu-tile group flex h-full min-h-[96px] flex-col justify-between gap-2 overflow-hidden rounded-lg bg-mist p-4 transition-colors hover:bg-cream ${className}`}
     >
       <div className="flex shrink-0 items-start justify-between gap-2">
         {ServiceIcon ? (
           <span
             className="icon-svg text-ink"
-            style={{ display: "block", width: 28, height: 28, maxWidth: "100%", flex: "none" }}
+            style={{ display: "block", width: 40, height: 40, maxWidth: "100%", flex: "none" }}
           >
-            <ServiceIcon size={28} />
+            <ServiceIcon size={40} />
           </span>
         ) : null}
         <span className="learn-arrow flex items-center text-ink" aria-hidden="true">
-          <svg viewBox="0 0 20 20" width="16" height="16" fill="none">
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="none">
+            <path d="M3 10h13M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          <svg viewBox="0 0 20 20" width="24" height="24" fill="none">
             <path d="M3 10h13M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
