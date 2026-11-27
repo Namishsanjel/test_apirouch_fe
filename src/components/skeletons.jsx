@@ -132,11 +132,12 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  * shown while the request is in flight, matching the layout that replaces it.
  */
 export function ServicesGridSkeleton() {
+  // matches the 4-card spans from ServiceTile.spansFor(4): [2, 1, 1, 4]
   const block = [
-    "min-[900px]:col-span-3",
+    "min-[900px]:col-span-2",
     "min-[900px]:col-span-1",
     "min-[900px]:col-span-1",
-    "min-[900px]:col-span-3",
+    "min-[900px]:col-span-4",
   ];
 
   return (

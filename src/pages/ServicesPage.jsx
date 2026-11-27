@@ -6,7 +6,7 @@ import { SERVICES_PAGE } from "../data/newPages.js";
 import { useStrapiList, STRAPI_STATUS } from "../lib/strapiData.jsx";
 import { ServicesGridSkeleton } from "../components/skeletons.jsx";
 import { SectionError, SectionEmpty } from "../components/SectionError.jsx";
-import { ServiceTile, spanFor, SPAN_CLASS } from "../components/ServiceTile.jsx";
+import { ServiceTile, spanFor, sizeFor, SPAN_CLASS } from "../components/ServiceTile.jsx";
 
 export default function ServicesPage() {
   const page = PAGES["/services"];
@@ -38,13 +38,13 @@ export default function ServicesPage() {
         ) : (
           <div className="grid grid-cols-1 gap-4 min-[900px]:grid-cols-4">
             {items.map((s, i) => {
-              const size = spanFor(i);
+              const span = spanFor(i, items.length);
               return (
                 <ServiceTile
                   key={s.documentId ?? s.id ?? s.slug}
                   service={s}
-                  size={size}
-                  className={SPAN_CLASS[size]}
+                  size={sizeFor(span)}
+                  className={SPAN_CLASS[span]}
                 />
               );
             })}
