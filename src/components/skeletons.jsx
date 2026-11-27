@@ -127,22 +127,33 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  * ------------------------------------------------------------------ */
 
 /**
- * ServicesPage — the two fallback grids (three core cards, then three more) at
- * the same 1 / 2 / 3 column grid, in the section's own 8 / 12 gap.
+ * ServicesPage — the bento at the same 12-column rhythm and tile boxes as the
+ * loaded page (two normals, a wide, a wide, two normals). One full block is
+ * shown while the request is in flight, matching the layout that replaces it.
  */
 export function ServicesGridSkeleton() {
-  const grid = "grid grid-cols-1 gap-6 min-[639.98px]:grid-cols-2 min-[1100px]:grid-cols-3";
+  const block = [
+    "col-span-1 min-[639.98px]:col-span-3",
+    "col-span-1 min-[639.98px]:col-span-3",
+    "col-span-1 min-[639.98px]:col-span-6",
+    "col-span-1 min-[639.98px]:col-span-6",
+    "col-span-1 min-[639.98px]:col-span-3",
+    "col-span-1 min-[639.98px]:col-span-3",
+  ];
 
   return (
     <SkeletonRegion label="Loading services…" className="flex flex-col gap-8 min-[639.98px]:gap-12">
-      <div className={grid}>
-        {[0, 1, 2].map((i) => (
-          <ServiceCardSkeleton key={`core-${i}`} />
-        ))}
-      </div>
-      <div className={grid}>
-        {[0, 1, 2].map((i) => (
-          <ServiceCardSkeleton key={`extra-${i}`} />
+      <div className="grid grid-cols-1 gap-4 min-[639.98px]:grid-cols-12">
+        {block.map((cls, i) => (
+          <div
+            key={i}
+            className={`flex min-h-[220px] flex-col rounded-lg bg-mist p-5 ${cls}`}
+          >
+            <Skeleton tone="cream" radius="sm" className="h-[36px] w-[36px]" />
+            <Skeleton tone="cream" className="mt-6 h-[24px] w-[60%]" />
+            <Skeleton tone="cream" className="mt-1 h-[22px] w-full" />
+            <Skeleton tone="cream" className="mt-1 h-[22px] w-3/4" />
+          </div>
         ))}
       </div>
     </SkeletonRegion>

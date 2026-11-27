@@ -8,6 +8,7 @@ import {
   useGlobalState,
   useStrapiToursState,
   useStrapiDestinationsState,
+  useStrapiList,
   imageOf,
   STRAPI_STATUS,
 } from "../lib/strapiData.jsx";
@@ -50,6 +51,25 @@ function useDestinations() {
     );
   }, [data]);
   return { destinations, status, retry };
+}
+
+/**
+ * Services as the menu reads them, in backend order. Same path the Services
+ * page uses (`useStrapiList` is cached per path), so the bar and the page share
+ * one request — no extra endpoint, no hardcoded list.
+ */
+const SERVICES_PATH = "services?populate=image&sort=order:asc";
+
+function useServices() {
+  const { items, status, retry } = useStrapiList(SERVICES_PATH);
+  const services = useMemo(() => {
+    return Array.isArray(items)
+      ? [...items].sort(
+          (a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER),
+        )
+      : [];
+  }, [items]);
+  return { services, status, retry };
 }
 
 /** The 11x7 chevron the booking form's select already uses, pointed down. */
@@ -361,10 +381,130 @@ function PackagesMenu({ onNavigate }) {
   );
 }
 
+/**
+ * Services mega-menu: the services down the left (titles only, in backend
+ * order), the hovered service's card filling the right, and the closing links
+ * underneath — the same shape as the destinations and packages panels.
+ */
+function ServicesPreview({ service }) {
+  const image = imageOf(service.image, service.title);
+
+  return (
+    <a href={`/services/${service.slug}`} className="relative min-w-0 flex-1 rounded-lg bg-mist p-1">
+      <div className="relative h-[300px] w-full overflow-hidden rounded min-[1100px]:h-[380px]">
+        {image ? (
+          <img src={image.src} alt={image.alt} className="absolute inset-0 h-full w-full object-cover" />
+        ) : null}
+        <div className="grad-card absolute inset-0" />
+        <ImgBlur />
+        <div className="absolute inset-0 z-10 flex flex-col justify-between p-6">
+          <div className="flex flex-wrap gap-2" />
+          <div className="flex items-end justify-between gap-4 min-[1100px]:gap-8">
+            <div className="flex min-w-0 flex-col gap-3">
+              <h3 className="t-h3l text-mist">{service.title}</h3>
+            </div>
+            <span className="btn btn-cream w-[104px]">explore</span>
+          </div>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function ServicesMenu({ onNavigate }) {
+  const { services, status, retry } = useServices();
+  const [active, setActive] = useState(() => services[0]?.slug ?? null);
+  const current = services.find((s) => s.slug === active) ?? services[0] ?? null;
+  const currentSlug = current?.slug ?? null;
+
+  if (status === STRAPI_STATUS.LOADING) {
+    return (
+      <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
+        <NavMenuSkeleton
+          rows={services.length || 4}
+          label="Loading services…"
+          linkLabel="All services"
+          linkHref="/services"
+          ctaLabel="Plan your trip"
+          ctaHref="/plan-your-trip"
+          showSecondary={false}
+          onNavigate={onNavigate}
+        />
+      </div>
+    );
+  }
+
+  if (status === STRAPI_STATUS.ERROR || status === STRAPI_STATUS.EMPTY) {
+    return (
+      <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
+        <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-2 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+          {status === STRAPI_STATUS.ERROR ? (
+            <SectionErrorInline onRetry={retry} />
+          ) : (
+            <SectionEmptyInline />
+          )}
+
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
+            <a href="/services" onClick={onNavigate} className="t-link text-ink underline underline-offset-4">
+              All services
+            </a>
+            <a href="/plan-your-trip" onClick={onNavigate} className="btn btn-dark w-[150px]">
+              Plan your trip
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
+      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
+        <div className="flex gap-5">
+          <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
+            {services.map((s) => (
+              <a
+                key={s.documentId ?? s.id ?? s.slug}
+                href={`/services/${s.slug}`}
+                onClick={onNavigate}
+                onMouseEnter={() => setActive(s.slug)}
+                onFocus={() => setActive(s.slug)}
+                aria-current={s.slug === currentSlug ? "true" : undefined}
+                className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
+                  s.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
+                }`}
+              >
+                <span className={`t-h6 min-w-0 truncate ${s.slug === currentSlug ? "text-primary" : "text-ink"}`}>
+                  {s.title}
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          {current ? <ServicesPreview service={current} /> : null}
+        </div>
+
+        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5">
+          <div className="flex flex-wrap items-center gap-4 min-[1100px]:gap-6">
+            <p className="t-eyebrow text-smoke">{services.length} services</p>
+            <a href="/services" onClick={onNavigate} className="t-link text-ink underline underline-offset-4">
+              All services
+            </a>
+          </div>
+          <a href="/plan-your-trip" onClick={onNavigate} className="btn btn-dark w-[150px]">
+            Plan your trip
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /** menu key -> the panel it opens, keyed for aria-controls. */
 const MENUS = {
   destinations: DestinationsMenu,
   packages: PackagesMenu,
+  services: ServicesMenu,
 };
 
 /**
@@ -375,7 +515,37 @@ const MENUS = {
 function MobileMenu({ open, onNavigate }) {
   const { navListings: tours, status: toursStatus, retry: retryTours } = useTourListings();
   const { destinations, status: destinationsStatus, retry: retryDestinations } = useDestinations();
+  const { services, status: servicesStatus, retry: retryServices } = useServices();
   const [group, setGroup] = useState(null);
+
+  // the accordion one menu renders: its records, status, retry and link builder
+  const menuData = (menu) => {
+    if (menu === "destinations") {
+      return {
+        list: destinations,
+        status: destinationsStatus,
+        retry: retryDestinations,
+        href: (d) => `/destinations/${d.slug}`,
+        label: (d) => d.name ?? d.title,
+      };
+    }
+    if (menu === "services") {
+      return {
+        list: services,
+        status: servicesStatus,
+        retry: retryServices,
+        href: (s) => `/services/${s.slug}`,
+        label: (s) => s.title,
+      };
+    }
+    return {
+      list: tours,
+      status: toursStatus,
+      retry: retryTours,
+      href: (d) => d.href,
+      label: (d) => d.name ?? d.title,
+    };
+  };
 
   if (!open) return null;
 
@@ -386,9 +556,8 @@ function MobileMenu({ open, onNavigate }) {
           {NAV_LINKS.map((l) => {
             const isGroup = Boolean(l.menu && MENUS[l.menu]);
             const expanded = isGroup && group === l.menu;
-            const status = l.menu === "destinations" ? destinationsStatus : toursStatus;
-            const retry = l.menu === "destinations" ? retryDestinations : retryTours;
-            const loading = status === STRAPI_STATUS.LOADING;
+            const md = isGroup ? menuData(l.menu) : null;
+            const loading = md ? md.status === STRAPI_STATUS.LOADING : false;
 
             if (!isGroup) {
               return (
@@ -403,7 +572,7 @@ function MobileMenu({ open, onNavigate }) {
               );
             }
 
-            const list = l.menu === "destinations" ? destinations : tours;
+            const { list, status, retry } = md;
 
             return (
               <div key={l.label} className="border-b border-ink/10">
@@ -439,11 +608,11 @@ function MobileMenu({ open, onNavigate }) {
                       {list.map((d) => (
                         <li key={d.slug}>
                           <a
-                            href={l.menu === "destinations" ? `/destinations/${d.slug}` : d.href}
+                            href={md.href(d)}
                             onClick={onNavigate}
                             className="t-body block rounded-lg px-3 py-2 text-ink hover:bg-mist"
                           >
-                            {d.name ?? d.title}
+                            {md.label(d)}
                           </a>
                         </li>
                       ))}
@@ -461,6 +630,9 @@ function MobileMenu({ open, onNavigate }) {
           </a>
           <a href="/tours" onClick={onNavigate} className="t-link text-ink underline underline-offset-4">
             All packages
+          </a>
+          <a href="/services" onClick={onNavigate} className="t-link text-ink underline underline-offset-4">
+            All services
           </a>
           <a href="/plan-your-trip" onClick={onNavigate} className="btn btn-dark w-full">
             Plan your trip

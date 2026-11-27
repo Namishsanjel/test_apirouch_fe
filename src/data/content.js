@@ -183,7 +183,7 @@ export const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Destinations", href: "/destinations", menu: "destinations" },
   { label: "Our Package", href: "/tours", menu: "packages" },
-  { label: "Services", href: "/services" },
+  { label: "Services", href: "/services", menu: "services" },
   { label: "Gallery", href: "/gallery" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
