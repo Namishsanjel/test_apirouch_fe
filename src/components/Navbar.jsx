@@ -73,23 +73,33 @@ function useServices() {
 }
 
 /**
- * The Destinations menu's left-list name size, scaled down as the backend adds
- * destinations so the list never overflows the panel. Full size (17px, up from
- * the old 15px) up to 6 items, then one step smaller per band down to a 13px
- * floor (never below the old size minus 2px). Row spacing scales with the font
- * so rows stay proportional. Returns CSS custom properties consumed inline.
+ * Name size for the Destinations left list, derived from the available row
+ * height (`rowHeight * 0.45`, clamped 16–44px) and the panel's list width (so a
+ * long name never needs to wrap). Measured with a ResizeObserver on the list,
+ * so it adapts automatically as destinations are added — no per-count table.
+ * Below 16px the rows can no longer fit; the list then scrolls (the nav has
+ * overflow-y-auto) rather than shrinking further.
  */
-function destinationsListScale(count) {
-  let size = 17;
-  if (count > 6) size = 16;
-  if (count > 8) size = 15;
-  if (count > 10) size = 14;
-  if (count > 12) size = 13;
-  // row line-height and the row min-height stay proportional to the font
-  return {
-    "--dest-name-size": `${size}px`,
-    "--dest-row-min-h": `${Math.round(size * 2.1)}px`,
-  };
+function useDestListFont(count) {
+  const ref = useRef(null);
+  const [font, setFont] = useState(22);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !count) return undefined;
+    const fit = () =>
+      setFont(() => {
+        const rowH = el.clientHeight / count; // rows share the height equally
+        const byHeight = rowH * 0.45;
+        // never wider than the list: ~0.62em average glyph width, minus padding
+        const byWidth = (el.clientWidth - 24) / 9;
+        return Math.max(16, Math.min(44, byHeight, byWidth));
+      });
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [count]);
+  return { ref, font };
 }
 
 /** The 11x7 chevron the booking form's select already uses, pointed down. */
@@ -163,9 +173,8 @@ function DestinationsMenu({ onNavigate }) {
   const total = groups.reduce((n, list) => n + list.length, 0);
   const current = destinations.find((d) => d.slug === active) ?? destinations[0];
   const currentSlug = current?.slug ?? null;
-  // name size / row spacing for the left list, shrunk as the backend adds more
-  // destinations so the panel never overflows (see destinationsListScale)
-  const scale = destinationsListScale(total);
+  // name size derived from the list's row height (adapts as destinations grow)
+  const { ref: listRef, font: destFont } = useDestListFont(total);
 
   // Still in flight: the rows of the menu and the count beside its closing link
   // are both read off the collection, so both are held. The hovered
@@ -218,9 +227,9 @@ function DestinationsMenu({ onNavigate }) {
 
   return (
     <div id="nav-destinations-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
-      <div className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6">
-        <div className="flex gap-5">
-          <nav style={scale} className="flex max-h-[calc(100dvh-220px)] w-[260px] shrink-0 flex-col overflow-y-auto overscroll-contain min-[1100px]:w-[360px]">
+      <div className={NAV_PANEL_CLASS}>
+        <div className={NAV_BODY_CLASS}>
+          <nav ref={listRef} className={NAV_LIST_CLASS}>
             {groups.flat().map((d) => (
               <a
                 key={d.slug}
@@ -229,13 +238,12 @@ function DestinationsMenu({ onNavigate }) {
                 onMouseEnter={() => setActive(d.slug)}
                 onFocus={() => setActive(d.slug)}
                 aria-current={d.slug === currentSlug ? "true" : undefined}
-                style={{ minHeight: "var(--dest-row-min-h)" }}
-                className={`flex flex-1 items-center justify-between gap-3 rounded-lg px-3 transition-colors ${
+                className={`flex min-h-0 flex-1 items-center rounded-lg px-3 transition-colors ${
                   d.slug === currentSlug ? "bg-mist" : "hover:bg-mist"
                 }`}
               >
                 <span
-                  style={{ fontSize: "var(--dest-name-size)" }}
+                  style={{ fontSize: `${destFont}px`, lineHeight: 1.2 }}
                   className={`t-h6 min-w-0 truncate ${d.slug === currentSlug ? "text-primary" : "text-ink"}`}
                 >
                   {d.name}
@@ -269,13 +277,16 @@ function DestinationsMenu({ onNavigate }) {
 const DIFFICULTIES = HIKES_PAGE.filters.filter((f) => f !== "All");
 
 /**
- * The mega-menu panel chrome and the left-list column, shared by the Our
- * Package and Services dropdowns so both panels are exactly the same size
- * (width, height, padding, radius, row height and spacing).
+ * The mega-menu panel chrome and its regions, shared by ALL THREE dropdowns
+ * (Destinations, Our Package, Services) so the panels are the same size to the
+ * pixel. The panel has a fixed height (it never grows to fit its content); the
+ * body row fills it and the left list scrolls inside when there are too many
+ * rows. Width is the container width (full-bleed panel), identical for all.
  */
 const NAV_PANEL_CLASS =
-  "menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6";
-const NAV_LIST_CLASS = "flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]";
+  "menu-in flex h-[524px] flex-col gap-5 overflow-hidden rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6";
+const NAV_BODY_CLASS = "flex min-h-0 flex-1 gap-5";
+const NAV_LIST_CLASS = "flex h-full w-[260px] shrink-0 flex-col overflow-y-auto overscroll-contain min-[1100px]:w-[360px]";
 
 /**
  * Package preview — the tours page card (photo + grad-card + ImgBlur +
@@ -374,7 +385,7 @@ function PackagesMenu({ onNavigate }) {
   return (
     <div id="nav-packages-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className={NAV_PANEL_CLASS}>
-        <div className="flex gap-5">
+        <div className={NAV_BODY_CLASS}>
           <nav className={NAV_LIST_CLASS}>
             {groups.flat().map((p) => (
               <a
@@ -499,7 +510,7 @@ function ServicesMenu({ onNavigate }) {
   return (
     <div id="nav-services-menu" className="absolute inset-x-0 top-full hidden min-[1024px]:block">
       <div className={NAV_PANEL_CLASS}>
-        <div className="flex gap-5">
+        <div className={NAV_BODY_CLASS}>
           <nav className={NAV_LIST_CLASS}>
             {services.map((s) => (
               <a

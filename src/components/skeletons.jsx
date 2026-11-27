@@ -132,12 +132,12 @@ export function FactListSkeleton({ rows = 4, className = "" }) {
  * shown while the request is in flight, matching the layout that replaces it.
  */
 export function ServicesGridSkeleton() {
-  // matches the 4-card spans from ServiceTile.spansFor(4): [2, 1, 1, 4]
+  // matches ServiceTile.spansFor(4): [2, 2, 2, 2] — four half-width cards
   const block = [
     "min-[900px]:col-span-2",
-    "min-[900px]:col-span-1",
-    "min-[900px]:col-span-1",
-    "min-[900px]:col-span-4",
+    "min-[900px]:col-span-2",
+    "min-[900px]:col-span-2",
+    "min-[900px]:col-span-2",
   ];
 
   return (
@@ -590,10 +590,10 @@ export function NavMenuSkeleton({
   return (
     <SkeletonRegion
       label={label}
-      className="menu-in flex max-h-[calc(100dvh-92px)] flex-col gap-5 overflow-y-auto overscroll-contain rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6"
+      className="menu-in flex h-[524px] flex-col gap-5 overflow-hidden rounded-b-lg border-[3px] border-t-0 border-white bg-cream shadow-[0_8px_24px_rgba(0,0,0,0.25)] p-6"
     >
-      <div className="flex gap-5">
-        <nav className="flex w-[260px] shrink-0 flex-col min-[1100px]:w-[360px]">
+      <div className="flex min-h-0 flex-1 gap-5">
+        <nav className="flex h-full w-[260px] shrink-0 flex-col overflow-y-auto overscroll-contain min-[1100px]:w-[360px]">
           {Array.from({ length: rows }, (_, i) => (
             <div
               key={i}
