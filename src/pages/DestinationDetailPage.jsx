@@ -17,17 +17,18 @@ import { rememberDestination } from "../lib/prefill.js";
 import { DestinationDetailSkeleton, TourPackagesSkeleton } from "../components/skeletons.jsx";
 import { SectionError } from "../components/SectionError.jsx";
 import DestinationCarousel from "../components/DestinationCarousel.jsx";
+import { BestTimeItem } from "../components/MonthCalendar.jsx";
 import { localDestinationImages } from "../data/destinationImages.js";
 
-function FactList({ title, items }) {
+function FactList({ title, items, render }) {
   return (
     <div className="flex flex-1 flex-col gap-4">
       <h2 className="t-h4 text-ink">{title}</h2>
       <ul className="flex flex-col gap-2">
         {items.map((i) => (
-          <li key={i} className="flex items-start gap-2">
+          <li key={typeof i === "string" ? i : i.text ?? i.id} className="flex items-start gap-2">
             <span className="mt-[9px] h-[5px] w-[5px] shrink-0 rounded-full bg-primary" />
-            <span className="t-body">{i}</span>
+            <div className="min-w-0 flex-1">{render ? render(i) : <span className="t-body">{i}</span>}</div>
           </li>
         ))}
       </ul>
@@ -135,7 +136,11 @@ export default function DestinationDetailPage() {
         <div className="flex flex-col gap-8 min-[900px]:flex-row min-[900px]:gap-12">
           <FactList title="Attractions" items={dest.attractions} />
           <FactList title="Activities" items={dest.activities} />
-          <FactList title="Best time to visit" items={dest.bestTime} />
+          <FactList
+            title="Best time to visit"
+            items={dest.bestTime}
+            render={(i) => <BestTimeItem entry={i} resetKey={dest.slug} />}
+          />
         </div>
 
         {toursLoading ? (
