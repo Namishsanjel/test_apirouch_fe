@@ -201,7 +201,7 @@ export const HERO = {
 export const ABOUT = {
   badge: "About us",
   title: ["Uncover the", "Stories Hidden in", "Every Landscape"],
-  body: "API Touch is a tour operator built for people who want to go further. Small groups, expert local guides, and places most people never find on their own.",
+  body: "API Touch is a tour operator built for people who want to go further. We design thoughtfully planned journeys for small groups, led by expert local guides who know every destination first-hand. From iconic landmarks to hidden corners most travellers never find on their own, every trip is arranged with care, local insight and a genuine passion for travel.",
   cta: "Our story",
   ctaHref: "/about",
   stats: [
