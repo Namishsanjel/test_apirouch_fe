@@ -50,9 +50,31 @@ const TOURS_PATH =
   "&populate[inclusions]=true&populate[exclusions]=true&populate[destination]=true" +
   "&sort=order:asc&pagination[pageSize]=100";
 
+// The gallery media field is optional: a Strapi schema that does not have it
+// yet answers a populate for it with a 400 and the whole collection would fail.
+// The resource fetch therefore falls back to the same path without the gallery
+// populate when this one errors (see FALLBACK_PATHS below), so the page keeps
+// working whether or not the field exists.
 const DESTINATIONS_PATH =
+  "destinations?populate[image]=true&populate[gallery]=true&populate[attractions]=true&populate[activities]=true" +
+  "&populate[bestTime]=true&populate[tours][fields][0]=slug&sort=order:asc&pagination[pageSize]=100";
+
+const DESTINATIONS_PATH_NO_GALLERY =
   "destinations?populate[image]=true&populate[attractions]=true&populate[activities]=true" +
   "&populate[bestTime]=true&populate[tours][fields][0]=slug&sort=order:asc&pagination[pageSize]=100";
+
+/** path -> the path to retry with when the first one errors (e.g. an unknown populate field). */
+const FALLBACK_PATHS = {
+  [DESTINATIONS_PATH]: DESTINATIONS_PATH_NO_GALLERY,
+};
+
+/**
+ * Paths whose populate already failed once this session (a field the schema
+ * does not have, e.g. the optional destination gallery). Remembered at module
+ * level so a missing field costs at most one failed request per page load —
+ * later reads go straight to the fallback path.
+ */
+const FAILED_PATHS = new Set();
 
 /** The single type the header, the footer and both their logos read. */
 const GLOBAL_PATH = "global?populate[logo]=true&populate[logoDark]=true";
@@ -150,7 +172,23 @@ function useStrapiResource(path, list, { attempts, pending }) {
     let alive = true;
     pending.current.add(path);
 
-    getStrapi(path)
+    // A path already known to fail in this session (missing populate field) goes
+    // straight to its fallback, so no failed request is repeated.
+    const knownBad = FAILED_PATHS.has(path);
+    const primary = knownBad && FALLBACK_PATHS[path] ? Promise.reject(new Error("cached failure")) : getStrapi(path);
+
+    primary
+      .catch((error) => {
+        // A path whose populate names a field the schema does not have yet (the
+        // optional destination gallery) errors as a whole. Retry once with the
+        // fallback path that leaves that field out, so the collection still
+        // loads and only the optional feature is skipped. Remember the failure
+        // so later reads skip the doomed request entirely.
+        const fallback = FALLBACK_PATHS[path];
+        if (!fallback) throw error;
+        FAILED_PATHS.add(path);
+        return getStrapi(fallback);
+      })
       .then((data) => {
         if (alive) setState({ path, data: list ? asList(data) : data ?? null, error: null, status: settledStatus(data, list) });
       })
