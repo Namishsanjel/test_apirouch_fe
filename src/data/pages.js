@@ -22,9 +22,9 @@ export const ABOUT = {
     ],
   },
   guides: {
-    badge: "Our Guides",
-    title: ["Experts who know", "every path"],
-    body: "From hidden viewpoints to rewarding excursions, our guides lead every journey with experience and care.",
+    badge: "Our Team",
+    title: ["Travel experts who know every destination"],
+    body: "From hidden gems to iconic landmarks, our travel experts help you discover every destination with local insight, thoughtful planning, and genuine care.",
     people: [
       { role: "lead guide", name: "Maren K.", image: "/img/9LRjdvq7qodL0yYahLpqgygYuk-c022b9.png" },
       { role: "coastal route specialist", name: "Sofia Bianchi", image: "/img/PIX3swnixBY1QBeWJeiz8FGXcHg-c022b9.png" },
